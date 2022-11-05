@@ -85,8 +85,6 @@ jobs:
       - name: 'Create new release'
         #create a release with the linux.zip and windows.zip as assets on the game-builds repo
         uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           artifacts: "build/linux.zip,build/windows.zip"
           tag: ${{ github.sha }}
@@ -94,6 +92,7 @@ jobs:
           body: ${{ github.sha }}
           owner: SPC-H-Avans
           repo: game-builds
+          token: ${{ secrets.PAT }}
 
       - name: 'Delete builds'
         uses: geekyeggo/delete-artifact@v1
