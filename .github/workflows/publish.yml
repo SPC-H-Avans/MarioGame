@@ -47,6 +47,10 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
 
+      - name: 'Copy changelog'
+        run: |
+          cp CHANGELOG.md builds/ninja-multi-vcpkg/Release/CHANGELOG.md
+
       - name: 'Upload build'
         uses: actions/upload-artifact@v2
         with:
@@ -65,7 +69,10 @@ jobs:
           path: build
 
       - name: 'Copy CHANGELOG.md'
-        run: cp CHANGELOG.md build/CHANGELOG.md
+        run: |
+          cp build/Linux/CHANGELOG.md build/CHANGELOG.md
+          rm build/Linux/CHANGELOG.md
+          rm build/Windows/CHANGELOG.md
 
       - name: 'Zip builds'
         run: |
