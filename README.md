@@ -20,7 +20,8 @@
 - Install [Brew](https://docs.brew.sh/Installation)
 - Install CMake: `brew install cmake`
 - Install GCC: `brew install gcc`
-- Install VCPKG to the terminal:
+- Navigate to the VCPKG directory
+- Install VCPKG to the terminal using the following commands:
   - `./vcpkg integrate bash`
   - `./vcpkg integrate zsh`
 - Continue with the instructions above
@@ -44,8 +45,11 @@
 
 # How to create a new release
 - Merge the develop branch into the main branch
-- Create a new tag on the main branch, use the following naming tema: `v[Major].[Minor].[Patch]`
+- Create a new tag on the main branch, use the following naming scheme: `v[Major].[Minor].[Patch]`
 - The GitHub Actions will automatically create a new release and publish it to the [game-builds](https://github.com/SPC-H-Avans/game-builds/releases) repository
 
 # Documentation
 - [Doxygen](https://game.mrproper.dev)
+
+# Published builds
+-  Find the published game builds [here](https://github.com/SPC-H-Avans/game-builds/releases)
