@@ -64,6 +64,12 @@ jobs:
         with:
           path: build
 
+      - name: 'Zip builds'
+        run: |
+          cd build
+          zip -r linux.zip Linux
+          zip -r windows.zip Windows
+
       - name: 'Push to builds repo'
         uses: cpina/github-action-push-to-another-repository@main
         env:
@@ -75,6 +81,19 @@ jobs:
           user-email: 41898282+github-actions[bot]@users.noreply.github.com
           target-branch: main
           commit-message: ${{ github.sha }}
+
+      - name: 'Create new release'
+        #create a release with the linux.zip and windows.zip as assets on the game-builds repo
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          artifacts: "build/linux.zip,build/windows.zip"
+          tag: ${{ github.sha }}
+          name: ${{ github.sha }}
+          body: ${{ github.sha }}
+          owner: SPC-H-Avans
+          repo: game-builds
 
       - name: 'Delete builds'
         uses: geekyeggo/delete-artifact@v1
