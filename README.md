@@ -1,1 +1,1 @@
-# MarioGame
+# platformer-game
