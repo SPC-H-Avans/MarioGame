@@ -1,36 +1,30 @@
-on:
-  pull_request:
+name: 'C++ Clang Tidy Linter'
+
+on: pull_request
 
 jobs:
   cpp-linter:
-    runs-on: windows-latest
-
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-
-      # this step can be skipped if the desired
-      # version already comes with the runner's OS
-      - name: Install clang-tools
-        uses: KyleMayes/install-llvm-action@v1
+      - name: 'Checkout'
+        uses: actions/checkout@v2
         with:
-          # v13 is the recommended minimum for the Visual Studio compiler (on Windows)
-          version: 14
-          # specifying an install path is required (on Windows) because installing
-          # multiple versions on Windows runners needs non-default install paths.
-          directory: ${{ runner.temp }}/llvm
-
-      - name: Install linter python package
-        run: python3 -m pip install cpp-linter
-
-      - name: run linter as a python package
+          token: ${{ secrets.PAT }}
+          submodules: recursive
+      - name: 'Install CMake'
+        uses: lukka/get-cmake@latest
+      - name: 'Install clang'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang clang-tidy
+      - uses: cpp-linter/cpp-linter-action@main
         id: linter
-        # Pass the installed path to the '--version' argument.
-        # Alternatively, pass the version number.
-        #     Example. run: cpp-linter --version=14
-        # Omit the version option if using the default version available in the OS.
-        run: cpp-linter --version=${{ runner.temp }}/llvm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          style: file
+          ignore: './includes/*'
 
       - name: Fail fast?!
-        if: steps.linter.outputs.checks-failed > 0
+        if: steps.linter.outputs.checks-failed > 1
         run: exit 1
