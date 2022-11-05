@@ -1,30 +1,40 @@
-name: 'C++ Clang Tidy Linter'
-
-on: pull_request
+on:
+  pull_request:
+    types: [opened, reopened]  # let PR-synchronize events be handled by push events
+  push:
 
 jobs:
   cpp-linter:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+
+      # this step can be skipped if the desired
+      # version already comes with the runner's OS
+      - name: Install clang-tools
+        uses: KyleMayes/install-llvm-action@v1
         with:
-          token: ${{ secrets.PAT }}
-          submodules: recursive
-      - name: 'Install CMake'
-        uses: lukka/get-cmake@latest
-      - name: 'Install clang'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y clang clang-tidy
-      - uses: cpp-linter/cpp-linter-action@main
+          # v13 is the recommended minimum for the Visual Studio compiler (on Windows)
+          version: 14
+          # specifying an install path is required (on Windows) because installing
+          # multiple versions on Windows runners needs non-default install paths.
+          directory: ${{ runner.temp }}/llvm
+
+      - name: Install linter python package
+        run: python3 -m pip install cpp-linter
+
+      - name: run linter as a python package
         id: linter
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          style: file
-          ignore: './includes/*'
+        # Pass the installed path to the '--version' argument.
+        # Alternatively, pass the version number.
+        #     Example. run: cpp-linter --version=14
+        # Omit the version option if using the default version available in the OS.
+        run: cpp-linter --version=${{ runner.temp }}/llvm
 
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
-        run: exit 1
+        run: echo "Some files failed the linting checks!"
+        # for actual deployment
+        # run: exit 1
