@@ -123,7 +123,7 @@ jobs:
         with:
           artifacts: "build/linux.zip,build/windows.zip"
           tag: ${{ github.ref }}
-          name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
           bodyFile: changelog/CHANGELOG.md
           owner: SPC-H-Avans
           repo: game-builds
