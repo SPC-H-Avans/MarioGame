@@ -24,6 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           style: file
+          ignore: './includes'
 
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
