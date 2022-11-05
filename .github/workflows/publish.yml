@@ -64,23 +64,23 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
     
-      - name: 'Get the changelog'
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v3
-        with:
-          token: ${{ secrets.PAT }}
+      # - name: 'Get the changelog'
+      #   id: changelog
+      #   uses: mikepenz/release-changelog-builder-action@v3
+      #   with:
+      #     token: ${{ secrets.PAT }}
 
-      - name: 'Print the changelog'
-        run: echo "${{ steps.changelog.outputs.changelog }}"
+      # - name: 'Print the changelog'
+      #   run: echo "${{ steps.changelog.outputs.changelog }}"
 
-      - name: 'Save to markdown file'
-        run: echo "${{ steps.changelog.outputs.changelog }}" > changelog.md
+      # - name: 'Save to markdown file'
+      #   run: echo "${{ steps.changelog.outputs.changelog }}" > changelog.md
 
       - name: 'Upload the changelog'
         uses: actions/upload-artifact@v2
         with:
           name: changelog
-          path: changelog.md
+          path: CHANGELOG.md
 
   publish:
     name: 'Publish'
