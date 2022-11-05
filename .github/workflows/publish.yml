@@ -1,10 +1,9 @@
 name: 'Publish'
 
 on:
-  pull_request:
-#  push:
-#    branches:
-#      - main
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -102,6 +101,7 @@ jobs:
       - name: 'Zip builds'
         run: |
           cd build
+          ls -l
           zip -r linux.zip Linux
           zip -r windows.zip Windows
           cd ../
@@ -122,9 +122,9 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/linux.zip,build/windows.zip"
-          tag: ${{ github.run_id }}
-          name: ${{ github.run_id }}
-          bodyFile: changelog/changelog.md
+          tag: ${{ github.ref }}
+          name: ${{ github.ref }}
+          bodyFile: changelog/CHANGELOG.md
           owner: SPC-H-Avans
           repo: game-builds
           token: ${{ secrets.PAT }}

@@ -35,5 +35,11 @@
 - Update the CHANGELOG.md file
 - Create a pull request and assign it to two team members. The GitHub Actions must succeed and both team members must approve the pull request before it can be merged.
 
+
+# How to create a new release
+- Merge the develop branch into the main branch
+- Create a new tag on the main branch, use the following naming tema: `v[Major].[Minor].[Patch]`
+- The GitHub Actions will automatically create a new release and publish it to the [game-builds](https://github.com/SPC-H-Avans/game-builds/releases) repository
+
 # Documentation
 - [Doxygen](https://game.mrproper.dev)
