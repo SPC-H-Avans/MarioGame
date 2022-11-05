@@ -11,6 +11,13 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           submodules: recursive
+      - name: 'Install CMake'
+        uses: lukka/get-cmake@latest
+      - name: 'Install clang'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang
+          sudo apt-get install -y clang-tidy
       - uses: cpp-linter/cpp-linter-action@v2
         id: linter
         env:
