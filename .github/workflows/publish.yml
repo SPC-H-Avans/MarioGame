@@ -64,6 +64,9 @@ jobs:
         with:
           path: build
 
+      - name: 'Copy CHANGELOG.md'
+        run: cp CHANGELOG.md build/CHANGELOG.md
+
       - name: 'Zip builds'
         run: |
           cd build
@@ -87,9 +90,9 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/linux.zip,build/windows.zip"
-          tag: ${{ github.sha }}
-          name: ${{ github.sha }}
-          body: ${{ github.sha }}
+          tag: ${{ github.run_id }}
+          name: ${{ github.run_id }}
+          bodyFile: build/CHANGELOG.md
           owner: SPC-H-Avans
           repo: game-builds
           token: ${{ secrets.PAT }}
