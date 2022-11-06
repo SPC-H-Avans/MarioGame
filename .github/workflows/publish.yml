@@ -137,7 +137,7 @@ jobs:
           artifacts: "build/linux-x64.zip,build/windows-x64.zip,build/macos-arm64.zip"
           tag: ${{ github.ref }}
           name: Release ${{ github.ref }}
-          bodyFile: changelog/CHANGELOG.md
+          bodyFile: CHANGELOG.md
           owner: SPC-H-Avans
           repo: game-builds
           token: ${{ secrets.PAT }}
