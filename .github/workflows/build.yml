@@ -39,10 +39,10 @@ jobs:
         uses: lukka/get-cmake@latest
 
       - name: 'Setup vcpkg'
-        uses: lukka/run-vcpkg@v10
+        uses: lukka/run-vcpkg@latest
 
       - name: 'Run CMake'
-        uses: lukka/run-cmake@v10
+        uses: lukka/run-cmake@latest
         with:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg

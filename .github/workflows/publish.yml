@@ -1,9 +1,10 @@
 name: 'Publish'
 
 on:
-  push:
-    tags:
-      - "v*"
+  # push:
+  #   tags:
+  #     - "v*"
+  pull_request:
 
 jobs:
   build:
@@ -13,11 +14,17 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            name: Windows
+            name: Windows-x64
             triplet: x64-windows-static
           - os: ubuntu-latest
-            name: Linux
+            name: Linux-x64
             triplet: x64-linux
+          - os: self-hosted-macos-m1 
+            name: macOS-arm64
+            triplet: arm64-osx
+          # - os: self-hosted-linux-arm64
+          #   name: Linux-arm64
+          #   triplet: arm64-linux
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
@@ -38,10 +45,10 @@ jobs:
         uses: lukka/get-cmake@latest
 
       - name: 'Setup vcpkg'
-        uses: lukka/run-vcpkg@v10
+        uses: lukka/run-vcpkg@latest
 
       - name: 'Run CMake'
-        uses: lukka/run-cmake@v10
+        uses: lukka/run-cmake@latest
         with:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
@@ -102,8 +109,10 @@ jobs:
         run: |
           cd build
           ls -l
-          zip -r linux.zip Linux
-          zip -r windows.zip Windows
+          zip -r linux-x64.zip Linux-x64
+          zip -r windows-x64.zip Windows-x64
+          zip -r macos-arm64.zip macOS-arm64
+          zip -r linux-arm64.zip Linux-arm64
           cd ../
 
       - name: 'Push to builds repo'
@@ -121,7 +130,7 @@ jobs:
       - name: 'Create new release'
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/linux.zip,build/windows.zip"
+          artifacts: "build/linux-x64.zip,build/windows-x64.zip,build/macos-arm64.zip,build/linux-arm64.zip"
           tag: ${{ github.ref }}
           name: Release ${{ github.ref }}
           bodyFile: changelog/CHANGELOG.md
@@ -133,8 +142,10 @@ jobs:
         uses: geekyeggo/delete-artifact@v1
         with:
           name: |
-            Windows
-            Linux
+            Linux-x64
+            Windows-x64
+            macOS-arm64
+            Linux-arm64
           failOnError: false
 
       - name: 'Delete changelog'
