@@ -114,9 +114,9 @@ jobs:
           zip -r macos-arm64.zip macOS-arm64
           cd ../
 
-      - name: 'Copy changelog to root folder'
+      - name: 'Move changelog to root folder'
         run: |
-          cp changelog/CHANGELOG.md CHANGELOG.md
+          mv changelog/CHANGELOG.md .
           cp CHANGELOG.md README.md
 
       - name: 'Push to builds repo'
