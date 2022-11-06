@@ -117,7 +117,7 @@ jobs:
       - name: 'Move changelog to root folder'
         run: |
           mv changelog/CHANGELOG.md .
-          cp CHANGELOG.md README.md
+          cp CHANGELOG.md build/README.md
 
       - name: 'Push to builds repo'
         uses: cpina/github-action-push-to-another-repository@main
