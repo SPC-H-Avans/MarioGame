@@ -114,6 +114,11 @@ jobs:
           zip -r macos-arm64.zip macOS-arm64
           cd ../
 
+      - name: 'Copy changelog to root folder'
+        run: |
+          cp changelog/CHANGELOG.md CHANGELOG.md
+          cp CHANGELOG.md README.md
+
       - name: 'Push to builds repo'
         uses: cpina/github-action-push-to-another-repository@main
         env:
