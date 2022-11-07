@@ -1,0 +1,6 @@
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg/
+[submodule "libs/PlatformerEngine"]
+	path = libs/PlatformerEngine
+	url = https://github.com/SPC-H-Avans/PlatformerEngine

@@ -1,0 +1,30 @@
+name: 'C++ Clang Tidy Linter'
+
+on: pull_request
+
+jobs:
+  cpp-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: recursive
+      - name: 'Install CMake'
+        uses: lukka/get-cmake@latest
+      - name: 'Install clang'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang clang-tidy
+      - uses: cpp-linter/cpp-linter-action@main
+        id: linter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          style: file
+          ignore: './includes/*'
+
+      - name: Fail fast?!
+        if: steps.linter.outputs.checks-failed > 1
+        run: exit 1
