@@ -31,9 +31,13 @@
 - Continue with the instructions above
 
 # Contributing
-- Create a new branch
+- C
 - Make your changes
-- Update the CHANGELOG.md file
+- Update the CHANGELOG.md filereate a new branch
+- Update the engine submodule
+  - `cd libs/PlatFormerEngine`
+  - `git pull origin [BRANCHNAME]`
+  - DO NOT COMMIT THIS CHANGE
 - Create a pull request and assign it to two team members. The GitHub Actions must succeed and both team members must approve the pull request before it can be merged.
 
 # Making a pull request
