@@ -31,12 +31,13 @@
 - Continue with the instructions above
 
 # Contributing
-- C
+- Create a new branch with the following naming convention: `feature/[jira ticket]-[feature name]` or `fix/[jira ticket]-[bug name]`
 - Make your changes
-- Update the CHANGELOG.md filereate a new branch
+- Update the CHANGELOG.md on the a new branch
 - Update the engine submodule
-  - `cd libs/PlatFormerEngine`
-  - `git pull origin [BRANCHNAME]`
+  - `cd libs/PlatformerEngine`
+  - `git checkout -f -b [BRANCH NAME] origin/[BRANCH NAME]` to switch to your branch
+  - `git pull` to pull the latest changes for your change
   - DO NOT COMMIT THIS CHANGE
 - Create a pull request and assign it to two team members. The GitHub Actions must succeed and both team members must approve the pull request before it can be merged.
 
