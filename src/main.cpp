@@ -9,6 +9,6 @@ auto main() -> int {
         }
         return  0;
     } catch (std::exception& e){
-        std::cerr << e.what()
+        std::cerr << e.what();
     }
 }

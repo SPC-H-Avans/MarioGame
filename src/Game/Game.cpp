@@ -6,7 +6,7 @@
 
 namespace PlatformerGame {
     Game::Game(int viewHeight, int viewWidth) {
-    PlatformerEngine::Engine::getInstance().Init(viewHeight, viewWidth, "Mario Game", spic::Color::green())
+    PlatformerEngine::Engine::getInstance().Init(viewHeight, viewWidth, "Mario Game", spic::Color::green());
     }
 
     bool Game::IsRunning() {
