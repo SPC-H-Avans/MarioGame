@@ -5,7 +5,7 @@
 #ifndef PLATFORMER_GAME_GAME_H
 #define PLATFORMER_GAME_GAME_H
 
-#include "Engine/Engine.h"
+#include "Engine/Engine.hpp"
 
 namespace PlatformerGame {
 
