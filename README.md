@@ -37,6 +37,7 @@
 - Update the CHANGELOG.md on the a new branch
 - Update the engine submodule
   - `cd libs/PlatformerEngine`
+  - `git pull` to fetch the latest branches
   - `git checkout -f -b [BRANCH NAME] origin/[BRANCH NAME]` to switch to your branch
   - `git pull` to pull the latest changes for your change
   - DO NOT COMMIT THIS CHANGE
