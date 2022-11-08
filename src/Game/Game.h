@@ -1,7 +1,3 @@
-//
-// Created by Jaap Rodenburg on 07/11/2022.
-//
-
 #ifndef PLATFORMER_GAME_GAME_H
 #define PLATFORMER_GAME_GAME_H
 
