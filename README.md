@@ -12,9 +12,10 @@
 - Run `vcpkg integrate install`
 - Run `git submodule update --init --recursive`
 - Add the following CMake options:
-    - `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake`
-    - `-DVCPKG_TARGET_TRIPLET=[x64-windows | x64-osx | arm64-osx | x64-linux ]` (depending on your platform)
+  - `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake`
+  - `-DVCPKG_TARGET_TRIPLET=[x64-windows | x64-osx | arm64-osx | x64-linux | x64-mingw-static ]` (depending on your platform and compiler)
     - When using CLion, go to `File (Preferences on MacOS) > Settings > Build, Execution, Deployment > CMake > CMake Options` and add the options there
+    - Be sure to check which toolchain is being used, if **MinGW** is used, use the `[x64|arm64]-mingw-static` triplet
 
 ## MacOS
 - Install [Brew](https://docs.brew.sh/Installation)
