@@ -1,5 +1,5 @@
+#include "Game/Game.hpp"
 #include <iostream>
-#include "Game/Game.h"
 
 const int VIEW_HEIGHT = 500;
 const int VIEW_WIDTH = 500;
