@@ -17,6 +17,9 @@ jobs:
         run: |
           git submodule foreach --recursive 'echo "Submodule $name is on branch $(git rev-parse --abbrev-ref HEAD) and commit $(git rev-parse HEAD)"' >> $GITHUB_WORKSPACE/submodule-checker.txt
           echo "Submodule checker results:" >> $GITHUB_WORKSPACE/submodule-checker.txt
+          cat $GITHUB_WORKSPACE/submodule-checker.txt
+          echo "::set-output name=comment::$(cat $GITHUB_WORKSPACE/submodule-checker.txt)"
+        id: submodule-checker
 
       - name: 'Find Comment'
         uses: peter-evans/find-comment@v2
@@ -34,5 +37,5 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             Submodule status:
-            ${{ github.workspace }}/submodule-checker.txt
+            ${{ steps.submodule-checker.outputs.comment }}
           edit-mode: replace
