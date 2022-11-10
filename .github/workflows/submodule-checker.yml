@@ -1,0 +1,45 @@
+name: 'Submodule checker'
+
+on: pull_request
+
+jobs:
+  submodule-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: recursive
+
+      - name: 'Check submodule branches'
+#        Get the current branch and commit the submodules are on and log to a pull request comment
+        run: |
+          cd libs/PlatformerEngine
+          echo "Platformer Engine submodule:" >> $GITHUB_WORKSPACE/submodule-checker.txt
+          echo "Current [commit](https://github.com/SPC-H-Avans/PlatformerEngine/commit/$(git rev-parse HEAD))" >> $GITHUB_WORKSPACE/submodule-checker.txt
+          content=$(cat $GITHUB_WORKSPACE/submodule-checker.txt)
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=comment::$(echo $content)"
+        id: submodule-checker
+
+      - name: 'Find Comment'
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Submodule status
+
+#      Create comment on PR, but delete old comment if exists
+      - name: 'Post submodule status'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Submodule status:
+            ${{ steps.submodule-checker.outputs.comment }}
+          edit-mode: replace

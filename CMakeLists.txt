@@ -3,6 +3,8 @@ project(platformer-game)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(PROJECT_LIBS_DIR ${PROJECT_SOURCE_DIR}/libs)
 
 # set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
