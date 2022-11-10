@@ -15,7 +15,8 @@ jobs:
       - name: 'Check submodule branches'
 #        Get the current branch and commit the submodules are on and log to a pull request comment
         run: |
-          git submodule foreach --recursive 'echo "Submodule $name is on branch $(git rev-parse --abbrev-ref HEAD) and commit $(git rev-parse HEAD)"' >> content
+          git submodule foreach --recursive 'echo "Submodule $name is on branch $(git rev-parse --abbrev-ref HEAD) and commit $(git rev-parse HEAD)"' >> $GITHUB_WORKSPACE/submodule-checker.txt
+          content=$(cat $GITHUB_WORKSPACE/submodule-checker.txt)
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
