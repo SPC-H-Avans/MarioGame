@@ -15,6 +15,9 @@ jobs:
       - name: 'Check submodule branches'
 #        Get the current branch and commit the submodules are on and log to a pull request comment
         run: |
+          cd libs/PlatformerEngine
+          git pull
+          cd ../../
           git submodule foreach --recursive 'echo "Submodule $name is on branch $(git rev-parse --abbrev-ref HEAD) and commit $(git rev-parse HEAD)"' >> $GITHUB_WORKSPACE/submodule-checker.txt
           content=$(cat $GITHUB_WORKSPACE/submodule-checker.txt)
           content="${content//'%'/'%25'}"
