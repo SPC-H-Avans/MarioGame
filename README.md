@@ -56,7 +56,8 @@
 - The GitHub Actions will automatically create a new release and publish it to the [game-builds](https://github.com/SPC-H-Avans/game-builds/releases) repository
 
 # Documentation
-- [Doxygen](https://game.mrproper.dev)
+- [Doxygen Main](https://game.mrproper.dev)
+- [Doxygen Develop](https://game-dev.mrproper.dev)
 
 # Published builds
 -  Find the published game builds [here](https://github.com/SPC-H-Avans/game-builds/releases)
