@@ -31,6 +31,9 @@
 - Add the VCPKG directory to your PATH environment variable
 - Continue with the instructions above
 
+# Updating Submodules
+- Run `git submodule update --recursive --remote`
+
 # Contributing
 - Create a new branch with the following naming convention: `feature/[jira ticket]-[feature name]` or `fix/[jira ticket]-[bug name]`
 - Make your changes
