@@ -4,4 +4,4 @@
 [submodule "libs/PlatformerEngine"]
 	path = libs/PlatformerEngine
 	url = https://github.com/SPC-H-Avans/PlatformerEngine
-	branch = main
+	branch = develop
