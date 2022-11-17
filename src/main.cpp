@@ -10,7 +10,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     engine.Init(VIEW_WIDTH, VIEW_HEIGHT, "PlatFormer Engine Debug", spic::Color::Green());
     platformer_engine::TextureManager::GetInstance().LoadTexture("mario_Jump", "./resources/Sprites/Mario/Walk.png");
     GameObjectBuilder gameObjectBuilder {"speler"};
-    auto animatedSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 10, 1);
+    auto animatedSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 100, 1, platformer_engine::FLIP_NONE, Color::Transparent(), 4.0);
     gameObjectBuilder.AddAnimator(animatedSprite);
     auto gameObject = gameObjectBuilder.GetGameObject();
     auto transform = Transform();
@@ -20,6 +20,6 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     transform.position.y = 100;
     gameObject->SetTransform(transform);
     engine.Start();
-
+    
     return 0;
 }
