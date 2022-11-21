@@ -7,8 +7,7 @@ namespace PlatformerGame {
 
     class Game{
     public:
-        Game(int viewHeight, int viewWidth);
-
+        Game(int viewWidth, int viewHeight);
     };
 
 }  // namespace PlatformerGame
