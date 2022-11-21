@@ -1,3 +1,4 @@
+#include "Builder/GameObjectBuilder.hpp"
 #include "Game/Game.hpp"
 #include <iostream>
 
