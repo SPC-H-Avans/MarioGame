@@ -3,6 +3,8 @@ project(platformer-game)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(PROJECT_LIBS_DIR ${PROJECT_SOURCE_DIR}/libs)
 
 # set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -11,6 +13,7 @@ include(vcpkg_install_deps.cmake)
 vcpkg_install_deps(MANIFEST_ROOT ${PROJECT_LIBS_DIR}/PlatformerEngine)
 
 include_directories(${PROJECT_NAME} ${PROJECT_LIBS_DIR}/PlatformerEngine/includes/spic-prj-api)
+include_directories(${PROJECT_NAME} ${PROJECT_LIBS_DIR}/PlatformerEngine/includes/platformer-engine)
 
 if (NOT DEFINED BINARY_RESOURCES_FOLDER)
     set(BINARY_RESOURCES_FOLDER resources)

@@ -11,6 +11,8 @@ Start of the MarioGame using the [Platformer Engine](https://github.com/SPC-H-Av
 
 ### Changes
 
+- SPCH-10: Added various sprites for the game
+- SPCH-52: Added a level to the game.
 - SPCH-31: Added the Platformer Engine as a submodule.
 - SPCH-41: Added GitHub Actions for building and testing the project.
 

@@ -3,7 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/PlatformerEngine" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/libs/PlatformerEngine/includes/spic-prj-api" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/PlatformerEngine/vcpkg" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/vcpkg" vcs="Git" />
   </component>
