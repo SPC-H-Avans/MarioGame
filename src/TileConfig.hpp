@@ -46,6 +46,7 @@ public:
         auto sprites = std::vector<SpriteInfo> {};
 
         int spriteId = 0;
+        // add overworld tiles
         for (int rows = 0; rows < spriteSheetInfo.rows; ++rows) {
             for (int columns = 0; columns < spriteSheetInfo.columns; ++columns) {
                 ++spriteId;
@@ -76,8 +77,9 @@ private:
     }
 
     static auto GetSheetPos(int sheetNo, SpriteSheetInfo spriteSheet) -> SheetPos {
-        int x = sheetNo % spriteSheet.columns - 1;
-        int y = sheetNo / spriteSheet.rows;
+        // dont cut off the last tile in column
+        int x = (sheetNo - 1) % spriteSheet.columns;
+        int y = (sheetNo - 1) / spriteSheet.rows;
         return {x * spriteSheet.tileWidth, y * spriteSheet.tileHeight};
     }
 };
