@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
-#include "Director/GameObjectDirector.hpp"
+#include "../TileConfig.hpp"
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
@@ -12,23 +12,7 @@ namespace PlatformerGame {
         engine.SetActiveScene(builder.GetScene());
         std::unique_ptr<Scene>& scene =  engine.GetActiveScene();
 
-        //
-        platformer_engine::TextureManager::GetInstance().LoadTexture("floor1", "./resources/levels/mario/Tilesets/Tiles/floor1.png");
-        auto sprite1 = std::make_shared<spic::Sprite>("floor1", 1, 1, 16, 16);
-
-        platformer_engine::TextureManager::GetInstance().LoadTexture("brick1", "./resources/levels/mario/Tilesets/Overworld.png");
-        auto sprite4 = std::make_shared<spic::Sprite>("brick1", 1, 1, 16, 16,
-                                                     platformer_engine::FLIP_NONE,
-                                                     Color::Transparent(), 1.0, 3 * 16, 0);
-            // a bigger object can just have a bigger width/height
-
-        std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> config { // TODO: find a better place to put this
-                {1, [&sprite1](Transform transform){ return GameObjectDirector::CreateTile(sprite1, transform);}}, // 1 is normal floor
-                {4, [&sprite4](Transform transform){ return GameObjectDirector::CreateTile(sprite4, transform);}}, // 4 is breakable block
-        };
-        //
-
-        engine.GetActiveScene()->ImportLevel("map1","./resources/levels/mario/", "map1.tmx", config);
+        engine.GetActiveScene()->ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Level1());
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_Jump", "./resources/Sprites/Mario/Walk.png");
         GameObjectBuilder gameObjectBuilder{"speler"};
         auto sprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 100, 1,
@@ -41,5 +25,6 @@ namespace PlatformerGame {
         scene->AddObject(gameObject);
 
         engine.Start();
+        std::cout<<1;
     }
 }  // namespace PlatformerGame
