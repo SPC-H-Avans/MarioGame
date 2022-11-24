@@ -16,8 +16,8 @@ jobs:
         include:
           - os: windows-latest
             name: Windows-x64
-            triplet: x64-mingw-static
-          - os: ubuntu-latest
+            triplet: x64-windows
+          - os: self-hosted-linux-x64
             name: Linux-x64
             triplet: x64-linux
           - os: self-hosted-macos-m1 
@@ -36,12 +36,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libsdl2-dev
-
-      - name: Set up MinGW
-        if: runner.os == 'Windows'
-        uses: egor-tensin/setup-mingw@v2
-        with:
-          platform: x64
 
       - name: 'Checkout'
         uses: actions/checkout@v2
