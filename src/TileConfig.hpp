@@ -43,29 +43,18 @@ public:
         auto spriteSheetInfo = SpriteSheetInfo{OVERWORLDSHEETSIZE, OVERWORLDSHEETSIZE, TILESIZE, TILESIZE};
 
         // create all info for the sprites
-        auto sprites = std::vector<SpriteInfo> {
-                { 1, "floor1", "./resources/levels/mario/Tilesets/Tiles/floor1.png",
-                  GetSheetPos(1, spriteSheetInfo) },
-                { 2, "floor2", OVERWORLDPATH,
-                        GetSheetPos(2, spriteSheetInfo) },
-                { 3, "brick", OVERWORLDPATH,
-                        GetSheetPos(4, spriteSheetInfo) },
-                { 4, "brick", OVERWORLDPATH,
-                        GetSheetPos(4, spriteSheetInfo) },
-                { 5, "brick", OVERWORLDPATH,
-                        GetSheetPos(4, spriteSheetInfo) },
-                // a bigger object can just have a bigger sprite-width/height, but then it cant be partially rendered
-        };
+        auto sprites = std::vector<SpriteInfo> {};
 
-//        int spriteId = 0;
-//        for (int rows = 0; rows < spriteSheetInfo.rows; ++rows) {
-//            for (int columns = 0; columns < spriteSheetInfo.columns; ++columns) {
-//                sprites.push_back({
-//                       spriteId, "overworldtile" + std::to_string(++spriteId), OVERWORLDPATH,
-//                       GetSheetPos(spriteId, spriteSheetInfo)
-//                });
-//            }
-//        }
+        int spriteId = 0;
+        for (int rows = 0; rows < spriteSheetInfo.rows; ++rows) {
+            for (int columns = 0; columns < spriteSheetInfo.columns; ++columns) {
+                ++spriteId;
+                sprites.push_back({
+                       spriteId, "overworldtile" + std::to_string(spriteId), OVERWORLDPATH,
+                       GetSheetPos(spriteId, spriteSheetInfo)
+                });
+            }
+        }
 
         // add all functions to the config
         for (auto& sprite : sprites) {
