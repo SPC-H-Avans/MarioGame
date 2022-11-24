@@ -1,9 +1,11 @@
 name: 'Publish'
 
+# on:
+#   push:
+#     tags:
+#       - "v*"
 on:
-  push:
-    tags:
-      - "v*"
+  pull_request:
 
 jobs:
   build:
@@ -14,7 +16,7 @@ jobs:
         include:
           - os: windows-latest
             name: Windows-x64
-            triplet: x64-windows-static
+            triplet: x64-mingw-static
           - os: ubuntu-latest
             name: Linux-x64
             triplet: x64-linux
