@@ -11,6 +11,11 @@
 
 const auto OVERWORLDPATH = "./resources/levels/mario/Tilesets/Overworld.png";
 const auto OVERWORLDSHEETSIZE = 8;
+
+const auto ITEMSPATH = "./resources/levels/mario/Misc/Items.png";
+const auto ITEMSSHEETROWS = 3;
+const auto ITEMSSHEETCOLUMNS = 5;
+
 const auto TILESIZE = 16;
 struct SpriteSheetInfo {
     int rows;
@@ -24,13 +29,15 @@ struct SheetPos {
 };
 /**
  * @brief contains information about a tile
- *      the id is the number of the sprite in the spritesheet, uses zero-based numbering like this:
+ * the id is the key through which the tile create method is accessed
+ * the numberInSheet is the number of the sprite in the spritesheet, uses zero-based numbering like this:
  *      1 2 3
  *      4 5 6
  *      7 8 9
  */
 struct SpriteInfo {
     int id;
+    int numberInSheet;
     std::string objectId;
     std::string path;
     SheetPos sheetPos;
@@ -40,30 +47,54 @@ class TileConfig {
 public:
     static auto Level1() -> std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> {
         std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> config {};
-        auto spriteSheetInfo = SpriteSheetInfo{OVERWORLDSHEETSIZE, OVERWORLDSHEETSIZE, TILESIZE, TILESIZE};
+        // TODO: we could even add the sheets to a vector to iterate over them
+        auto overworldSheet = SpriteSheetInfo{OVERWORLDSHEETSIZE, OVERWORLDSHEETSIZE, TILESIZE, TILESIZE};
+        auto itemsSheet = SpriteSheetInfo{ITEMSSHEETROWS, ITEMSSHEETCOLUMNS, TILESIZE, TILESIZE};
 
         // create all info for the sprites
         auto sprites = std::vector<SpriteInfo> {};
 
-        int spriteId = 0;
         // add overworld tiles
-        for (int rows = 0; rows < spriteSheetInfo.rows; ++rows) {
-            for (int columns = 0; columns < spriteSheetInfo.columns; ++columns) {
+        int spriteId = 0;
+        int spriteNo = 0;
+        for (int rows = 0; rows < overworldSheet.rows; ++rows) {
+            for (int columns = 0; columns < overworldSheet.columns; ++columns) {
                 ++spriteId;
+                ++spriteNo;
                 sprites.push_back({
-                       spriteId, "overworldtile" + std::to_string(spriteId), OVERWORLDPATH,
-                       GetSheetPos(spriteId, spriteSheetInfo)
+                       spriteId, spriteNo, "overworldtile" + std::to_string(spriteId), OVERWORLDPATH,
+                       GetSheetPos(spriteNo, overworldSheet)
+                });
+            }
+        }
+
+        // add item tiles
+        spriteNo = 0;
+        for (int rows = 0; rows < itemsSheet.rows; ++rows) {
+            for (int columns = 0; columns < itemsSheet.columns; ++columns) {
+                ++spriteId;
+                ++spriteNo;
+                sprites.push_back({
+                       spriteId, spriteNo, "itemtile" + std::to_string(spriteId), ITEMSPATH,
+                       GetSheetPos(spriteNo, itemsSheet)
                 });
             }
         }
 
         // add all functions to the config
         for (auto& sprite : sprites) {
-            AddToConfig(config, sprite, spriteSheetInfo);
+            AddToConfig(config, sprite, overworldSheet);
         }
         return config;
     }
+
 private:
+    static auto GetSheetPos(int sheetNo, SpriteSheetInfo spriteSheet) -> SheetPos {
+        int x = (sheetNo - 1) % spriteSheet.columns;
+        int y = (sheetNo - 1) / spriteSheet.columns;
+        return {x * spriteSheet.tileWidth, y * spriteSheet.tileHeight};
+    }
+
     static void AddToConfig(
             std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>>& config,
             const SpriteInfo& sprite, const SpriteSheetInfo& spriteSheet) {
@@ -74,13 +105,6 @@ private:
                                                       Color::Transparent(), 1.0, sprite.sheetPos.x, sprite.sheetPos.y);
         config.insert(
                 {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform);}});
-    }
-
-    static auto GetSheetPos(int sheetNo, SpriteSheetInfo spriteSheet) -> SheetPos {
-        // dont cut off the last tile in column
-        int x = (sheetNo - 1) % spriteSheet.columns;
-        int y = (sheetNo - 1) / spriteSheet.rows;
-        return {x * spriteSheet.tileWidth, y * spriteSheet.tileHeight};
     }
 };
 #endif //PLATFORMER_GAME_TILECONFIG_HPP
