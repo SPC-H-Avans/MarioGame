@@ -9,6 +9,8 @@
 #include "Builder/SceneBuilder.hpp"
 #include "Director/GameObjectDirector.hpp"
 
+const auto OVERWORLDPATH = "./resources/levels/mario/Tilesets/Overworld.png";
+const auto OVERWORLDSHEETSIZE = 8;
 const auto TILESIZE = 16;
 struct SpriteSheetInfo {
     int rows;
@@ -23,9 +25,9 @@ struct SheetPos {
 /**
  * @brief contains information about a tile
  *      the id is the number of the sprite in the spritesheet, uses zero-based numbering like this:
- *      0 1 2
- *      3 4 5
- *      6 7 8
+ *      1 2 3
+ *      4 5 6
+ *      7 8 9
  */
 struct SpriteInfo {
     int id;
@@ -38,24 +40,37 @@ class TileConfig {
 public:
     static auto Level1() -> std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> {
         std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> config {};
-        auto spriteSheetInfo = SpriteSheetInfo{8, 8, 16, 16};
+        auto spriteSheetInfo = SpriteSheetInfo{OVERWORLDSHEETSIZE, OVERWORLDSHEETSIZE, TILESIZE, TILESIZE};
 
-        auto sprite1Info = SpriteInfo{1, "floor1",
-                                      "./resources/levels/mario/Tilesets/Tiles/floor1.png",
-                                      GetSheetPos(1, spriteSheetInfo)};
-        AddToConfig(config, sprite1Info, spriteSheetInfo);
+        // create all info for the sprites
+        auto sprites = std::vector<SpriteInfo> {
+                { 1, "floor1", "./resources/levels/mario/Tilesets/Tiles/floor1.png",
+                  GetSheetPos(1, spriteSheetInfo) },
+                { 2, "floor2", OVERWORLDPATH,
+                        GetSheetPos(2, spriteSheetInfo) },
+                { 3, "brick", OVERWORLDPATH,
+                        GetSheetPos(4, spriteSheetInfo) },
+                { 4, "brick", OVERWORLDPATH,
+                        GetSheetPos(4, spriteSheetInfo) },
+                { 5, "brick", OVERWORLDPATH,
+                        GetSheetPos(4, spriteSheetInfo) },
+                // a bigger object can just have a bigger sprite-width/height, but then it cant be partially rendered
+        };
 
-        platformer_engine::TextureManager::GetInstance().LoadTexture("brick1", "./resources/levels/mario/Tilesets/Overworld.png");
-        auto sprite4 = std::make_shared<spic::Sprite>("brick1", 1, 1, 16, 16,
-                                                      platformer_engine::FLIP_NONE,
-                                                      Color::Transparent(), 1.0, 3 * 16, 0);
+//        int spriteId = 0;
+//        for (int rows = 0; rows < spriteSheetInfo.rows; ++rows) {
+//            for (int columns = 0; columns < spriteSheetInfo.columns; ++columns) {
+//                sprites.push_back({
+//                       spriteId, "overworldtile" + std::to_string(++spriteId), OVERWORLDPATH,
+//                       GetSheetPos(spriteId, spriteSheetInfo)
+//                });
+//            }
+//        }
 
-        config.insert({4, [sprite4](Transform transform){ return GameObjectDirector::CreateTile(sprite4, transform);}});
-
-//        auto foo = GetSheetPos(10, 8, 8, TILESIZE);
-//        std::cout << foo.x << "-" << foo.y;
-        // a bigger object can just have a bigger sprite-width/height, but then it cant be partially rendered
-
+        // add all functions to the config
+        for (auto& sprite : sprites) {
+            AddToConfig(config, sprite, spriteSheetInfo);
+        }
         return config;
     }
 private:
