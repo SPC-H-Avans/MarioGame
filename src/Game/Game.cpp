@@ -13,18 +13,18 @@ namespace PlatformerGame {
         std::unique_ptr<Scene>& scene =  engine.GetActiveScene();
 
         //
-        platformer_engine::TextureManager::GetInstance().LoadTexture("goomba", "./resources/Sprites/Goomba/Idle.png");
-        auto sprite4 = std::make_shared<spic::Sprite>("goomba", 1, 1, 24, 24,
-                                                     platformer_engine::FLIP_NONE,
-                                                     Color::Transparent(), 1.0);
         platformer_engine::TextureManager::GetInstance().LoadTexture("floor1", "./resources/levels/mario/Tilesets/Tiles/floor1.png");
-        auto sprite1 = std::make_shared<spic::Sprite>("floor1", 1, 1, 16, 16,
-                                                      platformer_engine::FLIP_NONE,
-                                                      Color::Transparent(), 1.0);
+        auto sprite1 = std::make_shared<spic::Sprite>("floor1", 1, 1, 16, 16);
+
+        platformer_engine::TextureManager::GetInstance().LoadTexture("brick1", "./resources/levels/mario/Tilesets/Overworld.png");
+        auto sprite4 = std::make_shared<spic::Sprite>("brick1", 1, 1, 16, 16,
+                                                     platformer_engine::FLIP_NONE,
+                                                     Color::Transparent(), 1.0, 3 * 16, 0);
+            // a bigger object can just have a bigger width/height
 
         std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> config { // TODO: find a better place to put this
+                {1, [&sprite1](Transform transform){ return GameObjectDirector::CreateTile(sprite1, transform);}}, // 1 is normal floor
                 {4, [&sprite4](Transform transform){ return GameObjectDirector::CreateTile(sprite4, transform);}}, // 4 is breakable block
-                {1, [&sprite1](Transform transform){ return GameObjectDirector::CreateTile(sprite1, transform);}}, // 4 is breakable block
         };
         //
 
