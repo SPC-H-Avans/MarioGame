@@ -14,6 +14,7 @@ namespace PlatformerGame {
         auto scene =  engine.GetActiveScene();
 
         Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Level1());
+//        Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::Level1());
 
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_Jump", "./resources/Sprites/Mario/Walk.png");
         GameObjectBuilder gameObjectBuilder{"speler"};
