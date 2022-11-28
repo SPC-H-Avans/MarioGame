@@ -104,7 +104,7 @@ private:
                                                       platformer_engine::FLIP_NONE,
                                                       Color::Transparent(), 1.0, sprite.sheetPos.x, sprite.sheetPos.y);
         config.insert(
-                {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform);}});
+                {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
     }
 };
 #endif //PLATFORMER_GAME_TILECONFIG_HPP
