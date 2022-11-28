@@ -17,8 +17,8 @@ namespace PlatformerGame {
 
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_Jump", "./resources/Sprites/Mario/Walk.png");
         GameObjectBuilder gameObjectBuilder{"speler"};
-        int w = 24;
-        int h = 24;
+        int w = 15;
+        int h = 17;
         auto sprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, w, h, 3, 100, 1,
                                                                           platformer_engine::FLIP_NONE,
                                                                           Color::Transparent(), 1.0);
