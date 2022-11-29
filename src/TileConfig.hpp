@@ -99,10 +99,8 @@ private:
             std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>>& config,
             const SpriteInfo& sprite, const SpriteSheetInfo& spriteSheet) {
         platformer_engine::TextureManager::GetInstance().LoadTexture(sprite.objectId, sprite.path);
-        auto spriteObj = std::make_shared<spic::Sprite>(sprite.objectId, 1, 1,
-                                                        spriteSheet.tileWidth, spriteSheet.tileHeight,
-                                                      platformer_engine::FLIP_NONE,
-                                                      Color::Transparent(), 1.0, sprite.sheetPos.x, sprite.sheetPos.y);
+        auto spriteObj = std::make_shared<spic::Sprite>(sprite.objectId, spriteSheet.tileWidth, spriteSheet.tileHeight);
+        spriteObj->SetSpriteSheetPosition(sprite.sheetPos.x, sprite.sheetPos.y);
         config.insert(
                 {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
     }
