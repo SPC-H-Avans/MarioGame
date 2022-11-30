@@ -32,10 +32,10 @@ namespace PlatformerGame {
 
         auto transform = Transform { Point {100, 250}, 0, 1.0 };
         auto animations = std::vector<platformer_engine::AnimatedSprite> {idleSprite, walkSprite, jumpSprite};
-        auto behaviourScripts = std::vector<spic::BehaviourScript> {
-                platformer_engine::PlayerInputBehaviour(),
-                platformer_engine::CollisionBehaviour(),
-                PlatformerGame::DynamicAnimationBehaviour(idleSprite, walkSprite, jumpSprite)
+        auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
+                std::make_shared<platformer_engine::PlayerInputBehaviour>(),
+                std::make_shared<platformer_engine::CollisionBehaviour>(),
+                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
         auto mario = GameObjectDirector::CreatePlayer(transform, w, h, animations, behaviourScripts);
 
