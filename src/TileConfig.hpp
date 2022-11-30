@@ -45,8 +45,8 @@ struct SpriteInfo {
 
 class TileConfig {
 public:
-    static auto Level1() -> std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> {
-        std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>> config {};
+    static auto Level1() -> std::map<int, std::function<GameObject(Transform)>> {
+        std::map<int, std::function<GameObject(Transform)>> config {};
         // TODO: we could even add the sheets to a vector to iterate over them
         auto overworldSheet = SpriteSheetInfo{OVERWORLDSHEETSIZE, OVERWORLDSHEETSIZE, TILESIZE, TILESIZE};
         auto itemsSheet = SpriteSheetInfo{ITEMSSHEETROWS, ITEMSSHEETCOLUMNS, TILESIZE, TILESIZE};
@@ -96,7 +96,7 @@ private:
     }
 
     static void AddToConfig(
-            std::map<int, std::function<std::shared_ptr<GameObject>(Transform)>>& config,
+            std::map<int, std::function<GameObject(Transform)>>& config,
             const SpriteInfo& sprite, const SpriteSheetInfo& spriteSheet) {
         platformer_engine::TextureManager::GetInstance().LoadTexture(sprite.objectId, sprite.path);
         auto spriteObj = spic::Sprite(sprite.objectId, spriteSheet.tileWidth, spriteSheet.tileHeight);

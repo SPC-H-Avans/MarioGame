@@ -7,9 +7,9 @@
 
 namespace PlatformerGame {
 
-    DynamicAnimationBehaviour::DynamicAnimationBehaviour(const platformer_engine::AnimatedSprite& idleSprite,
-                                                         const platformer_engine::AnimatedSprite& walkSprite,
-                                                         const platformer_engine::AnimatedSprite& jumpSprite)
+    DynamicAnimationBehaviour::DynamicAnimationBehaviour(platformer_engine::AnimatedSprite& idleSprite,
+                                                         platformer_engine::AnimatedSprite& walkSprite,
+                                                         platformer_engine::AnimatedSprite& jumpSprite)
             : _idleSprite(idleSprite), _walkSprite(walkSprite), _jumpSprite(jumpSprite)
     { }
 
@@ -19,6 +19,7 @@ namespace PlatformerGame {
         auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
         if (playerRigidBody != nullptr && playerAnimator != nullptr) {
             if (playerRigidBody->GetYVelocity() != 0) {
+                _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
                 playerAnimator->SetActiveAnimation(_jumpSprite.GetSpriteId());
             } else if (playerRigidBody->GetXVelocity() > 0.1 || playerRigidBody->GetXVelocity() < -0.1) {
                 playerAnimator->SetActiveAnimation(_walkSprite.GetSpriteId());

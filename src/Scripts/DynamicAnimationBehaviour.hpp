@@ -8,14 +8,14 @@ namespace PlatformerGame {
 
     class DynamicAnimationBehaviour : public spic::BehaviourScript {
     public:
-        DynamicAnimationBehaviour(const platformer_engine::AnimatedSprite& idleSprite,
-                                  const platformer_engine::AnimatedSprite& walkSprite,
-                                  const platformer_engine::AnimatedSprite& jumpSprite);
+        DynamicAnimationBehaviour(platformer_engine::AnimatedSprite& idleSprite,
+                                  platformer_engine::AnimatedSprite& walkSprite,
+                                  platformer_engine::AnimatedSprite& jumpSprite);
         void OnUpdate() override;
     private:
-        const platformer_engine::AnimatedSprite& _idleSprite;
-        const platformer_engine::AnimatedSprite& _walkSprite;
-        const platformer_engine::AnimatedSprite& _jumpSprite;
+        platformer_engine::AnimatedSprite& _idleSprite;
+        platformer_engine::AnimatedSprite& _walkSprite;
+        platformer_engine::AnimatedSprite& _jumpSprite;
     };
 
 }  // namespace PlatformerGame
