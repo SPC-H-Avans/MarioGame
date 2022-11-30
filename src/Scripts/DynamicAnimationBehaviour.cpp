@@ -7,9 +7,9 @@
 
 namespace PlatformerGame {
 
-    DynamicAnimationBehaviour::DynamicAnimationBehaviour(std::shared_ptr<platformer_engine::AnimatedSprite> idleSprite,
-                                                         std::shared_ptr<platformer_engine::AnimatedSprite> walkSprite,
-                                                         std::shared_ptr<platformer_engine::AnimatedSprite> jumpSprite)
+    DynamicAnimationBehaviour::DynamicAnimationBehaviour(const platformer_engine::AnimatedSprite& idleSprite,
+                                                         const platformer_engine::AnimatedSprite& walkSprite,
+                                                         const platformer_engine::AnimatedSprite& jumpSprite)
             : _idleSprite(idleSprite), _walkSprite(walkSprite), _jumpSprite(jumpSprite)
     { }
 
@@ -19,12 +19,12 @@ namespace PlatformerGame {
         auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
         if (playerRigidBody != nullptr && playerAnimator != nullptr) {
             if (playerRigidBody->GetYVelocity() != 0) {
-                playerAnimator->SetActiveAnimation(_jumpSprite->GetSpriteId());
+                playerAnimator->SetActiveAnimation(_jumpSprite.GetSpriteId());
             } else if (playerRigidBody->GetXVelocity() > 0.1 || playerRigidBody->GetXVelocity() < -0.1) {
-                playerAnimator->SetActiveAnimation(_walkSprite->GetSpriteId());
+                playerAnimator->SetActiveAnimation(_walkSprite.GetSpriteId());
             } else {
-                playerAnimator->SetActiveAnimation(_idleSprite->GetSpriteId());
+                playerAnimator->SetActiveAnimation(_idleSprite.GetSpriteId());
             }
         }
     }
-}  // namespace platformer_engine
+}  // namespace PlatformerGame

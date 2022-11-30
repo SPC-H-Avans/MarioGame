@@ -8,16 +8,16 @@ namespace PlatformerGame {
 
     class DynamicAnimationBehaviour : public spic::BehaviourScript {
     public:
-        DynamicAnimationBehaviour(std::shared_ptr<platformer_engine::AnimatedSprite> idleSprite,
-                                  std::shared_ptr<platformer_engine::AnimatedSprite> walkSprite,
-                                  std::shared_ptr<platformer_engine::AnimatedSprite> jumpSprite);
+        DynamicAnimationBehaviour(const platformer_engine::AnimatedSprite& idleSprite,
+                                  const platformer_engine::AnimatedSprite& walkSprite,
+                                  const platformer_engine::AnimatedSprite& jumpSprite);
         void OnUpdate() override;
     private:
-        std::shared_ptr<platformer_engine::AnimatedSprite> _idleSprite;
-        std::shared_ptr<platformer_engine::AnimatedSprite> _walkSprite;
-        std::shared_ptr<platformer_engine::AnimatedSprite> _jumpSprite;
+        const platformer_engine::AnimatedSprite& _idleSprite;
+        const platformer_engine::AnimatedSprite& _walkSprite;
+        const platformer_engine::AnimatedSprite& _jumpSprite;
     };
 
-}  // namespace platformer_engine
+}  // namespace PlatformerGame
 
 #endif //PLATFORMER_ENGINE_DYNAMICANIMATIONBEHAVIOUR_HPP

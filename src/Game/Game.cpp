@@ -26,16 +26,16 @@ namespace PlatformerGame {
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_idle", "./resources/Sprites/Mario/Idle.png");
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_walk", "./resources/Sprites/Mario/Walk.png");
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_jump", "./resources/Sprites/Mario/Jump.png");
-        auto idleSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_idle", w, h, 1);
-        auto walkSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_walk", w, h, 3);
-        auto jumpSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_jump", w + 1, h - 1, 1); // 16x16
+        auto idleSprite = platformer_engine::AnimatedSprite("mario_idle", w, h, 1);
+        auto walkSprite = platformer_engine::AnimatedSprite("mario_walk", w, h, 3);
+        auto jumpSprite = platformer_engine::AnimatedSprite("mario_jump", w + 1, h - 1, 1); // 16x16
 
         auto transform = Transform { Point {100, 250}, 0, 1.0 };
-        auto animations = std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> {idleSprite, walkSprite, jumpSprite};
-        auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>> {
-                std::make_shared<platformer_engine::PlayerInputBehaviour>(),
-                std::make_shared<platformer_engine::CollisionBehaviour>(),
-                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
+        auto animations = std::vector<platformer_engine::AnimatedSprite> {idleSprite, walkSprite, jumpSprite};
+        auto behaviourScripts = std::vector<spic::BehaviourScript> {
+                platformer_engine::PlayerInputBehaviour(),
+                platformer_engine::CollisionBehaviour(),
+                PlatformerGame::DynamicAnimationBehaviour(idleSprite, walkSprite, jumpSprite)
         };
         auto mario = GameObjectDirector::CreatePlayer(transform, w, h, animations, behaviourScripts);
 
