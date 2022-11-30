@@ -2,9 +2,6 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "../TileConfig.hpp"
-#include "Behaviour/CollisionBehaviour.hpp"
-#include "Behaviour/PlayerInputBehaviour.hpp"
-#include "../Scripts/DynamicAnimationBehaviour.hpp"
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
@@ -31,13 +28,7 @@ namespace PlatformerGame {
         auto jumpSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_jump", w + 1, h - 1, 1); // 16x16
 
         auto transform = Transform { Point {100, 250}, 0, 1.0 };
-        auto animations = std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> {idleSprite, walkSprite, jumpSprite};
-        auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>> {
-                std::make_shared<platformer_engine::PlayerInputBehaviour>(),
-                std::make_shared<platformer_engine::CollisionBehaviour>(),
-                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
-        };
-        auto mario = GameObjectDirector::CreatePlayer(transform, w, h, animations, behaviourScripts);
+        auto mario = GameObjectDirector::CreatePlayer(idleSprite, walkSprite, jumpSprite, transform, w, h);
 
         engine.Start();
         std::cout<<1;
