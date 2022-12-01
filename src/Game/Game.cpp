@@ -16,8 +16,9 @@ namespace PlatformerGame {
         engine.SetActiveScene("level1");
         auto scene =  engine.GetActiveScene();
 
-        Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Level1());
-//        Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::Level1());
+//        Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
+//        Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::Map1());
+        Scene::ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
 
         GameObjectBuilder gameObjectBuilder{"speler"};
         int w = 15;
