@@ -27,7 +27,7 @@ add_custom_target(copy_assets COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE
 
 
 add_subdirectory(${PROJECT_LIBS_DIR}/PlatformerEngine)
-file(GLOB_RECURSE SOURCE src/*.cpp)
+file(GLOB_RECURSE SOURCE src/*.cpp src/*.hpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 add_dependencies(${PROJECT_NAME} copy_assets)
