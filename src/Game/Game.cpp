@@ -39,7 +39,7 @@ namespace PlatformerGame {
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
 
-        auto mario = GameObjectDirector::CreatePlayer(transform, w, h, animations, behaviourScripts);
+        auto mario = GameObjectDirector::CreatePlayer(transform, w, h - 1, animations, behaviourScripts);
 
         engine.Start();
         std::cout<<1;

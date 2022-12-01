@@ -101,7 +101,7 @@ public:
         const auto ITEMSSHEETCOLS = 5;
 
         const auto BACKGROUNDPATH = "./resources/levels/mario/Tilesets/background1.png";
-        const auto BACKGROUNDROWS = 3;
+        const auto BACKGROUNDROWS = 4;
         const auto BACKGROUNDCOLS = 8;
 
         auto blocksSheet = SpriteSheetInfo{BLOCKSSHEETROWS, BLOCKSSHEETCOLS, TILESIZE, TILESIZE};
