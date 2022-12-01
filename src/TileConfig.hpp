@@ -9,14 +9,8 @@
 #include "Builder/SceneBuilder.hpp"
 #include "Director/GameObjectDirector.hpp"
 
-const auto OVERWORLDPATH = "./resources/levels/mario/Tilesets/Overworld.png";
-const auto OVERWORLDSHEETSIZE = 8;
-
-const auto ITEMSPATH = "./resources/levels/mario/Misc/Items.png";
-const auto ITEMSSHEETROWS = 3;
-const auto ITEMSSHEETCOLUMNS = 5;
-
 const auto TILESIZE = 16;
+
 struct SpriteSheetInfo {
     int rows;
     int columns;
@@ -46,6 +40,13 @@ struct SpriteInfo {
 class TileConfig {
 public:
     static auto Level1() -> std::map<int, std::function<GameObject(Transform)>> {
+        const auto OVERWORLDPATH = "./resources/levels/mario/Tilesets/Overworld.png";
+        const auto OVERWORLDSHEETSIZE = 8;
+
+        const auto ITEMSPATH = "./resources/levels/mario/Misc/Items.png";
+        const auto ITEMSSHEETROWS = 3;
+        const auto ITEMSSHEETCOLUMNS = 5;
+
         std::map<int, std::function<GameObject(Transform)>> config {};
         // TODO: we could even add the sheets to a vector to iterate over them
         auto overworldSheet = SpriteSheetInfo{OVERWORLDSHEETSIZE, OVERWORLDSHEETSIZE, TILESIZE, TILESIZE};
