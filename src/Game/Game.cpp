@@ -5,6 +5,7 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "../Scripts/PlayerInputBehaviour.hpp"
 #include "../Scripts/DynamicAnimationBehaviour.hpp"
+#include "Networking/NetworkingServer.hpp"
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
@@ -39,7 +40,11 @@ namespace PlatformerGame {
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
 
-        auto mario = GameObjectDirector::CreatePlayer(transform, w, h - 1, animations, behaviourScripts);
+        auto mario = GameObjectDirector::CreatePlayer(0,transform, w, h - 1, animations, behaviourScripts);
+
+        NetworkingServer networkingServer;
+        networkingServer.CreateServer(scene.GetSceneName(), 10, 7779);
+
 
         engine.Start();
         std::cout<<1;
