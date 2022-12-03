@@ -6,6 +6,7 @@
 #include "../Scripts/PlayerInputBehaviour.hpp"
 #include "../Scripts/DynamicAnimationBehaviour.hpp"
 #include "Networking/NetworkingServer.hpp"
+#include "Networking/NetworkingClient.hpp"
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
@@ -44,6 +45,9 @@ namespace PlatformerGame {
 
         NetworkingServer networkingServer;
         networkingServer.CreateServer(scene.GetSceneName(), 10, 7779);
+
+//        NetworkingClient networkingClient;
+//        networkingClient.ConnectToServer("127.0.0.1", 7779);
 
 
         engine.Start();
