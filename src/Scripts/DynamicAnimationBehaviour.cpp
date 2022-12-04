@@ -28,4 +28,12 @@ namespace PlatformerGame {
             }
         }
     }
+
+    DynamicAnimationBehaviour::DynamicAnimationBehaviour(): _jumpSprite(_nullSprite),
+                                                            _walkSprite(_nullSprite),
+                                                            _idleSprite(_nullSprite){
+
+    }
 }  // namespace PlatformerGame
+
+BOOST_CLASS_EXPORT(PlatformerGame::DynamicAnimationBehaviour);
