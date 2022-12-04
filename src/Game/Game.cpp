@@ -41,7 +41,7 @@ namespace PlatformerGame {
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
 
-        auto mario = GameObjectDirector::CreatePlayer(0,transform, w, h - 1, animations, behaviourScripts);
+        auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
 
         NetworkingServer networkingServer;
         networkingServer.CreateServer(scene.GetSceneName(), 10, 7779);
