@@ -9,9 +9,9 @@
 void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port) {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
 
-    platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("level2");
+    platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     engine.AddScene(builder.GetScene());
-    engine.SetActiveScene("level2");
+    engine.SetActiveScene(sceneName);
     auto scene =  engine.GetActiveScene();
 
     //   Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
