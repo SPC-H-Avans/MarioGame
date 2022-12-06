@@ -4,11 +4,22 @@
 #include "Engine/Engine.hpp"
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
-
-
+#include "TileConfig.hpp"
 
 void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port) {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
+
+    platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("level2");
+    engine.AddScene(builder.GetScene());
+    engine.SetActiveScene("level2");
+    auto scene =  engine.GetActiveScene();
+
+    //   Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
+    Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::Map1());
+    // Scene::ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
+    //
+
+    //Create Player for server
     GameObjectBuilder gameObjectBuilder{"speler"};
     int w = 15;
     int h = 17;

@@ -31,9 +31,7 @@ namespace PlatformerGame {
         }
     }
 
-    DynamicAnimationBehaviour::DynamicAnimationBehaviour(): _jumpSprite(_nullSprite),
-                                                            _walkSprite(_nullSprite),
-                                                            _idleSprite(_nullSprite){
+    DynamicAnimationBehaviour::DynamicAnimationBehaviour(){
 
     }
 }  // namespace PlatformerGame
