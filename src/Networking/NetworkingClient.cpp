@@ -1,6 +1,9 @@
 #include "NetworkingClient.hpp"
-#include "Engine/Engine.hpp"
+#include "Behaviour/CollisionBehaviour.hpp"
 #include "Builder/SceneBuilder.hpp"
+#include "Engine/Engine.hpp"
+#include "Scripts/DynamicAnimationBehaviour.hpp"
+#include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
 
 void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &serverAddress, int port) {
@@ -17,20 +20,25 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
                                                                                                            const uint8_t *data,
                                                                                                            size_t dataLength) {
         clientManager.CreateScene(data, dataLength);
-//        Transform transform;
-//        Point position;
-//        position.x = 300;
-//        position.y = 300;
-//        transform.position = position;
-//        GameObjectBuilder gameobjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId()));
-//        Sprite sprite = Sprite("mario", 15, 17);
-//        gameobjectBuilder.AddSprite(sprite);
-//        gameobjectBuilder.AddTransform(transform);
-//        gameobjectBuilder.GetGameObject();
-//
-//        auto gameObject = GameObject::Find(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId()));
-//        if (gameObject == nullptr) return;
-//        clientManager.InitializeMyClient(*gameObject);
+        int w = 15;
+        int h = 17;
+
+        platformer_engine::TextureManager::GetInstance().LoadTexture("mario_idle", "./resources/Sprites/Mario/Idle.png");
+        platformer_engine::TextureManager::GetInstance().LoadTexture("mario_walk", "./resources/Sprites/Mario/Walk.png");
+        platformer_engine::TextureManager::GetInstance().LoadTexture("mario_jump", "./resources/Sprites/Mario/Jump.png");
+        auto idleSprite = platformer_engine::AnimatedSprite("mario_idle", w, h, 1);
+        auto walkSprite = platformer_engine::AnimatedSprite("mario_walk", w, h, 3);
+        auto jumpSprite = platformer_engine::AnimatedSprite("mario_jump", w + 1, h - 1, 1, 1, 1, 100, platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
+
+        auto transform = Transform { Point {100, 250}, 0, 1.0 };
+        auto animations = std::vector<platformer_engine::AnimatedSprite> {idleSprite, walkSprite, jumpSprite};
+        auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
+            std::make_shared<platformer_engine::CollisionBehaviour>(),
+            std::make_shared<PlatformerGame::PlayerInputBehaviour>(),
+            std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
+        };
+
+        auto mario = GameObjectDirector::CreatePlayer(clientManager.GetLocalPlayerId(), transform, w, h - 1, animations, behaviourScripts);
     };
 
     clientManager.RegisterEventHandler(NET_CREATE_SCENE, onConnect);

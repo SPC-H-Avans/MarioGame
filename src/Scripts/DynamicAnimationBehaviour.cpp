@@ -1,9 +1,10 @@
 #include "DynamicAnimationBehaviour.hpp"
-#include "GameObject.hpp"
-#include "RigidBody.hpp"
-#include "BoxCollider.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 #include "Animator.hpp"
+#include "BoxCollider.hpp"
+#include "Engine/Engine.hpp"
+#include "GameObject.hpp"
+#include "Physics/PlayerRigidBody.hpp"
+#include "RigidBody.hpp"
 
 namespace PlatformerGame {
 
@@ -15,7 +16,7 @@ namespace PlatformerGame {
 
     void DynamicAnimationBehaviour::OnUpdate() {
         auto player = GetGameObject().lock();
-        if(player == nullptr) return;
+        if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
         auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
         if (playerRigidBody != nullptr && playerAnimator != nullptr) {
