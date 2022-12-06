@@ -8,9 +8,10 @@
 #include "../Scripts/EnemyAttackBehaviour.hpp"
 #include "RigidBody.hpp"
 #include "Physics/ForceDrivenEntityBody.hpp"
+#include "Behaviour/DodgeObjectsBehaviour.hpp"
 
 
-const bool FULLSCREEN = true;
+const bool FULLSCREEN = false;
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
@@ -55,6 +56,7 @@ namespace PlatformerGame {
 
         auto enemyBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
                 std::make_shared<platformer_engine::CollisionBehaviour>(),
+                std::make_shared<platformer_engine::DodgeObjectsBehaviour>(),
                 std::make_shared<EnemyAttackBehaviour>(),
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
