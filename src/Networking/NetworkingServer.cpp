@@ -15,7 +15,7 @@ void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName
     auto scene =  engine.GetActiveScene();
 
     //   Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
-    Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::Map1());
+    Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::World1());
     // Scene::ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
     //
 

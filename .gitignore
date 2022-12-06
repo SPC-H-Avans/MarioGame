@@ -13,3 +13,7 @@ _deps
 cmake-build-debug/
 
 resources/.DS_Store
+
+resources/levels/.DS_Store
+
+.DS_Store

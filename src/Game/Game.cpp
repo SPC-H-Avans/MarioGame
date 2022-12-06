@@ -13,11 +13,12 @@ namespace PlatformerGame {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan());
 
-       //NetworkingServer networkingServer;
-     //  networkingServer.CreateServer(scene.GetSceneName(), 10, 7779);
+
+      //  NetworkingServer networkingServer;
+      //  networkingServer.CreateServer("level1", 10, 7778);
 
        NetworkingClient networkingClient;
-       networkingClient.ConnectToServer("192.168.68.120", 7779);
+      networkingClient.ConnectToServer("192.168.68.107", 7779);
 
 
         engine.Start();
