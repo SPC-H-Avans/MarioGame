@@ -15,6 +15,7 @@ namespace PlatformerGame {
 
     void DynamicAnimationBehaviour::OnUpdate() {
         auto player = GetGameObject().lock();
+        if(player == nullptr) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
         auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
         if (playerRigidBody != nullptr && playerAnimator != nullptr) {

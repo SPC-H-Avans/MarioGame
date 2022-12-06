@@ -9,6 +9,7 @@ namespace PlatformerGame {
 
     void PlayerInputBehaviour::OnUpdate() {
         auto player = GetGameObject().lock();
+        if(player == nullptr) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
         if (playerRigidBody != nullptr) {
             auto point = Point();

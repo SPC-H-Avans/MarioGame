@@ -13,14 +13,14 @@ namespace PlatformerGame {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan());
 
-        platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("level1");
-        engine.AddScene(builder.GetScene());
-        engine.SetActiveScene("level1");
-        auto scene =  engine.GetActiveScene();
+   //    platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("level2");
+   //   engine.AddScene(builder.GetScene());
+     //   engine.SetActiveScene("level2");
+   //   auto scene =  engine.GetActiveScene();
 
-//        Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
+     //   Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
 //        Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::Map1());
-        Scene::ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
+       // Scene::ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
 
         GameObjectBuilder gameObjectBuilder{"speler"};
         int w = 15;
@@ -43,11 +43,13 @@ namespace PlatformerGame {
 
         auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
 
-        NetworkingServer networkingServer;
-        networkingServer.CreateServer(scene.GetSceneName(), 10, 7779);
+        GameObject::Destroy(GameObject::Find(mario.GetName()));
 
-//        NetworkingClient networkingClient;
-//        networkingClient.ConnectToServer("127.0.0.1", 7779);
+       //NetworkingServer networkingServer;
+      //  networkingServer.CreateServer(scene.GetSceneName(), 10, 7779);
+
+       NetworkingClient networkingClient;
+        networkingClient.ConnectToServer("192.168.68.107", 7779);
 
 
         engine.Start();
