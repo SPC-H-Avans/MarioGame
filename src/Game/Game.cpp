@@ -5,6 +5,10 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "../Scripts/PlayerInputBehaviour.hpp"
 #include "../Scripts/DynamicAnimationBehaviour.hpp"
+#include "../Scripts/EnemyAttackBehaviour.hpp"
+#include "RigidBody.hpp"
+#include "Physics/ForceDrivenEntityBody.hpp"
+
 
 const bool FULLSCREEN = true;
 
@@ -49,11 +53,26 @@ namespace PlatformerGame {
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
 
+        auto enemyBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
+                std::make_shared<platformer_engine::CollisionBehaviour>(),
+                std::make_shared<EnemyAttackBehaviour>(),
+                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
+        };
+
         auto mario = GameObjectDirector::CreatePlayer(transform, w, h - 1, animations, behaviourScripts);
 
         camera.SetTarget(mario);
 
         scene.AddCamera(camera);
+
+        auto enemyTransform = Transform { Point {0, 250}, 0, 1.0 };
+        auto enemy = GameObjectDirector::CreateEnemy(enemyTransform, w, h - 1, animations, enemyBehaviourScripts);
+        auto enemyBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(enemy.GetComponent<RigidBody>());
+
+        if(enemyBody != nullptr) {
+            auto marioShared = GameObject::Find(mario.GetName());
+            enemyBody->Follow(marioShared);
+        }
 
         engine.Start();
         std::cout << 1;
