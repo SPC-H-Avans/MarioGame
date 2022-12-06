@@ -9,7 +9,7 @@
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
-        engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan());
+        engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan(), true);
 
         platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("level1");
         engine.AddScene(builder.GetScene());
