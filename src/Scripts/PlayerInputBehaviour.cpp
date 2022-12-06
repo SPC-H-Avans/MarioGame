@@ -5,6 +5,8 @@
 #include "Physics/PlayerRigidBody.hpp"
 #include "Input.hpp"
 
+const int JUMP_FORCE = 55;
+
 namespace PlatformerGame {
 
     void PlayerInputBehaviour::OnUpdate() {
@@ -20,7 +22,7 @@ namespace PlatformerGame {
                 point.x++;
             }
             if (spic::Input::GetKey(KeyCode::UP_ARROW) || spic::Input::GetKey(KeyCode::SPACE)) {
-                point.y+=55;
+                point.y+= JUMP_FORCE;
             }
 
             playerRigidBody->AddForce(point);
