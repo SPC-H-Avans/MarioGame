@@ -16,17 +16,17 @@ namespace PlatformerGame {
             ar & _walkSprite;
             ar & _jumpSprite;
         }
-        DynamicAnimationBehaviour(platformer_engine::AnimatedSprite& idleSprite,
-                                  platformer_engine::AnimatedSprite& walkSprite,
-                                  platformer_engine::AnimatedSprite& jumpSprite);
+        DynamicAnimationBehaviour(platformer_engine::AnimatedSprite idleSprite,
+                                  platformer_engine::AnimatedSprite walkSprite,
+                                  platformer_engine::AnimatedSprite jumpSprite);
 
         DynamicAnimationBehaviour();
 
         void OnUpdate() override;
     private:
-        platformer_engine::AnimatedSprite& _idleSprite;
-        platformer_engine::AnimatedSprite& _walkSprite;
-        platformer_engine::AnimatedSprite& _jumpSprite;
+        platformer_engine::AnimatedSprite _idleSprite;
+        platformer_engine::AnimatedSprite _walkSprite;
+        platformer_engine::AnimatedSprite _jumpSprite;
 
         platformer_engine::AnimatedSprite _nullSprite;
     };

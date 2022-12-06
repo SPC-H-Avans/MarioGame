@@ -8,9 +8,9 @@
 
 namespace PlatformerGame {
 
-    DynamicAnimationBehaviour::DynamicAnimationBehaviour(platformer_engine::AnimatedSprite& idleSprite,
-                                                         platformer_engine::AnimatedSprite& walkSprite,
-                                                         platformer_engine::AnimatedSprite& jumpSprite)
+    DynamicAnimationBehaviour::DynamicAnimationBehaviour(platformer_engine::AnimatedSprite idleSprite,
+                                                         platformer_engine::AnimatedSprite walkSprite,
+                                                         platformer_engine::AnimatedSprite jumpSprite)
             : _idleSprite(idleSprite), _walkSprite(walkSprite), _jumpSprite(jumpSprite)
     { }
 
