@@ -18,10 +18,10 @@ namespace PlatformerGame {
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
         auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
         if (playerRigidBody != nullptr && playerAnimator != nullptr) {
-            if (playerRigidBody->GetYVelocity() != 0) {
+            if (playerRigidBody->GetVelocity().y != 0) {
                 _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
                 playerAnimator->SetActiveAnimation(_jumpSprite.GetSpriteId());
-            } else if (playerRigidBody->GetXVelocity() > 0.1 || playerRigidBody->GetXVelocity() < -0.1) {
+            } else if (playerRigidBody->GetVelocity().x > 0.1 || playerRigidBody->GetVelocity().x < -0.1) {
                 playerAnimator->SetActiveAnimation(_walkSprite.GetSpriteId());
             } else {
                 playerAnimator->SetActiveAnimation(_idleSprite.GetSpriteId());
