@@ -13,6 +13,7 @@ namespace PlatformerGame {
 
     private:
         int _lastFPS = 0;
+        bool _active = true;
 
         const std::string _textId;
         const std::string _fontPath;
