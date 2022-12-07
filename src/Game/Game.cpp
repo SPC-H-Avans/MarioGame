@@ -5,6 +5,8 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "../Scripts/PlayerInputBehaviour.hpp"
 #include "../Scripts/DynamicAnimationBehaviour.hpp"
+#include "../Scripts/FPSCounterBehaviour.hpp"
+#include "../UI/FPSCounter.hpp"
 
 const bool FULLSCREEN = true;
 
@@ -88,6 +90,14 @@ namespace PlatformerGame {
                 "./resources/UI/start.png",
                 spriteSize * spriteScale, spriteSize * spriteScale,
                 []{ std::cout << "click" << std::endl; });
+
+        // fps counter
+        FPSCounter counter = FPSCounter(
+                Transform {Point{460, 0}, 0, 1.0},
+                fontPath,
+                48,
+                color,
+                16, 16);
 
         engine.Start();
         std::cout << 1;
