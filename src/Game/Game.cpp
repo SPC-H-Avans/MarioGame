@@ -17,10 +17,10 @@ namespace PlatformerGame {
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan(), FULLSCREEN, LOGGING);
 
        NetworkingServer networkingServer;
-       networkingServer.CreateServer("level1", 10, 7778);
+       networkingServer.CreateServer("level1", 10, 7778, viewWidth, viewHeight);
 
      // NetworkingClient networkingClient;
-     // networkingClient.ConnectToServer("192.168.68.107", 7778);
+     // networkingClient.ConnectToServer("192.168.68.107", 7778, viewWidth, viewHeight);
 
         engine.Start();
         std::cout << 1;

@@ -6,13 +6,13 @@
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
 
-void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port) {
+void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port, int viewWidth, int viewHeight) {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
 
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     engine.AddScene(builder.GetScene());
     engine.SetActiveScene(sceneName);
-    auto scene =  engine.GetActiveScene();
+    auto &scene =  engine.GetActiveScene();
 
       //Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
    //Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::World1());
@@ -21,6 +21,8 @@ void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName
 
     //Create Player for server
     GameObjectBuilder gameObjectBuilder{"speler"};
+    Camera camera = Camera{"camera-0", "camera", spic::Color::Cyan(), static_cast<double>(viewWidth),
+                           static_cast<double>(viewHeight)};
     int w = 15;
     int h = 17;
 
@@ -43,6 +45,10 @@ void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName
             std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
     };
 
-   GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
+   auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
+
+    camera.SetTarget(mario);
+
+    scene.AddCamera(camera);
     engine.HostServer(sceneName, playerLimit, port);
 }

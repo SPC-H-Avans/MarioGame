@@ -6,7 +6,7 @@ namespace PlatformerGame {
     public:
         NetworkingClient() = default;
         ~NetworkingClient() = default;
-        void ConnectToServer(const std::string & serverAddress, int port);
+        void ConnectToServer(const std::string & serverAddress, int port, int viewWidth, int viewHeight);
     };
 }
 

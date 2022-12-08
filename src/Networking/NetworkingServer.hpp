@@ -7,7 +7,7 @@ namespace PlatformerGame {
         public:
         NetworkingServer() = default;
         ~NetworkingServer() = default;
-        void CreateServer(const std::string & sceneName, int playerLimit, int port);
+        void CreateServer(const std::string & sceneName, int playerLimit, int port, int viewWidth, int viewHeight);
     };
 }
 
