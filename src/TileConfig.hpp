@@ -8,6 +8,7 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "Director/GameObjectDirector.hpp"
+#include "Scripts/CoinBehaviour.hpp"
 
 const auto TILESIZE = 16;
 
@@ -190,6 +191,9 @@ public:
                     collider.Height(TILESIZE);
                     collider.SetObstructsMovement(false);
                     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+                    // add script
+                    obj->AddComponent<BehaviourScript>(std::make_shared<CoinBehaviour>());
 
                     scene.AddObject(obj);
                     return *obj;
