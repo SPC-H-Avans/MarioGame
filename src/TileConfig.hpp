@@ -169,11 +169,31 @@ public:
         // TODO: flower
         // TODO: star
         // coin
-        platformer_engine::TextureManager::GetInstance().LoadTexture(interactableSprites[4].objectId, interactableSprites[4].path);
-        auto spriteObj = spic::Sprite(interactableSprites[4].objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
-        spriteObj.SetSpriteSheetPosition(interactableSprites[4].sheetPos.x, interactableSprites[4].sheetPos.y);
+        auto coinSprite = interactableSprites[4];
+        platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);
+        auto coinSpriteObj = spic::Sprite(coinSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
+        coinSpriteObj.SetSpriteSheetPosition(coinSprite.sheetPos.x, coinSprite.sheetPos.y);
         config.insert(
-                {interactableSprites[4].id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
+                {coinSprite.id, [coinSpriteObj](Transform transform){
+                    // TODO: gameDirector CreateInteractable that does not block movement and has a behaviourscript (or multiple)
+                    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+                    auto builder =
+                            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
+                                    .AddSprite(coinSpriteObj)
+                    ;
+                    auto obj = builder.GetGameObject();
+                    obj->SetTransform(transform);
+
+                    // collider
+                    auto collider = BoxCollider();
+                    collider.Width(TILESIZE);
+                    collider.Height(TILESIZE);
+                    collider.SetObstructsMovement(false);
+                    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+                    scene.AddObject(obj);
+                    return *obj;
+                }});
 
         return config;
     }
