@@ -133,7 +133,7 @@ public:
             for (int columns = 0; columns < backgroundSheet.columns; ++columns) {
                 ++spriteId;
                 ++spriteNo;
-                interactableSprites.push_back({
+                backgroundSprites.push_back({
                                                       spriteId, spriteNo, "itemtile" + std::to_string(spriteId), BACKGROUNDPATH,
                                                       GetSheetPos(spriteNo, backgroundSheet)
                                               });
@@ -160,9 +160,20 @@ public:
         for (auto& sprite : backgroundSprites) {
             AddToConfig(config, sprite, backgroundSheet, true);
         }
-        for (auto& sprite : interactableSprites) { // TODO: change when interactable tiles are added
-            AddToConfig(config, sprite, itemsSheet, true);
-        }
+//        for (auto& sprite : interactableSprites) {
+//           AddToConfig(config, sprite, itemsSheet, true);
+//        }
+
+        // TODO: mushroom
+        // TODO: extra life
+        // TODO: flower
+        // TODO: star
+        // coin
+        platformer_engine::TextureManager::GetInstance().LoadTexture(interactableSprites[4].objectId, interactableSprites[4].path);
+        auto spriteObj = spic::Sprite(interactableSprites[4].objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
+        spriteObj.SetSpriteSheetPosition(interactableSprites[4].sheetPos.x, interactableSprites[4].sheetPos.y);
+        config.insert(
+                {interactableSprites[4].id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
 
         return config;
     }
