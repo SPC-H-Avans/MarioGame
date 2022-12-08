@@ -8,11 +8,11 @@
 
 void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &serverAddress, int port) {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
-    platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("dummyMap");
-    engine.AddScene(builder.GetScene());
-    engine.SetActiveScene("dummyMap");
-    auto scene =  engine.GetActiveScene();
-    Scene::ImportLevel("dummyMap","./resources/levels/mario/", "dummyMap.tmx", TileConfig::Map1());
+//    platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("dummyMap");
+//    engine.AddScene(builder.GetScene());
+//    engine.SetActiveScene("dummyMap");
+//    auto scene =  engine.GetActiveScene();
+//    Scene::ImportLevel("dummyMap","./resources/levels/mario/", "dummyMap.tmx", TileConfig::Map1());
     engine.JoinServer(serverAddress, port);
 
          auto &clientManager = engine.GetClientNetworkManager();
