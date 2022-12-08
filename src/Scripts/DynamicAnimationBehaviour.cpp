@@ -18,15 +18,22 @@ namespace PlatformerGame {
         auto player = GetGameObject().lock();
         if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
-        auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
-        if (playerRigidBody != nullptr && playerAnimator != nullptr) {
-            if (playerRigidBody->GetYVelocity() != 0) {
-                _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
-                playerAnimator->SetActiveAnimation(_jumpSprite.GetSpriteId());
-            } else if (playerRigidBody->GetXVelocity() > 0.1 || playerRigidBody->GetXVelocity() < -0.1) {
-                playerAnimator->SetActiveAnimation(_walkSprite.GetSpriteId());
-            } else {
-                playerAnimator->SetActiveAnimation(_idleSprite.GetSpriteId());
+
+        auto xVelocity = playerRigidBody->GetXVelocity();
+        auto yVelocity = playerRigidBody->GetYVelocity();
+        if(xVelocity != _lastVelocity.x || yVelocity != _lastVelocity.y) {
+            _lastVelocity.x = xVelocity;
+            _lastVelocity.y = yVelocity;
+            auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
+            if (playerRigidBody != nullptr && playerAnimator != nullptr) {
+                if (yVelocity != 0) {
+                    _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
+                    playerAnimator->SetActiveAnimation(_jumpSprite.GetSpriteId());
+                } else if (xVelocity > 0.1 || xVelocity < -0.1) {
+                    playerAnimator->SetActiveAnimation(_walkSprite.GetSpriteId());
+                } else {
+                    playerAnimator->SetActiveAnimation(_idleSprite.GetSpriteId());
+                }
             }
         }
     }

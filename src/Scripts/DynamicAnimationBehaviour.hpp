@@ -29,6 +29,8 @@ namespace PlatformerGame {
         platformer_engine::AnimatedSprite _jumpSprite;
 
         platformer_engine::AnimatedSprite _nullSprite;
+
+        Point _lastVelocity;
     };
 
 }  // namespace PlatformerGame
