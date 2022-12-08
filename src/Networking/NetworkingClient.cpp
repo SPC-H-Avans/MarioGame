@@ -16,7 +16,7 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
     engine.JoinServer(serverAddress, port);
 
          auto &clientManager = engine.GetClientNetworkManager();
-        std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager, &viewWidth, &viewHeight](int clientId,
+        std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager, viewWidth, viewHeight](int clientId,
                                                                                                            const uint8_t *data,
                                                                                                            size_t dataLength) {
         clientManager.CreateScene(data, dataLength);
