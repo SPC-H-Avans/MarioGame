@@ -6,6 +6,8 @@
 #include "Physics/PlayerRigidBody.hpp"
 #include "RigidBody.hpp"
 
+const double VELOCITY_MARGIN = 0.1;
+
 namespace PlatformerGame {
 
     DynamicAnimationBehaviour::DynamicAnimationBehaviour(platformer_engine::AnimatedSprite idleSprite,
@@ -28,7 +30,7 @@ namespace PlatformerGame {
                 if (velocity.y != 0) {
                     _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
                     playerAnimator->SetActiveAnimation(_jumpSprite.GetSpriteId());
-                } else if (velocity.x > 0.1 || velocity.x < -0.1) {
+                } else if (velocity.x > VELOCITY_MARGIN || velocity.x < -VELOCITY_MARGIN) {
                     playerAnimator->SetActiveAnimation(_walkSprite.GetSpriteId());
                 } else {
                     playerAnimator->SetActiveAnimation(_idleSprite.GetSpriteId());
