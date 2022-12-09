@@ -8,14 +8,29 @@ namespace PlatformerGame {
 
     class DynamicAnimationBehaviour : public spic::BehaviourScript {
     public:
-        DynamicAnimationBehaviour(platformer_engine::AnimatedSprite& idleSprite,
-                                  platformer_engine::AnimatedSprite& walkSprite,
-                                  platformer_engine::AnimatedSprite& jumpSprite);
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<BehaviourScript, DynamicAnimationBehaviour>(*this);
+            boost::serialization::void_cast_register<DynamicAnimationBehaviour, BehaviourScript>();
+            ar & _idleSprite;
+            ar & _walkSprite;
+            ar & _jumpSprite;
+        }
+        DynamicAnimationBehaviour(platformer_engine::AnimatedSprite idleSprite,
+                                  platformer_engine::AnimatedSprite walkSprite,
+                                  platformer_engine::AnimatedSprite jumpSprite);
+
+        DynamicAnimationBehaviour();
+
         void OnUpdate() override;
     private:
-        platformer_engine::AnimatedSprite& _idleSprite;
-        platformer_engine::AnimatedSprite& _walkSprite;
-        platformer_engine::AnimatedSprite& _jumpSprite;
+        platformer_engine::AnimatedSprite _idleSprite;
+        platformer_engine::AnimatedSprite _walkSprite;
+        platformer_engine::AnimatedSprite _jumpSprite;
+
+        platformer_engine::AnimatedSprite _nullSprite;
+
+        Point _lastVelocity;
     };
 
 }  // namespace PlatformerGame
