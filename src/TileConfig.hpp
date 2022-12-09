@@ -64,7 +64,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 sprites.push_back({
-                                          spriteId, spriteNo, "overworldtile" + std::to_string(spriteId), OVERWORLDPATH,
+                                          spriteId, spriteNo, "overworldtile", OVERWORLDPATH,
                                           GetSheetPos(spriteNo, overworldSheet)
                                   });
             }
@@ -73,13 +73,13 @@ public:
         // add item tiles
         spriteNo = 0;
         for (int rows = 0; rows < itemsSheet.rows; ++rows) {
-            for (int columns = 0; columns < itemsSheet.columns; ++columns) {
-                ++spriteId;
-                ++spriteNo;
-                sprites.push_back({
-                                          spriteId, spriteNo, "itemtile" + std::to_string(spriteId), ITEMSPATH,
-                                          GetSheetPos(spriteNo, itemsSheet)
-                                  });
+            ++spriteId;
+            ++spriteNo;
+            sprites.push_back({
+                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
+                                      GetSheetPos(spriteNo, itemsSheet)
+                              });      for (int columns = 0; columns < itemsSheet.columns; ++columns) {
+
             }
         }
 
@@ -122,7 +122,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 tileSprites.push_back({
-                                              spriteId, spriteNo, "overworldtile" + std::to_string(spriteId), BLOCKSPATH,
+                                              spriteId, spriteNo, "overworldtile", BLOCKSPATH,
                                               GetSheetPos(spriteNo, blocksSheet)
                                       });
             }
@@ -135,7 +135,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 backgroundSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteId), BACKGROUNDPATH,
+                                                      spriteId, spriteNo, "itemtile", BACKGROUNDPATH,
                                                       GetSheetPos(spriteNo, backgroundSheet)
                                               });
             }
@@ -148,7 +148,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteId), ITEMSPATH,
+                                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
                                                       GetSheetPos(spriteNo, itemsSheet)
                                               });
             }
