@@ -5,6 +5,7 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
+#include "AudioSource.hpp"
 
 void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port, int viewWidth, int viewHeight) {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
@@ -46,6 +47,16 @@ void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName
     };
 
    auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
+
+    std::map<std::string, int> const audioClips = {{"jump", 10}};
+    mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
+
+    platformer_engine::AudioManager::GetInstance().SetVolume(50);
+
+    platformer_engine::AudioManager::GetInstance().LoadMusic("overworld", "./resources/audio/music/smb_gameover.wav");
+    platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
+    platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
+
 
     camera.SetTarget(mario);
 
