@@ -170,12 +170,21 @@ public:
         // TODO: flower
         // TODO: star
         // coin
+        auto path = "./resources/fonts/DefaultFont.ttf";
+        auto coinCounter = PlatformerGame::CoinCounter(
+                Transform{Point{300, 0}, 0, 1.0},
+                "coinCounter",
+                "COINS: ",
+                path,
+                48, Color::Yellow(),
+                100, 50);
+
         auto coinSprite = interactableSprites[4];
         platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);
         auto coinSpriteObj = spic::Sprite(coinSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
         coinSpriteObj.SetSpriteSheetPosition(coinSprite.sheetPos.x, coinSprite.sheetPos.y);
         config.insert(
-                {coinSprite.id, [coinSpriteObj](Transform transform){
+                {coinSprite.id, [coinSpriteObj, coinCounter](Transform transform){
                     // TODO: gameDirector CreateInteractable that does not block movement and has a behaviourscript (or multiple)
                     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
                     auto builder =
@@ -193,7 +202,7 @@ public:
                     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
                     // add script
-                    obj->AddComponent<BehaviourScript>(std::make_shared<CoinBehaviour>());
+                    obj->AddComponent<BehaviourScript>(std::make_shared<PlatformerGame::CoinBehaviour>(std::make_shared<PlatformerGame::CoinCounter>(coinCounter)));
 
                     scene.AddObject(obj);
                     return *obj;

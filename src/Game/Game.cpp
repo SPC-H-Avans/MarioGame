@@ -55,6 +55,19 @@ namespace PlatformerGame {
 
         scene.AddCamera(camera);
 
+        auto textId = "coins";
+        auto text = "COINS: x00";
+        auto fontPath = "./resources/fonts/DefaultFont.ttf";
+        auto fontSize = 24;
+        auto color = Color::Yellow();
+        GameObjectDirector::CreateText(
+                Transform{Point{300, 0}, 0, 1.0},
+                textId,
+                text,
+                fontPath,
+                100, 50,
+                fontSize, color);
+
         engine.Start();
         std::cout << 1;
     }
