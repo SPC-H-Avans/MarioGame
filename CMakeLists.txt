@@ -14,6 +14,7 @@ vcpkg_install_deps(MANIFEST_ROOT ${PROJECT_LIBS_DIR}/PlatformerEngine)
 
 include_directories(${PROJECT_NAME} ${PROJECT_LIBS_DIR}/PlatformerEngine/includes/spic-prj-api)
 include_directories(${PROJECT_NAME} ${PROJECT_LIBS_DIR}/PlatformerEngine/includes/platformer-engine)
+include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 if (NOT DEFINED BINARY_RESOURCES_FOLDER)
     set(BINARY_RESOURCES_FOLDER resources)
@@ -32,3 +33,9 @@ file(GLOB_RECURSE SOURCE src/*.cpp src/*.hpp)
 add_executable(${PROJECT_NAME} ${SOURCE})
 add_dependencies(${PROJECT_NAME} copy_assets)
 target_link_libraries(${PROJECT_NAME} PRIVATE platformer-engine)
+
+# -static-libgcc -static-libstdc++ -static for static linking
+if (WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -static")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc -static-libstdc++ -static")
+endif ()

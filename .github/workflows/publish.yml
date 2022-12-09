@@ -12,9 +12,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-latest
-            name: Windows-x64
-            triplet: x64-windows-static
+#           - os: windows-latest
+#             name: Windows-x64
+#             triplet: x64-windows-static
           - os: ubuntu-latest
             name: Linux-x64
             triplet: x64-linux
@@ -33,7 +33,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libsdl2-dev
+          sudo apt-get install -y libsdl2-dev libsdl2-ttf-dev
       - name: 'Checkout'
         uses: actions/checkout@v2
         with:
@@ -109,7 +109,6 @@ jobs:
           cd build
           ls -l
           zip -r linux-x64.zip Linux-x64
-          zip -r windows-x64.zip Windows-x64
           zip -r macos-arm64.zip macOS-arm64
           cd ../
 
@@ -133,7 +132,7 @@ jobs:
       - name: 'Create new release'
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/linux-x64.zip,build/windows-x64.zip,build/macos-arm64.zip"
+          artifacts: "build/linux-x64.zip,build/macos-arm64.zip"
           tag: ${{ github.ref }}
           name: Release ${{ github.ref }}
           bodyFile: CHANGELOG.md
