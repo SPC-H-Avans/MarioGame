@@ -15,16 +15,16 @@ namespace PlatformerGame {
 
     void DynamicAnimationBehaviour::OnUpdate() {
         auto player = GetGameObject().lock();
-        auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
-        auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
-        if (playerRigidBody != nullptr && playerAnimator != nullptr) {
-            if (playerRigidBody->GetVelocity().y != 0) {
+        auto rigidBody = std::dynamic_pointer_cast<RigidBody>(player->GetComponent<RigidBody>());
+        auto animator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
+        if (rigidBody != nullptr && animator != nullptr) {
+            if (rigidBody->GetVelocity().y != 0) {
                 _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
-                playerAnimator->SetActiveAnimation(_jumpSprite.GetSpriteId());
-            } else if (playerRigidBody->GetVelocity().x > 0.1 || playerRigidBody->GetVelocity().x < -0.1) {
-                playerAnimator->SetActiveAnimation(_walkSprite.GetSpriteId());
+                animator->SetActiveAnimation(_jumpSprite.GetSpriteId());
+            } else if (rigidBody->GetVelocity().x > 0.1 || rigidBody->GetVelocity().x < -0.1) {
+                animator->SetActiveAnimation(_walkSprite.GetSpriteId());
             } else {
-                playerAnimator->SetActiveAnimation(_idleSprite.GetSpriteId());
+                animator->SetActiveAnimation(_idleSprite.GetSpriteId());
             }
         }
     }
