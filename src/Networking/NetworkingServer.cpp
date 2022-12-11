@@ -52,37 +52,5 @@ PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int
     camera.SetTarget(mario);
     scene.AddCamera(camera);
 
-    // test ui text
-    auto textId = "test";
-    auto text = "TEST TEXT";
-    auto fontPath = "./resources/fonts/DefaultFont.ttf";
-    auto fontSize = 24;
-    auto color = Color::Yellow();
-    GameObjectDirector::CreateText(
-            Transform{Point{150, 0}, 0, 1.0},
-            textId,
-            text,
-            fontPath,
-            100, 50,
-            fontSize, color);
-    // test update text
-    text = "COINS: x99";
-    platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
-
-//    // test Button
-//    const auto textureName = "startButton";
-//    const auto spriteSize = 16;
-//    const auto spriteScale = 4;
-//
-//    auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
-//    buttonSprite.SetSpriteScale(spriteScale);
-//    GameObjectDirector::CreateButton(
-//            Transform{Point{50, 50}, 0, spriteScale},
-//            "button1",
-//            buttonSprite,
-//            "./resources/UI/start.png",
-//            spriteSize * spriteScale, spriteSize * spriteScale,
-//            [] { std::cout << "click" << std::endl; });
-
     engine.HostServer(sceneName, playerLimit, port);
 }
