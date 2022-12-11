@@ -97,13 +97,13 @@ public:
         const auto BLOCKSSHEETROWS = 2;
         const auto BLOCKSSHEETCOLS = 5;
 
-        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
-        const auto ITEMSSHEETROWS = 1;
-        const auto ITEMSSHEETCOLS = 5;
-
         const auto BACKGROUNDPATH = "./resources/levels/mario/Tilesets/background1.png";
         const auto BACKGROUNDROWS = 4;
         const auto BACKGROUNDCOLS = 8;
+
+        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
+        const auto ITEMSSHEETROWS = 1;
+        const auto ITEMSSHEETCOLS = 5;
 
         auto blocksSheet = SpriteSheetInfo{BLOCKSSHEETROWS, BLOCKSSHEETCOLS, TILESIZE, TILESIZE};
         auto backgroundSheet = SpriteSheetInfo{BACKGROUNDROWS, BACKGROUNDCOLS, TILESIZE, TILESIZE};
@@ -122,7 +122,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 tileSprites.push_back({
-                                              spriteId, spriteNo, "overworldtile", BLOCKSPATH,
+                                              spriteId, spriteNo, "overworldtile" + std::to_string(spriteNo), BLOCKSPATH,
                                               GetSheetPos(spriteNo, blocksSheet)
                                       });
             }
@@ -135,7 +135,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 backgroundSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile", BACKGROUNDPATH,
+                                                      spriteId, spriteNo, "backgroundtile" + std::to_string(spriteNo), BACKGROUNDPATH,
                                                       GetSheetPos(spriteNo, backgroundSheet)
                                               });
             }
@@ -148,7 +148,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
+                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteNo), ITEMSPATH,
                                                       GetSheetPos(spriteNo, itemsSheet)
                                               });
             }

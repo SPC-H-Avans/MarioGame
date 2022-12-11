@@ -6,17 +6,19 @@
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
 
-void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port, int viewWidth, int viewHeight) {
+void
+PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port, int viewWidth,
+                                               int viewHeight) {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
 
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     engine.AddScene(builder.GetScene());
     engine.SetActiveScene(sceneName);
-    auto &scene =  engine.GetActiveScene();
+    auto &scene = engine.GetActiveScene();
 
-      //Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
-   //Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::World1());
-   Scene::ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
+    //Scene::ImportLevel("map1","./resources/levels/mario/", "map1.tmx", TileConfig::Map1());
+    //Scene::ImportLevel("map1","./resources/levels/mario/", "map2.tmx", TileConfig::World1());
+    Scene::ImportLevel("map1", "./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
     //
 
     //Create Player for server
@@ -45,10 +47,42 @@ void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName
             std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
     };
 
-   auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
+    auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
 
     camera.SetTarget(mario);
-
     scene.AddCamera(camera);
+
+    // test ui text
+    auto textId = "test";
+    auto text = "TEST TEXT";
+    auto fontPath = "./resources/fonts/DefaultFont.ttf";
+    auto fontSize = 24;
+    auto color = Color::Yellow();
+    GameObjectDirector::CreateText(
+            Transform{Point{150, 0}, 0, 1.0},
+            textId,
+            text,
+            fontPath,
+            100, 50,
+            fontSize, color);
+    // test update text
+    text = "COINS: x99";
+    platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
+
+//    // test Button
+//    const auto textureName = "startButton";
+//    const auto spriteSize = 16;
+//    const auto spriteScale = 4;
+//
+//    auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
+//    buttonSprite.SetSpriteScale(spriteScale);
+//    GameObjectDirector::CreateButton(
+//            Transform{Point{50, 50}, 0, spriteScale},
+//            "button1",
+//            buttonSprite,
+//            "./resources/UI/start.png",
+//            spriteSize * spriteScale, spriteSize * spriteScale,
+//            [] { std::cout << "click" << std::endl; });
+
     engine.HostServer(sceneName, playerLimit, port);
 }
