@@ -7,7 +7,6 @@
 #include "../Scripts/DynamicAnimationBehaviour.hpp"
 #include "RigidBody.hpp"
 #include "Physics/ForceDrivenEntityBody.hpp"
-#include "Behaviour/DodgeObjectsBehaviour.hpp"
 
 
 const bool FULLSCREEN = false;
@@ -55,7 +54,6 @@ namespace PlatformerGame {
 
         auto enemyBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
                 std::make_shared<platformer_engine::CollisionBehaviour>(),
-                std::make_shared<platformer_engine::DodgeObjectsBehaviour>(),
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
 
@@ -65,13 +63,13 @@ namespace PlatformerGame {
 
         scene.AddCamera(camera);
 
-        auto enemyTransform = Transform { Point {0, 250}, 0, 1.0 };
+        auto enemyTransform = Transform { Point {20, 250}, 0, 1.0 };
         auto enemy = GameObjectDirector::CreateEnemy(enemyTransform, w, h - 1, animations, enemyBehaviourScripts);
         auto enemyBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(enemy.GetComponent<RigidBody>());
 
         if(enemyBody != nullptr) {
             auto marioShared = GameObject::Find(mario.GetName());
-            enemyBody->SetFollowing(marioShared);
+            enemyBody->SetFollowing(marioShared, 100);
         }
 
         engine.Start();

@@ -1,14 +1,13 @@
 #include "PlayerInputBehaviour.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 #include "Input.hpp"
 
 namespace PlatformerGame {
 
     void PlayerInputBehaviour::OnUpdate() {
         auto player = GetGameObject().lock();
-        auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
+        auto playerRigidBody = std::dynamic_pointer_cast<RigidBody>(player->GetComponent<RigidBody>());
         if (playerRigidBody != nullptr) {
             auto point = Point();
 
