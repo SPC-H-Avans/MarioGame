@@ -212,7 +212,7 @@ private:
                     {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
         }
         else if(type == SpriteType::Flag) {
-            const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<BehaviourScript>(PlatformerGame::FlagBehaviour ()) };
+            const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<PlatformerGame::FlagBehaviour>() };
 
             config.insert(
                     {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateFlag(spriteObj, transform, TILESIZE, TILESIZE, scripts );}});
