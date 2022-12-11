@@ -5,7 +5,6 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "../Scripts/PlayerInputBehaviour.hpp"
 #include "../Scripts/DynamicAnimationBehaviour.hpp"
-#include "../Scripts/EnemyAttackBehaviour.hpp"
 #include "RigidBody.hpp"
 #include "Physics/ForceDrivenEntityBody.hpp"
 #include "Behaviour/DodgeObjectsBehaviour.hpp"
@@ -57,7 +56,6 @@ namespace PlatformerGame {
         auto enemyBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
                 std::make_shared<platformer_engine::CollisionBehaviour>(),
                 std::make_shared<platformer_engine::DodgeObjectsBehaviour>(),
-                std::make_shared<EnemyAttackBehaviour>(),
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
         };
 
@@ -73,7 +71,7 @@ namespace PlatformerGame {
 
         if(enemyBody != nullptr) {
             auto marioShared = GameObject::Find(mario.GetName());
-            enemyBody->Follow(marioShared);
+            enemyBody->SetFollowing(marioShared);
         }
 
         engine.Start();

@@ -2,7 +2,6 @@
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 #include "Animator.hpp"
 
 namespace PlatformerGame {

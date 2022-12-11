@@ -20,7 +20,7 @@ namespace PlatformerGame {
             }
             if (spic::Input::GetKey(KeyCode::UP_ARROW) || spic::Input::GetKey(KeyCode::SPACE)) {
                 if(!playerRigidBody->CanMoveTo(CollisionPoint::Bottom)) {
-                    point.y-=40;
+                    point.y-=55;
                 }
             }
 
