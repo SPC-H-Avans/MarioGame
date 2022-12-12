@@ -22,6 +22,9 @@ namespace PlatformerGame {
             ar & _fontPath;
             ar & _fontSize;
             ar & _fontColor;
+            ar & _transform;
+            ar & _width;
+            ar & _height;
         }
 
         CoinCounter(spic::Transform transform, std::string textId, std::string text, std::string fontPath, int fontSize,
@@ -33,12 +36,15 @@ namespace PlatformerGame {
 
     private:
         int _coins;
-
+        bool _hasCreatedText = false;
         std::string _textId;
         std::string _text;
         std::string _fontPath;
         int _fontSize;
         spic::Color _fontColor;
+        spic::Transform _transform;
+        int _width;
+        int _height;
     };
 }
 
