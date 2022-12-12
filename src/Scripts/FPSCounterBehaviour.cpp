@@ -13,6 +13,7 @@ void PlatformerGame::FPSCounterBehaviour::OnUpdate() {
         _active = !_active;
         // if counter turned off, update the text to show nothing to "hide" it
         if (!_active) platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, " ", _fontSize, _fontColor);
+        if (_active) _lastFPS = -1;
     }
 
     if (!_active) return;
