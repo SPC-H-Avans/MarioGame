@@ -51,7 +51,7 @@ namespace PlatformerGame {
         };
 
         auto mario = GameObjectDirector::CreatePlayer(
-                Transform{Point{340, 100}, 0, 1.0},
+                1, Transform{Point{340, 100}, 0, 1.0},
                 w, h - 1, animations, behaviourScripts);
 
         camera.SetTarget(mario);
