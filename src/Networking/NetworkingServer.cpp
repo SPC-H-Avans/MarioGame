@@ -61,7 +61,8 @@ PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int
             fontPath,
             48,
             color,
-            16, 16);
+            16, 16,
+            KeyCode::F);
 
     engine.HostServer(sceneName, playerLimit, port);
 }
