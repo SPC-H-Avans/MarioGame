@@ -56,7 +56,7 @@ PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int
     // fps counter
     auto fontPath = "./resources/fonts/DefaultFont.ttf";
     auto color = Color::Yellow();
-    FPSCounter counter = FPSCounter(
+    auto counter = platformer_engine::FPSCounter(
             Transform {Point{460, 0}, 0, 1.0},
             fontPath,
             48,

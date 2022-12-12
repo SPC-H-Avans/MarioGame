@@ -1,16 +1,6 @@
 #include "Game.hpp"
-#include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
-#include "TileConfig.hpp"
-#include "Behaviour/CollisionBehaviour.hpp"
-#include "../Scripts/PlayerInputBehaviour.hpp"
-#include "../Scripts/DynamicAnimationBehaviour.hpp"
-#include "../Scripts/FPSCounterBehaviour.hpp"
-#include "../UI/FPSCounter.hpp"
-#include "Scripts/PlayerInputBehaviour.hpp"
-#include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Networking/NetworkingServer.hpp"
-#include "Networking/NetworkingClient.hpp"
 
 constexpr bool FULLSCREEN = true;
 constexpr bool LOGGING = true;
