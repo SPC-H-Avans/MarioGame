@@ -13,6 +13,8 @@ namespace PlatformerGame {
             boost::serialization::void_cast_register<CoinBehaviour, BehaviourScript>();
         }
 
+        CoinBehaviour() = default;
+
         explicit CoinBehaviour(std::shared_ptr<CoinCounter> counter);
 
         void OnTriggerEnter2D(Collision collision) override;

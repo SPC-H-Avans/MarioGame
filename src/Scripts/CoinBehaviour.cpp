@@ -15,3 +15,4 @@ void PlatformerGame::CoinBehaviour::OnTriggerEnter2D(Collision collision) {
     platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(coinObj->GetName());
     coinObj->Destroy(coinObj);
 }
+BOOST_CLASS_EXPORT(PlatformerGame::CoinBehaviour);
