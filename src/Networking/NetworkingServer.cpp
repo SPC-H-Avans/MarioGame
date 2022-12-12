@@ -53,7 +53,7 @@ void PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName
 
     platformer_engine::AudioManager::GetInstance().SetVolume(50);
 
-    platformer_engine::AudioManager::GetInstance().LoadMusic("overworld", "./resources/audio/music/smb_gameover.wav");
+    platformer_engine::AudioManager::GetInstance().LoadMusic("overworld", "./resources/audio/music/smb_overworld_theme.mp3");
     platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
     platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
 
