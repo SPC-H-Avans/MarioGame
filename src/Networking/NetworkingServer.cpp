@@ -5,6 +5,7 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
+#include "UI/FPSCounter.hpp"
 
 void
 PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int playerLimit, int port, int viewWidth,
@@ -51,6 +52,16 @@ PlatformerGame::NetworkingServer::CreateServer(const std::string &sceneName, int
 
     camera.SetTarget(mario);
     scene.AddCamera(camera);
+
+    // fps counter
+    auto fontPath = "./resources/fonts/DefaultFont.ttf";
+    auto color = Color::Yellow();
+    FPSCounter counter = FPSCounter(
+            Transform {Point{460, 0}, 0, 1.0},
+            fontPath,
+            48,
+            color,
+            16, 16);
 
     engine.HostServer(sceneName, playerLimit, port);
 }
