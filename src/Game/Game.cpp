@@ -30,46 +30,66 @@ namespace PlatformerGame {
         Scene::ImportLevel("map1", "./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
 
         GameObjectBuilder gameObjectBuilder{"speler"};
-        int w = 15;
-        int h = 17;
+        const int marioWidth = 15;
+        const int marioHeight = 17;
 
+        const int goombaWidth = 24;
+        const int goombaHeight = 24;
+
+        // Load sprites
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_idle",
                                                                      "./resources/Sprites/Mario/Idle.png");
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_walk",
                                                                      "./resources/Sprites/Mario/Walk.png");
         platformer_engine::TextureManager::GetInstance().LoadTexture("mario_jump",
                                                                      "./resources/Sprites/Mario/Jump.png");
-        auto idleSprite = platformer_engine::AnimatedSprite("mario_idle", w, h, 1);
-        auto walkSprite = platformer_engine::AnimatedSprite("mario_walk", w, h, 3);
-        auto jumpSprite = platformer_engine::AnimatedSprite("mario_jump", w + 1, h - 1, 1, 1, 1, 100,
+
+
+        platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_idle",
+                                                                     "./resources/Sprites/Goomba/Idle.png");
+        platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_walk",
+                                                                     "./resources/Sprites/Goomba/Walk.png");
+        platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_jump",
+                                                                     "./resources/Sprites/Goomba/Jump.png");
+
+        auto marioIdleSprite = platformer_engine::AnimatedSprite("mario_idle", marioWidth, marioHeight, 1);
+        auto marioWalkSprite = platformer_engine::AnimatedSprite("mario_walk", marioWidth, marioHeight, 3);
+        auto marioJumpSprite = platformer_engine::AnimatedSprite("mario_jump", marioWidth + 1, marioHeight - 1, 1, 1, 1, 100,
                                                             platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
 
-        auto transform = Transform{Point{100, 250}, 0, 1.0};
-        auto animations = std::vector<platformer_engine::AnimatedSprite>{idleSprite, walkSprite, jumpSprite};
+        auto goombaIdleSprite = platformer_engine::AnimatedSprite("goomba_idle", goombaWidth, goombaHeight, 1);
+        auto goombaWalkSprite = platformer_engine::AnimatedSprite("goomba_walk", goombaWidth, goombaHeight, 3);
+        auto goombaJumpSprite = platformer_engine::AnimatedSprite("goomba_jump", goombaWidth + 1, goombaHeight - 1, 1, 1, 1, 100,
+                                                            platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
+
+        auto transform = Transform{Point{260, 130}, 0, 1.0};
+        auto marioAnimations = std::vector<platformer_engine::AnimatedSprite>{marioIdleSprite, marioWalkSprite, marioJumpSprite};
+        auto goombaAnimations = std::vector<platformer_engine::AnimatedSprite>{goombaIdleSprite, goombaWalkSprite, goombaJumpSprite};
         auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
                 std::make_shared<platformer_engine::CollisionBehaviour>(),
                 std::make_shared<PlatformerGame::PlayerInputBehaviour>(),
-                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
+                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(marioIdleSprite, marioWalkSprite, marioJumpSprite)
         };
 
         auto enemyBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
                 std::make_shared<platformer_engine::CollisionBehaviour>(),
-                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
+                std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(goombaIdleSprite, goombaWalkSprite, goombaJumpSprite)
         };
 
-        auto mario = GameObjectDirector::CreatePlayer(transform, w, h - 1, animations, behaviourScripts);
+        auto mario = GameObjectDirector::CreatePlayer(transform, marioWidth, marioHeight - 1, marioAnimations, behaviourScripts);
 
         camera.SetTarget(mario);
 
         scene.AddCamera(camera);
 
-        auto enemyTransform = Transform { Point {20, 250}, 0, 1.0 };
-        auto enemy = GameObjectDirector::CreateEnemy(enemyTransform, w, h - 1, animations, enemyBehaviourScripts);
+        auto enemyTransform = Transform { Point {20, 200}, 0, 1.0 };
+        auto enemy = GameObjectDirector::CreateEnemy(enemyTransform, goombaWidth, goombaHeight - 1, goombaAnimations, enemyBehaviourScripts);
         auto enemyBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(enemy.GetComponent<RigidBody>());
 
         if(enemyBody != nullptr) {
             auto marioShared = GameObject::Find(mario.GetName());
-            enemyBody->SetFollowing(marioShared, 100);
+            const double followRange = 100;
+            enemyBody->SetFollowing(marioShared, followRange);
         }
 
         engine.Start();
