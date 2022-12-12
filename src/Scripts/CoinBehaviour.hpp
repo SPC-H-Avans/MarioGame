@@ -3,6 +3,9 @@
 
 #include "BehaviourScript.hpp"
 #include "../UI/CoinCounter.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 namespace PlatformerGame {
     class CoinBehaviour : public spic::BehaviourScript {

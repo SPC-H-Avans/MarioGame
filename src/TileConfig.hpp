@@ -122,7 +122,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 tileSprites.push_back({
-                                              spriteId, spriteNo, "overworldtile" + std::to_string(spriteNo), BLOCKSPATH,
+                                              spriteId, spriteNo, "overworldtile", BLOCKSPATH,
                                               GetSheetPos(spriteNo, blocksSheet)
                                       });
             }
@@ -135,7 +135,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 backgroundSprites.push_back({
-                                                      spriteId, spriteNo, "backgroundtile" + std::to_string(spriteNo), BACKGROUNDPATH,
+                                                      spriteId, spriteNo, "backgroundtile", BACKGROUNDPATH,
                                                       GetSheetPos(spriteNo, backgroundSheet)
                                               });
             }
@@ -148,7 +148,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteNo), ITEMSPATH,
+                                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
                                                       GetSheetPos(spriteNo, itemsSheet)
                                               });
             }
