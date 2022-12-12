@@ -7,6 +7,12 @@
 namespace PlatformerGame {
     class CoinBehaviour : public spic::BehaviourScript {
     public:
+        template<class Archive>
+        void serialize(Archive &ar, unsigned int version) {
+            ar & boost::serialization::base_object<BehaviourScript, CoinBehaviour>(*this);
+            boost::serialization::void_cast_register<CoinBehaviour, BehaviourScript>();
+        }
+
         explicit CoinBehaviour(std::shared_ptr<CoinCounter> counter);
 
         void OnTriggerEnter2D(Collision collision) override;

@@ -19,7 +19,5 @@ PlatformerGame::CoinCounter::CoinCounter(const spic::Transform transform, const 
 void PlatformerGame::CoinCounter::AddCoin() {
     _coins++;
     std::string text = _text + std::to_string(_coins);
-    std::cout << _coins << std::endl;
-
     platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, text, _fontSize, _fontColor);
 }
