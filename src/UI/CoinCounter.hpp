@@ -16,7 +16,6 @@ namespace PlatformerGame {
     public:
         template<class Archive>
         void serialize(Archive &ar, unsigned int version) {
-            ar & _coins;
             ar & _textId;
             ar & _text;
             ar & _fontPath;
@@ -35,7 +34,7 @@ namespace PlatformerGame {
         void AddCoin();
 
     private:
-        int _coins;
+        int _coins = 0;
         bool _hasCreatedText = false;
         std::string _textId;
         std::string _text;
@@ -46,6 +45,6 @@ namespace PlatformerGame {
         int _width;
         int _height;
     };
-}
+}  // namespace PlatformerGame
 
 #endif //PLATFORMER_GAME_COINCOUNTER_HPP
