@@ -10,7 +10,7 @@ const int JUMP_FORCE = 55;
 
 namespace PlatformerGame {
 
-    void PlayerInputBehaviour::OnUpdate() {
+    void PlayerInputBehaviour::OnUpdate(double deltaTime) {
         auto player = GetGameObject().lock();
         if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
@@ -27,7 +27,7 @@ namespace PlatformerGame {
                 point.y+= JUMP_FORCE;
             }
 
-            playerRigidBody->AddForce(point);
+            playerRigidBody->AddForce(point * deltaTime, deltaTime);
         }
     }
 }  // namespace PlatformerGame

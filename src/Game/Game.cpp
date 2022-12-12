@@ -16,6 +16,8 @@ namespace PlatformerGame {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan(), FULLSCREEN, LOGGING);
 
+        engine.SetSpeedMultiplier(2.0);
+
        NetworkingServer networkingServer;
        networkingServer.CreateServer("level1", 10, 7778, viewWidth, viewHeight);
 

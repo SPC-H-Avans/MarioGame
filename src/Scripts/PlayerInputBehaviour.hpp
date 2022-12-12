@@ -14,7 +14,7 @@ namespace PlatformerGame {
             ar & boost::serialization::base_object<BehaviourScript, PlayerInputBehaviour>(*this);
             boost::serialization::void_cast_register<PlayerInputBehaviour, BehaviourScript>();
         }
-        void OnUpdate() override;
+        void OnUpdate(double deltaTime) override;
     private:
     };
 

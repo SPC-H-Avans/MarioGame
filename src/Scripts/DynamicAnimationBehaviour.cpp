@@ -16,7 +16,7 @@ namespace PlatformerGame {
             : _idleSprite(idleSprite), _walkSprite(walkSprite), _jumpSprite(jumpSprite)
     { }
 
-    void DynamicAnimationBehaviour::OnUpdate() {
+    void DynamicAnimationBehaviour::OnUpdate(double deltaTime) {
         auto player = GetGameObject().lock();
         if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
