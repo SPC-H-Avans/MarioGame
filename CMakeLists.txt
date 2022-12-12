@@ -14,6 +14,7 @@ vcpkg_install_deps(MANIFEST_ROOT ${PROJECT_LIBS_DIR}/PlatformerEngine)
 
 include_directories(${PROJECT_NAME} ${PROJECT_LIBS_DIR}/PlatformerEngine/includes/spic-prj-api)
 include_directories(${PROJECT_NAME} ${PROJECT_LIBS_DIR}/PlatformerEngine/includes/platformer-engine)
+include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 if (NOT DEFINED BINARY_RESOURCES_FOLDER)
     set(BINARY_RESOURCES_FOLDER resources)

@@ -8,6 +8,7 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "Director/GameObjectDirector.hpp"
+#include "Scripts/CoinBehaviour.hpp"
 
 const auto TILESIZE = 16;
 
@@ -63,7 +64,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 sprites.push_back({
-                                          spriteId, spriteNo, "overworldtile" + std::to_string(spriteId), OVERWORLDPATH,
+                                          spriteId, spriteNo, "overworldtile", OVERWORLDPATH,
                                           GetSheetPos(spriteNo, overworldSheet)
                                   });
             }
@@ -72,13 +73,13 @@ public:
         // add item tiles
         spriteNo = 0;
         for (int rows = 0; rows < itemsSheet.rows; ++rows) {
-            for (int columns = 0; columns < itemsSheet.columns; ++columns) {
-                ++spriteId;
-                ++spriteNo;
-                sprites.push_back({
-                                          spriteId, spriteNo, "itemtile" + std::to_string(spriteId), ITEMSPATH,
-                                          GetSheetPos(spriteNo, itemsSheet)
-                                  });
+            ++spriteId;
+            ++spriteNo;
+            sprites.push_back({
+                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
+                                      GetSheetPos(spriteNo, itemsSheet)
+                              });      for (int columns = 0; columns < itemsSheet.columns; ++columns) {
+
             }
         }
 
@@ -96,13 +97,13 @@ public:
         const auto BLOCKSSHEETROWS = 2;
         const auto BLOCKSSHEETCOLS = 5;
 
-        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
-        const auto ITEMSSHEETROWS = 1;
-        const auto ITEMSSHEETCOLS = 5;
-
         const auto BACKGROUNDPATH = "./resources/levels/mario/Tilesets/background1.png";
         const auto BACKGROUNDROWS = 4;
         const auto BACKGROUNDCOLS = 8;
+
+        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
+        const auto ITEMSSHEETROWS = 1;
+        const auto ITEMSSHEETCOLS = 5;
 
         auto blocksSheet = SpriteSheetInfo{BLOCKSSHEETROWS, BLOCKSSHEETCOLS, TILESIZE, TILESIZE};
         auto backgroundSheet = SpriteSheetInfo{BACKGROUNDROWS, BACKGROUNDCOLS, TILESIZE, TILESIZE};
@@ -121,7 +122,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 tileSprites.push_back({
-                                              spriteId, spriteNo, "overworldtile" + std::to_string(spriteId), BLOCKSPATH,
+                                              spriteId, spriteNo, "overworldtile", BLOCKSPATH,
                                               GetSheetPos(spriteNo, blocksSheet)
                                       });
             }
@@ -133,8 +134,8 @@ public:
             for (int columns = 0; columns < backgroundSheet.columns; ++columns) {
                 ++spriteId;
                 ++spriteNo;
-                interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteId), BACKGROUNDPATH,
+                backgroundSprites.push_back({
+                                                      spriteId, spriteNo, "backgroundtile", BACKGROUNDPATH,
                                                       GetSheetPos(spriteNo, backgroundSheet)
                                               });
             }
@@ -147,7 +148,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteId), ITEMSPATH,
+                                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
                                                       GetSheetPos(spriteNo, itemsSheet)
                                               });
             }
@@ -160,9 +161,56 @@ public:
         for (auto& sprite : backgroundSprites) {
             AddToConfig(config, sprite, backgroundSheet, true);
         }
-        for (auto& sprite : interactableSprites) { // TODO: change when interactable tiles are added
-            AddToConfig(config, sprite, itemsSheet, true);
-        }
+//        for (auto& sprite : interactableSprites) {
+//           AddToConfig(config, sprite, itemsSheet, true);
+//        }
+
+        // TODO: mushroom
+        // TODO: extra life
+        // TODO: flower
+        // TODO: star
+        // coin
+        auto path = "./resources/fonts/DefaultFont.ttf";
+        auto coinCounter = PlatformerGame::CoinCounter(
+                Transform{Point{300, 0}, 0, 1.0},
+                "coinCounter",
+                "COINS: ",
+                path,
+                48, Color::Yellow(),
+                100, 50);
+        // create a shared ptr to the coin counter
+        auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
+
+        auto coinSprite = interactableSprites[4];
+        platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);
+        auto coinSpriteObj = spic::Sprite(coinSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
+        coinSpriteObj.SetSpriteSheetPosition(coinSprite.sheetPos.x, coinSprite.sheetPos.y);
+        config.insert(
+                {coinSprite.id, [coinSpriteObj, coinCounterPtr](Transform transform){
+                    // TODO: gameDirector CreateInteractable that does not block movement and has a behaviourscript (or multiple)
+                    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+                    auto builder =
+                            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
+                                    .AddSprite(coinSpriteObj)
+                    ;
+                    auto obj = builder.GetGameObject();
+                    obj->SetTransform(transform);
+
+                    // collider
+                    auto collider = BoxCollider();
+                    collider.Width(TILESIZE);
+                    collider.Height(TILESIZE);
+                    collider.SetObstructsMovement(false);
+                    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+                    // add script
+                    obj->AddComponent<BehaviourScript>(
+                            std::make_shared<PlatformerGame::CoinBehaviour>(
+                                    coinCounterPtr));
+
+                    scene.AddObject(obj);
+                    return *obj;
+                }});
 
         return config;
     }
