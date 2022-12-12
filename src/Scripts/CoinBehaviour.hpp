@@ -14,6 +14,7 @@ namespace PlatformerGame {
         void serialize(Archive &ar, unsigned int version) {
             ar & boost::serialization::base_object<BehaviourScript, CoinBehaviour>(*this);
             boost::serialization::void_cast_register<CoinBehaviour, BehaviourScript>();
+            ar & _counter;
         }
 
         CoinBehaviour() = default;
