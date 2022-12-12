@@ -21,3 +21,9 @@ void PlatformerGame::CoinCounter::AddCoin() {
     std::string text = _text + std::to_string(_coins);
     platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, text, _fontSize, _fontColor);
 }
+
+PlatformerGame::CoinCounter::CoinCounter(): _fontColor(Color::Transparent()) {
+
+}
+
+BOOST_CLASS_EXPORT(PlatformerGame::CoinCounter);
