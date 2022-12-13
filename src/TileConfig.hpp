@@ -209,16 +209,16 @@ private:
         spriteObj.SetSpriteSheetPosition(sprite.sheetPos.x, sprite.sheetPos.y);
         if (type == SpriteType::Tile) {
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile("tile", spriteObj, transform, TILESIZE, TILESIZE);}});
         }
         else if(type == SpriteType::Flag) {
             const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<PlatformerGame::FlagBehaviour>() };
 
             config.insert(
-                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateFlag(spriteObj, transform, TILESIZE, TILESIZE, scripts );}});
+                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, scripts );}});
         } else //SpriteType::Background
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject(spriteObj, transform);}});
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject("tile", spriteObj, transform);}});
     }
 };
 #endif //PLATFORMER_GAME_TILECONFIG_HPP
