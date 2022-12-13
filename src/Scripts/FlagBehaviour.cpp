@@ -9,7 +9,7 @@ namespace PlatformerGame {
         auto collidingObject = collision.GetCollider()->GetGameObject().lock();
 
         if(collidingObject->GetTag() == "player") {
-            auto& engine = platformer_engine::Engine::GetInstance();
+            auto &engine = platformer_engine::Engine::GetInstance();
             auto nextScene = engine.GetActiveScene().GetNextScene();
             std::string next;
 
