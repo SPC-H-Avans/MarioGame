@@ -177,10 +177,10 @@ public:
             AddToConfig(config, sprite, blocksSheet, SpriteType::Tile);
         }
         for (auto& sprite : backgroundSprites) {
-            AddToConfig(config, sprite, backgroundSheet, SpriteType::Backgorund);
+            AddToConfig(config, sprite, backgroundSheet, SpriteType::Background);
         }
         for (auto& sprite : interactableSprites) { // TODO: change when interactable tiles are added
-            AddToConfig(config, sprite, itemsSheet, SpriteType::Backgorund);
+            AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
         }
 
         for(auto& sprite : flagSprites) {
@@ -191,7 +191,7 @@ public:
     }
 
 private:
-    enum SpriteType { Tile, Backgorund, Flag };
+    enum SpriteType { Tile, Background, Flag };
 
     static auto GetSheetPos(int sheetNo, SpriteSheetInfo spriteSheet) -> SheetPos {
         int x = (sheetNo - 1) % spriteSheet.columns;

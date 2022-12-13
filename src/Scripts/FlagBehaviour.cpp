@@ -2,6 +2,7 @@
 #include "FlagBehaviour.hpp"
 #include "GameObject.hpp"
 #include "Engine/Engine.hpp"
+#include "boost/serialization/export.hpp"
 
 namespace PlatformerGame {
     void FlagBehaviour::OnTriggerEnter2D(Collision collision) {
@@ -21,3 +22,5 @@ namespace PlatformerGame {
         }
     }
 }
+
+BOOST_CLASS_EXPORT(PlatformerGame::FlagBehaviour)

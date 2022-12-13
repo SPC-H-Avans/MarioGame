@@ -7,6 +7,10 @@ namespace PlatformerGame {
 
     class FlagBehaviour : public spic::BehaviourScript {
     public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+        }
+
         void OnTriggerEnter2D(Collision collision) override;
     private:
     };
