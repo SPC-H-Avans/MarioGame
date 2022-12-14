@@ -75,7 +75,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
             spriteSize * spriteScale, spriteSize * spriteScale,
             []{ std::cout << "click" << std::endl; });
 
-    scene.AddUIObject(button);
+    scene.AddUIObject(std::make_shared<Button>(button));
     scene.AddUIObject(std::make_shared<Text>(uiText));
     auto fpsCounter = platformer_engine::FPSCounter(
             Transform {Point{460, 0}, 0, 1.0},
