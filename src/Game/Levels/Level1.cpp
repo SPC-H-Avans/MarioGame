@@ -42,7 +42,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
 
     GameObject &mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
 
-    std::map<std::string, int> const audioClips = {{"jump", 100}};
+    std::map<std::string, int> const audioClips = {{"jump", 50}};
     mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
 
     scene.AddObject(mario);
