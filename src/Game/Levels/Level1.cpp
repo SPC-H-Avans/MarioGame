@@ -43,13 +43,48 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     auto& mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
     scene.AddObject(mario);
 
-//    auto fpsCounter = platformer_engine::FPSCounter(
-//            Transform {Point{460, 0}, 0, 1.0},
-//            "./resources/UI/DefaultFont.ttf",
-//            48,
-//            Color::Yellow(),
-//            16, 16,
-//            KeyCode::F);
+    // test Text
+    auto textId = "coins";
+    auto text = "COINS: x00";
+    auto fontPath = "./resources/fonts/DefaultFont.ttf";
+    auto fontSize = 24;
+    auto color = Color::Yellow();
+    auto uiText = GameObjectDirector::CreateText(
+            Transform{Point{300, 0}, 0, 1.0},
+            textId,
+            text,
+            fontPath,
+            100, 50,
+            fontSize, color);
+    // test update text
+    text = "COINS: x99";
+    platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
+
+    // test Button
+    const auto textureName = "startButton";
+    const auto spriteSize = 16;
+    const auto spriteScale = 4;
+
+    auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
+    buttonSprite.SetSpriteScale(spriteScale);
+    auto button = GameObjectDirector::CreateButton(
+            Transform{Point{20, 20}, 0, spriteScale},
+            "button1",
+            buttonSprite,
+            "./resources/UI/start.png",
+            spriteSize * spriteScale, spriteSize * spriteScale,
+            []{ std::cout << "click" << std::endl; });
+
+    scene.AddUIObject(button);
+    scene.AddUIObject(std::make_shared<Text>(uiText));
+    auto fpsCounter = platformer_engine::FPSCounter(
+            Transform {Point{460, 0}, 0, 1.0},
+            "./resources/UI/DefaultFont.ttf",
+            48,
+            Color::Yellow(),
+            16, 16,
+            KeyCode::F);
+    scene.AddUIObject(fpsCounter.GetUIObject());
 
     camera.SetTarget(mario);
     scene.AddCamera(camera);
