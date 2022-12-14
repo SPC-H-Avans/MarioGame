@@ -6,6 +6,7 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
+#include "UI/FPSCounter.hpp"
 
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
@@ -39,11 +40,18 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
             std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
     };
 
-    auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
-    scene.AddObject(std::make_unique<GameObject>(mario));
+    auto& mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
+    scene.AddObject(mario);
+
+//    auto fpsCounter = platformer_engine::FPSCounter(
+//            Transform {Point{460, 0}, 0, 1.0},
+//            "./resources/UI/DefaultFont.ttf",
+//            48,
+//            Color::Yellow(),
+//            16, 16,
+//            KeyCode::F);
 
     camera.SetTarget(mario);
-
     scene.AddCamera(camera);
 
     engine.AddScene(scene);

@@ -206,29 +206,8 @@ public:
         coinSpriteObj.SetSpriteSheetPosition(coinSprite.sheetPos.x, coinSprite.sheetPos.y);
         config.insert(
                 {coinSprite.id, [coinSpriteObj, coinCounterPtr](Transform transform){
-                    // TODO: gameDirector CreateInteractable that does not block movement and has a behaviourscript (or multiple)
-                    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
-                    auto builder =
-                            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
-                                    .AddSprite(coinSpriteObj)
-                    ;
-                    auto obj = builder.GetGameObject();
-                    obj->SetTransform(transform);
-
-                    // collider
-                    auto collider = BoxCollider();
-                    collider.Width(TILESIZE);
-                    collider.Height(TILESIZE);
-                    collider.SetObstructsMovement(false);
-                    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
-
-                    // add script
-                    obj->AddComponent<BehaviourScript>(
-                            std::make_shared<PlatformerGame::CoinBehaviour>(
-                                    coinCounterPtr));
-
-                    scene.AddObject(obj);
-                    return *obj;
+                    std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::CoinBehaviour>(coinCounterPtr)};
+                    return GameObjectDirector::CreateScriptedTile("coin", coinSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
                 }});
 
         for(auto& sprite : flagSprites) {
@@ -263,7 +242,7 @@ private:
             const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<PlatformerGame::FlagBehaviour>() };
 
             config.insert(
-                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, scripts );}});
+                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, true, scripts);}});
         } else //SpriteType::Background
             config.insert(
                     {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject("tile", spriteObj, transform);}});
