@@ -15,7 +15,7 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
 
     auto fontPath = "./resources/fonts/DefaultFont.ttf";
     Transform textPos {{175, 50}, 0, 1.0};
-    scene.AddUIObject(GameObjectDirector::CreateText(textPos, "gameOverText", "Game Over", fontPath,  100, 50, 48, Color::White()));
+    scene.AddUIObject(std::make_shared<Text>(GameObjectDirector::CreateText(textPos, "gameOverText", "Game Over", fontPath,  100, 50, 48, Color::White())));
 
     Transform buttonPos {{175, 75}, 0, 1.0};
     std::function<void()> backToMain;
