@@ -8,6 +8,7 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "Director/GameObjectDirector.hpp"
+#include "Scripts/FlagBehaviour.hpp"
 
 const auto TILESIZE = 16;
 
@@ -84,7 +85,7 @@ public:
 
         // add all functions to the config
         for (auto& sprite : sprites) {
-            AddToConfig(config, sprite, overworldSheet);
+            AddToConfig(config, sprite, overworldSheet, SpriteType::Tile);
         }
         return config;
     }
@@ -104,14 +105,20 @@ public:
         const auto BACKGROUNDROWS = 4;
         const auto BACKGROUNDCOLS = 8;
 
+        const auto FLAGPATH = "./resources/levels/mario/Tilesets/flag.png";
+        const auto FLAGROWS = 3;
+        const auto FLAGCOLS = 1;
+
         auto blocksSheet = SpriteSheetInfo{BLOCKSSHEETROWS, BLOCKSSHEETCOLS, TILESIZE, TILESIZE};
         auto backgroundSheet = SpriteSheetInfo{BACKGROUNDROWS, BACKGROUNDCOLS, TILESIZE, TILESIZE};
         auto itemsSheet = SpriteSheetInfo{ITEMSSHEETROWS, ITEMSSHEETCOLS, TILESIZE, TILESIZE};
+        auto flagSheet = SpriteSheetInfo{FLAGROWS, FLAGCOLS, TILESIZE, TILESIZE};
 
         // create all info for the sprites
         auto tileSprites = std::vector<SpriteInfo> {};
         auto backgroundSprites = std::vector<SpriteInfo> {};
         auto interactableSprites = std::vector<SpriteInfo> {};
+        auto flagSprites = std::vector<SpriteInfo> {};
 
         // add block tiles
         int spriteId = 0;
@@ -153,21 +160,39 @@ public:
             }
         }
 
+        // add flag tiles
+        spriteNo = 0;
+        for(int rows = 0; rows < flagSheet.rows; ++rows) {
+            for(int columns = 0; columns < flagSheet.columns; columns++) {
+                ++spriteId;
+                ++spriteNo;
+                flagSprites.push_back({
+                    spriteId, spriteNo, "flagtile" + std::to_string(spriteId), FLAGPATH, GetSheetPos(spriteNo, flagSheet)
+                });
+            }
+        }
+
         // add all functions to the config
         for (auto& sprite : tileSprites) {
-            AddToConfig(config, sprite, blocksSheet);
+            AddToConfig(config, sprite, blocksSheet, SpriteType::Tile);
         }
         for (auto& sprite : backgroundSprites) {
-            AddToConfig(config, sprite, backgroundSheet, true);
+            AddToConfig(config, sprite, backgroundSheet, SpriteType::Background);
         }
         for (auto& sprite : interactableSprites) { // TODO: change when interactable tiles are added
-            AddToConfig(config, sprite, itemsSheet, true);
+            AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
+        }
+
+        for(auto& sprite : flagSprites) {
+            AddToConfig(config, sprite, flagSheet, SpriteType::Flag);
         }
 
         return config;
     }
 
 private:
+    enum SpriteType { Tile, Background, Flag };
+
     static auto GetSheetPos(int sheetNo, SpriteSheetInfo spriteSheet) -> SheetPos {
         int x = (sheetNo - 1) % spriteSheet.columns;
         int y = (sheetNo - 1) / spriteSheet.columns;
@@ -177,17 +202,23 @@ private:
     static void AddToConfig(
             std::map<int, std::function<GameObject(Transform)>>& config,
             const SpriteInfo& sprite, const SpriteSheetInfo& spriteSheet,
-            const bool isBackground = false
+            const SpriteType type
             ) {
         platformer_engine::TextureManager::GetInstance().LoadTexture(sprite.objectId, sprite.path);
         auto spriteObj = spic::Sprite(sprite.objectId, spriteSheet.tileWidth, spriteSheet.tileHeight);
         spriteObj.SetSpriteSheetPosition(sprite.sheetPos.x, sprite.sheetPos.y);
-        if (!isBackground)
+        if (type == SpriteType::Tile) {
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
-        else
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile("tile", spriteObj, transform, TILESIZE, TILESIZE);}});
+        }
+        else if(type == SpriteType::Flag) {
+            const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<PlatformerGame::FlagBehaviour>() };
+
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject(spriteObj, transform);}});
+                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, scripts );}});
+        } else //SpriteType::Background
+            config.insert(
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject("tile", spriteObj, transform);}});
     }
 };
 #endif //PLATFORMER_GAME_TILECONFIG_HPP
