@@ -13,7 +13,9 @@ namespace PlatformerGame {
 
     void PlayerInputBehaviour::OnUpdate() {
         auto player = GetGameObject().lock();
-        if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
+        if (player == nullptr ||
+            player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId())
+            return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
         if (playerRigidBody != nullptr) {
             auto point = Point();
@@ -27,7 +29,9 @@ namespace PlatformerGame {
             if (spic::Input::GetKey(KeyCode::UP_ARROW) || spic::Input::GetKey(KeyCode::SPACE)) {
                 if (playerRigidBody->CanMoveTo(CollisionPoint::Bottom) != true) {
                     auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
-                    audioSource->PlaySound("jump");
+                    if (audioSource != nullptr) {
+                        audioSource->PlaySound("jump");
+                    }
                 }
                 point.y += JUMP_FORCE;
             }
