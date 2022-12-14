@@ -8,6 +8,7 @@
 #include "Networking/NetworkingServer.hpp"
 #include "Networking/NetworkingClient.hpp"
 #include "Levels/Level1.hpp"
+#include "Game/Levels/GameOverScene.hpp"
 
 constexpr bool FULLSCREEN = false;
 constexpr bool LOGGING = true;
@@ -18,6 +19,7 @@ namespace PlatformerGame {
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan(), FULLSCREEN, LOGGING);
 
         Level1::AddToEngine("level1", viewWidth, viewHeight);
+        GameOverScene::AddToEngine("gameover", viewWidth, viewHeight);
 
        NetworkingServer networkingServer;
        networkingServer.CreateServer("level1", 10, 7778);
