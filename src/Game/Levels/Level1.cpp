@@ -6,6 +6,7 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
+#include "AudioSource.hpp"
 
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
@@ -39,8 +40,18 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
             std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
     };
 
-    auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
-    scene.AddObject(std::make_unique<GameObject>(mario));
+    GameObject &mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
+
+    std::map<std::string, int> const audioClips = {{"jump", 100}};
+    mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
+
+    scene.AddObject(mario);
+
+    platformer_engine::AudioManager::GetInstance().SetVolume(50);
+
+    platformer_engine::AudioManager::GetInstance().LoadMusic("overworld", "./resources/audio/music/smb_overworld_theme.mp3");
+    platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
+    platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
 
     camera.SetTarget(mario);
 
