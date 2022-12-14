@@ -5,6 +5,7 @@
 #include "Physics/PlayerRigidBody.hpp"
 #include "Input.hpp"
 #include "Engine/Engine.hpp"
+#include "AudioSource.hpp"
 
 const int JUMP_FORCE = 55;
 
@@ -12,7 +13,9 @@ namespace PlatformerGame {
 
     void PlayerInputBehaviour::OnUpdate() {
         auto player = GetGameObject().lock();
-        if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
+        if (player == nullptr ||
+            player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId())
+            return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
         if (playerRigidBody != nullptr) {
             auto point = Point();
@@ -24,7 +27,13 @@ namespace PlatformerGame {
                 point.x++;
             }
             if (spic::Input::GetKey(KeyCode::UP_ARROW) || spic::Input::GetKey(KeyCode::SPACE)) {
-                point.y+= JUMP_FORCE;
+                if (playerRigidBody->CanMoveTo(CollisionPoint::Bottom) != true) {
+                    auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
+                    if (audioSource != nullptr) {
+                        audioSource->PlaySound("jump");
+                    }
+                }
+                point.y += JUMP_FORCE;
             }
 
             playerRigidBody->AddForce(point);
