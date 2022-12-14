@@ -91,7 +91,7 @@ public:
         return config;
     }
 
-    static auto World1() -> std::map<int, std::function<GameObject(Transform)>> {
+    static auto World1(spic::Scene& scene) -> std::map<int, std::function<GameObject(Transform)>> {
         std::map<int, std::function<GameObject(Transform)>> config {};
 
         const auto BLOCKSPATH = "./resources/levels/mario/Tilesets/blocks1.png";
@@ -199,6 +199,7 @@ public:
                 100, 50);
         // create a shared ptr to the coin counter
         auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
+        scene.AddUIObject(coinCounter.GetUIObject());
 
         auto coinSprite = interactableSprites[4];
         platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);

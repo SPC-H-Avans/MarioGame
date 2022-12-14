@@ -7,7 +7,7 @@ PlatformerGame::CoinCounter::CoinCounter(const spic::Transform transform, const 
                                          : _textId(textId), _text(text), _fontPath(fontPath), _fontSize(fontSize), _fontColor(fontColor), _coins(0),
                                            _transform(transform), _width(width), _height(height) {
     std::string coinText = _text + std::to_string(_coins);
-    GameObjectDirector::CreateText(
+    auto textObject = GameObjectDirector::CreateText(
             transform,
             _textId,
             coinText,
@@ -15,6 +15,7 @@ PlatformerGame::CoinCounter::CoinCounter(const spic::Transform transform, const 
             width, height,
             _fontSize, _fontColor);
     platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, coinText, _fontSize, _fontColor);
+    _obj = std::make_shared<Text>(textObject);
     _hasCreatedText = true;
 }
 

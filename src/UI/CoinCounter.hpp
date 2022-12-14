@@ -10,6 +10,7 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include "Color.hpp"
 #include "Transform.hpp"
+#include "UIObject.hpp"
 
 namespace PlatformerGame {
     class CoinCounter {
@@ -33,7 +34,11 @@ namespace PlatformerGame {
 
         void AddCoin();
 
+        auto GetUIObject() -> std::shared_ptr<spic::UIObject> { return _obj; }
+
     private:
+        std::shared_ptr<spic::UIObject> _obj;
+
         int _coins = 0;
         bool _hasCreatedText = false;
         std::string _textId;

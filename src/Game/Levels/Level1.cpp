@@ -12,7 +12,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
     Scene scene = builder.GetScene();
-    scene.ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
+    scene.ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1(scene));
 
     //Create Player for server
     GameObjectBuilder gameObjectBuilder{"speler"};
@@ -45,19 +45,19 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
 
     // test Text
     auto textId = "coins";
-    auto text = "COINS: x00";
+    auto text = "text test";
     auto fontPath = "./resources/fonts/DefaultFont.ttf";
-    auto fontSize = 24;
+    auto fontSize = 40;
     auto color = Color::Yellow();
     auto uiText = GameObjectDirector::CreateText(
-            Transform{Point{300, 0}, 0, 1.0},
+            Transform{Point{150, 0}, 0, 1.0},
             textId,
             text,
             fontPath,
             100, 50,
             fontSize, color);
     // test update text
-    text = "COINS: x99";
+    text = "TEST TEXT";
     platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
 
     // test Button
