@@ -6,6 +6,7 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
+#include "UI/FPSCounter.hpp"
 
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
@@ -41,6 +42,34 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
 
     auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
     scene.AddObject(std::make_unique<GameObject>(mario));
+
+    // fps counter
+    auto fontPath = "./resources/UI/DefaultFont.ttf";
+    auto color = Color::Yellow();
+
+    platformer_engine::FPSCounter(
+            Transform {Point{460, 0}, 0, 1.0},
+            fontPath,
+            48,
+            color,
+            16, 16,
+            KeyCode::F);
+
+    // test Button
+    const auto textureName = "startButton";
+    const auto spriteSize = 16;
+    const auto spriteScale = 4;
+
+    auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
+    buttonSprite.SetSpriteScale(spriteScale);
+    auto button = GameObjectDirector::CreateButton(
+            Transform{Point{20, 20}, 0, spriteScale},
+            "button1",
+            buttonSprite,
+            "./resources/UI/start.png",
+            spriteSize * spriteScale, spriteSize * spriteScale,
+            []{ std::cout << "click" << std::endl; });
+    scene.AddUIObject(std::make_shared<Button>(button));
 
     camera.SetTarget(mario);
 
