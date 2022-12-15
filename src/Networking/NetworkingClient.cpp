@@ -20,6 +20,7 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
                                                                                                            const uint8_t *data,
                                                                                                            size_t dataLength) {
         clientManager.CreateScene(data, dataLength);
+        clientManager.SetConnectionStatus(platformer_engine::Connected);
         GameObjectBuilder gameObjectBuilder{"speler"};
             Camera camera = Camera{"camera-" + std::to_string(clientId), "camera", spic::Color::Cyan(), static_cast<double>(viewWidth),
                                    static_cast<double>(viewHeight)};
