@@ -5,7 +5,14 @@
 
 namespace PlatformerGame {
     class SmallMarioState : public MarioState {
+    public:
+        SmallMarioState();
 
+        void Animate(std::shared_ptr<spic::GameObject> player) override;
+
+        void RegisterInput() override;
+
+        void TakeDamage() override;
     };
 }
 

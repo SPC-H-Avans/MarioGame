@@ -4,7 +4,6 @@
 #include "TileConfig.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
-#include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Networking/NetworkingServer.hpp"
 #include "Networking/NetworkingClient.hpp"
 #include "Levels/Level1.hpp"
