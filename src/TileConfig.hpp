@@ -8,6 +8,7 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "Director/GameObjectDirector.hpp"
+#include "Scripts/CoinBehaviour.hpp"
 #include "Scripts/FlagBehaviour.hpp"
 
 const auto TILESIZE = 16;
@@ -90,20 +91,20 @@ public:
         return config;
     }
 
-    static auto World1() -> std::map<int, std::function<GameObject(Transform)>> {
+    static auto World1(spic::Scene& scene) -> std::map<int, std::function<GameObject(Transform)>> {
         std::map<int, std::function<GameObject(Transform)>> config {};
 
         const auto BLOCKSPATH = "./resources/levels/mario/Tilesets/blocks1.png";
         const auto BLOCKSSHEETROWS = 2;
         const auto BLOCKSSHEETCOLS = 5;
 
-        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
-        const auto ITEMSSHEETROWS = 1;
-        const auto ITEMSSHEETCOLS = 5;
-
         const auto BACKGROUNDPATH = "./resources/levels/mario/Tilesets/background1.png";
         const auto BACKGROUNDROWS = 4;
         const auto BACKGROUNDCOLS = 8;
+
+        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
+        const auto ITEMSSHEETROWS = 1;
+        const auto ITEMSSHEETCOLS = 5;
 
         const auto FLAGPATH = "./resources/levels/mario/Tilesets/flag.png";
         const auto FLAGROWS = 3;
@@ -140,8 +141,8 @@ public:
             for (int columns = 0; columns < backgroundSheet.columns; ++columns) {
                 ++spriteId;
                 ++spriteNo;
-                interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile", BACKGROUNDPATH,
+                backgroundSprites.push_back({
+                                                      spriteId, spriteNo, "backgroundtile", BACKGROUNDPATH,
                                                       GetSheetPos(spriteNo, backgroundSheet)
                                               });
             }
@@ -179,9 +180,36 @@ public:
         for (auto& sprite : backgroundSprites) {
             AddToConfig(config, sprite, backgroundSheet, SpriteType::Background);
         }
-        for (auto& sprite : interactableSprites) { // TODO: change when interactable tiles are added
-            AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
-        }
+//        for (auto& sprite : interactableSprites) {
+//           AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
+//        }
+
+        // TODO: mushroom
+        // TODO: extra life
+        // TODO: flower
+        // TODO: star
+        // coin
+        auto path = "./resources/fonts/DefaultFont.ttf";
+        auto coinCounter = PlatformerGame::CoinCounter(
+                Transform{Point{300, 0}, 0, 1.0},
+                "coinCounter",
+                "COINS: ",
+                path,
+                48, Color::Yellow(),
+                100, 50);
+        // create a shared ptr to the coin counter
+        auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
+        scene.AddUIObject(coinCounter.GetUIObject());
+
+        auto coinSprite = interactableSprites[4];
+        platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);
+        auto coinSpriteObj = spic::Sprite(coinSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
+        coinSpriteObj.SetSpriteSheetPosition(coinSprite.sheetPos.x, coinSprite.sheetPos.y);
+        config.insert(
+                {coinSprite.id, [coinSpriteObj, coinCounterPtr](Transform transform){
+                    std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::CoinBehaviour>(coinCounterPtr)};
+                    return GameObjectDirector::CreateScriptedTile("coin", coinSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
+                }});
 
         for(auto& sprite : flagSprites) {
             AddToConfig(config, sprite, flagSheet, SpriteType::Flag);
@@ -215,7 +243,7 @@ private:
             const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<PlatformerGame::FlagBehaviour>() };
 
             config.insert(
-                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, scripts );}});
+                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, true, scripts);}});
         } else //SpriteType::Background
             config.insert(
                     {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject("tile", spriteObj, transform);}});

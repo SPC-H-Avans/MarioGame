@@ -6,12 +6,15 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
+#include "UI/FPSCounter.hpp"
+#include "AudioSource.hpp"
+#include "Scripts/MarioBehaviour.hpp"
 
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
     Scene scene = builder.GetScene();
-    scene.ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1());
+    scene.ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1(scene));
 
     //Create Player for server
     GameObjectBuilder gameObjectBuilder{"speler"};
@@ -36,14 +39,65 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
             std::make_shared<PlatformerGame::PlayerInputBehaviour>(),
-            std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite)
+            std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite),
+            std::make_shared<PlatformerGame::MarioBehaviour>()
     };
+    GameObject &mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
 
-    auto mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
-    scene.AddObject(std::make_unique<GameObject>(mario));
+    std::map<std::string, int> const audioClips = {{"jump", 50}};
+    mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
+
+    platformer_engine::AudioManager::GetInstance().SetVolume(50);
+
+    platformer_engine::AudioManager::GetInstance().LoadMusic("overworld", "./resources/audio/music/smb_overworld_theme.mp3");
+    platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
+    platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
+    scene.AddObject(mario);
+
+    // test Text
+    auto textId = "coins";
+    auto text = "text test";
+    auto fontPath = "./resources/fonts/DefaultFont.ttf";
+    auto fontSize = 40;
+    auto color = Color::Yellow();
+    auto uiText = GameObjectDirector::CreateText(
+            Transform{Point{150, 0}, 0, 1.0},
+            textId,
+            text,
+            fontPath,
+            100, 50,
+            fontSize, color);
+    // test update text
+    text = "TEST TEXT";
+    platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
+
+    // test Button
+    const auto textureName = "startButton";
+    const auto spriteSize = 16;
+    const auto spriteScale = 4;
+
+    auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
+    buttonSprite.SetSpriteScale(spriteScale);
+    auto button = GameObjectDirector::CreateButton(
+            Transform{Point{20, 20}, 0, spriteScale},
+            "button1",
+            buttonSprite,
+            "./resources/UI/start.png",
+            spriteSize * spriteScale, spriteSize * spriteScale,
+            []{ std::cout << "click" << std::endl; });
+
+    scene.AddUIObject(std::make_shared<Button>(button));
+    scene.AddUIObject(std::make_shared<Text>(uiText));
+    auto fpsCounter = platformer_engine::FPSCounter(
+            Transform {Point{460, 0}, 0, 1.0},
+            "./resources/UI/DefaultFont.ttf",
+            48,
+            Color::Yellow(),
+            16, 16,
+            KeyCode::F);
+    scene.AddUIObject(fpsCounter.GetUIObject());
 
     camera.SetTarget(mario);
-
     scene.AddCamera(camera);
 
     engine.AddScene(scene);
