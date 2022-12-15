@@ -5,11 +5,12 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "../Scripts/PlayerInputBehaviour.hpp"
 #include "../Scripts/DynamicAnimationBehaviour.hpp"
+#include "../Scripts/EnemyAttackBehaviour.hpp"
 #include "RigidBody.hpp"
-#include "Physics/ForceDrivenEntityBody.hpp"
+#include "Physics/ForceDrivenEntity.hpp"
 
 
-const bool FULLSCREEN = false;
+const bool FULLSCREEN = true;
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
@@ -73,6 +74,7 @@ namespace PlatformerGame {
 
         auto enemyBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
                 std::make_shared<platformer_engine::CollisionBehaviour>(),
+                std::make_shared<EnemyAttackBehaviour>(),
                 std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(goombaIdleSprite, goombaWalkSprite, goombaJumpSprite)
         };
 
@@ -84,12 +86,12 @@ namespace PlatformerGame {
 
         auto enemyTransform = Transform { Point {20, 200}, 0, 1.0 };
         auto enemy = GameObjectDirector::CreateEnemy(enemyTransform, goombaWidth, goombaHeight - 1, goombaAnimations, enemyBehaviourScripts);
-        auto enemyBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(enemy.GetComponent<RigidBody>());
+        auto forceDrivenEntity = std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(enemy.GetComponent<platformer_engine::ForceDrivenEntity>());
 
-        if(enemyBody != nullptr) {
+        if(forceDrivenEntity != nullptr) {
             auto marioShared = GameObject::Find(mario.GetName());
             const double followRange = 100;
-            enemyBody->SetFollowing(marioShared, followRange);
+            forceDrivenEntity->SetFollowing(marioShared, followRange);
         }
 
         engine.Start();
