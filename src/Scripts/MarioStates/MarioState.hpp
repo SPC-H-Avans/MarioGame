@@ -9,9 +9,12 @@ namespace PlatformerGame {
     public:
         virtual void Animate(std::shared_ptr<spic::GameObject> player) = 0;
 
-        virtual void RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState>& currentState) = 0;
+        virtual void
+        RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState> &currentState) = 0;
 
         virtual void TakeDamage() = 0;
+
+        virtual ~MarioState() = default;
 
     protected:
         platformer_engine::AnimatedSprite _idleSprite;
