@@ -18,6 +18,8 @@ namespace PlatformerGame {
 
         void OnTriggerEnter2D(Collision collision) override;
 
+        void SetState(std::unique_ptr<MarioState> state) { _state = std::move(state); }
+
     private:
         std::unique_ptr<MarioState> _state = std::make_unique<SmallMarioState>();
     };

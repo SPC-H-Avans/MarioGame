@@ -10,6 +10,7 @@
 #include "Director/GameObjectDirector.hpp"
 #include "Scripts/CoinBehaviour.hpp"
 #include "Scripts/FlagBehaviour.hpp"
+#include "Scripts/StarBehaviour.hpp"
 
 const auto TILESIZE = 16;
 
@@ -184,10 +185,21 @@ public:
 //           AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
 //        }
 
+        // TODO: make a generic method to avoid repetition
         // TODO: mushroom
         // TODO: extra life
         // TODO: flower
-        // TODO: star
+        // star
+        auto starSprite = interactableSprites[3];
+        platformer_engine::TextureManager::GetInstance().LoadTexture(starSprite.objectId, starSprite.path);
+        auto starSpriteObj = spic::Sprite(starSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
+        starSpriteObj.SetSpriteSheetPosition(starSprite.sheetPos.x, starSprite.sheetPos.y);
+        config.insert(
+                {starSprite.id, [starSpriteObj](Transform transform){
+                    std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::StarBehaviour>()};
+                    return GameObjectDirector::CreateScriptedTile("coin", starSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
+                }});
+
         // coin
         auto path = "./resources/fonts/DefaultFont.ttf";
         auto coinCounter = PlatformerGame::CoinCounter(
