@@ -46,7 +46,7 @@ namespace PlatformerGame {
             if (spic::Input::GetKey(KeyCode::RIGHT_ARROW)) {
                 point.x++;
             }
-            if (spic::Input::GetKey(KeyCode::UP_ARROW) || spic::Input::GetKey(KeyCode::SPACE)) {
+            if (spic::Input::GetKeyDown(KeyCode::UP_ARROW) || spic::Input::GetKeyDown(KeyCode::SPACE)) {
                 if (playerRigidBody->CanMoveTo(CollisionPoint::Bottom) != true) {
                     auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
                     if (audioSource != nullptr) {
