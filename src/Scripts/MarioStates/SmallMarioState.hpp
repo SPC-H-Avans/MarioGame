@@ -10,7 +10,7 @@ namespace PlatformerGame {
 
         void Animate(std::shared_ptr<spic::GameObject> player) override;
 
-        void RegisterInput() override;
+        void RegisterInput(std::shared_ptr<spic::GameObject> player) override;
 
         void TakeDamage() override;
     };

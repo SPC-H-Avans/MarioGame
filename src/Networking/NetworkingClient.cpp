@@ -2,7 +2,6 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "Engine/Engine.hpp"
-#include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
 
 void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &serverAddress, int port, int viewWidth, int viewHeight) {
@@ -43,7 +42,6 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
         auto animations = std::vector<platformer_engine::AnimatedSprite>{idleSprite, walkSprite, jumpSprite};
         auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
-            std::make_shared<PlatformerGame::PlayerInputBehaviour>(),
                     // TODO: put mariobehaviour here
         };
         auto mario = GameObjectDirector::CreatePlayer(clientManager.GetLocalPlayerId(), transform, w, h, animations, behaviourScripts);

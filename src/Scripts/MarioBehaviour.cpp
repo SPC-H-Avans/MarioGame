@@ -8,6 +8,7 @@ namespace PlatformerGame {
     void MarioBehaviour::OnUpdate() {
         auto object = this->GetGameObject().lock();
         if(object != nullptr) {
+            _state->RegisterInput(object);
             _state->Animate(object);
 
             if(object->GetTransform().position.y > 320) { //320 is void in this case

@@ -9,7 +9,7 @@ namespace PlatformerGame {
     public:
         virtual void Animate(std::shared_ptr<spic::GameObject> player) = 0;
 
-        virtual void RegisterInput() = 0;
+        virtual void RegisterInput(std::shared_ptr<spic::GameObject> player) = 0;
 
         virtual void TakeDamage() = 0;
 

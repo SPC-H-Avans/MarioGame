@@ -3,7 +3,6 @@
 #include "Builder/SceneBuilder.hpp"
 #include "TileConfig.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
-#include "Scripts/PlayerInputBehaviour.hpp"
 #include "Networking/NetworkingServer.hpp"
 #include "Networking/NetworkingClient.hpp"
 #include "Levels/Level1.hpp"

@@ -1,8 +1,11 @@
 #include "SmallMarioState.hpp"
 #include "Engine/Engine.hpp"
 #include "Physics/PlayerRigidBody.hpp"
+#include "Input.hpp"
+#include "AudioSource.hpp"
 
 const double VELOCITY_MARGIN = 0.1;
+const int JUMP_FORCE = 55;
 
 namespace PlatformerGame {
     SmallMarioState::SmallMarioState() {
@@ -30,8 +33,31 @@ namespace PlatformerGame {
         }
     }
 
-    void PlatformerGame::SmallMarioState::RegisterInput() {
+    void PlatformerGame::SmallMarioState::RegisterInput(std::shared_ptr<spic::GameObject> player) {
+        if (player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId())
+            return;
+        auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
+        if (playerRigidBody != nullptr) {
+            auto point = Point();
 
+            if (spic::Input::GetKey(KeyCode::LEFT_ARROW)) {
+                point.x--;
+            }
+            if (spic::Input::GetKey(KeyCode::RIGHT_ARROW)) {
+                point.x++;
+            }
+            if (spic::Input::GetKey(KeyCode::UP_ARROW) || spic::Input::GetKey(KeyCode::SPACE)) {
+                if (playerRigidBody->CanMoveTo(CollisionPoint::Bottom) != true) {
+                    auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
+                    if (audioSource != nullptr) {
+                        audioSource->PlaySound("jump");
+                    }
+                }
+                point.y += JUMP_FORCE;
+            }
+
+            playerRigidBody->AddForce(point);
+        }
     }
 
     void PlatformerGame::SmallMarioState::TakeDamage() {

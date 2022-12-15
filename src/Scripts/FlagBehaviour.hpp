@@ -17,4 +17,4 @@ namespace PlatformerGame {
 
 }  // namespace PlatformerGame
 
-#endif //PLATFORMER_ENGINE_PLAYERINPUTBEHAVIOUR_HPP
+#endif //PLATFORMER_ENGINE_FLAGBEHAVIOUR_HPP

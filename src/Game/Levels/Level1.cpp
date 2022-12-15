@@ -3,7 +3,6 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Director/GameObjectDirector.hpp"
 #include "Engine/Engine.hpp"
-#include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
 #include "UI/FPSCounter.hpp"
 #include "AudioSource.hpp"
@@ -37,7 +36,6 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     auto animations = std::vector<platformer_engine::AnimatedSprite>{idleSprite, walkSprite, jumpSprite};
     auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
-            std::make_shared<PlatformerGame::PlayerInputBehaviour>(),
             std::make_shared<PlatformerGame::MarioBehaviour>()
     };
     GameObject &mario = GameObjectDirector::CreatePlayer(0, transform, w, h - 1, animations, behaviourScripts);
