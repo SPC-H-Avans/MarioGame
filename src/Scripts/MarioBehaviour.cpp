@@ -22,8 +22,7 @@ namespace PlatformerGame {
         auto collidingObject = collision.GetCollider()->GetGameObject().lock();
 
         if(collidingObject->GetTag() == "enemy") { //Might expand this in future
-            auto &engine = platformer_engine::Engine::GetInstance();
-            engine.SetActiveScene("gameover");
+            _state->TakeDamage();
         }
     }
 }

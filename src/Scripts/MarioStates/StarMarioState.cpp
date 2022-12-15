@@ -69,6 +69,6 @@ namespace PlatformerGame {
     }
 
     void StarMarioState::TakeDamage() {
-
+        // TODO: instead of taking damage, kill the enemy
     }
 }
