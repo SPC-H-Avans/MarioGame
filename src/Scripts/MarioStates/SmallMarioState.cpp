@@ -3,9 +3,10 @@
 #include "Physics/PlayerRigidBody.hpp"
 #include "Input.hpp"
 #include "AudioSource.hpp"
+#include "StarMarioState.hpp"
 
 const double VELOCITY_MARGIN = 0.1;
-const int JUMP_FORCE = 55;
+const int JUMP_FORCE = 155; // todo back to 55
 
 namespace PlatformerGame {
     SmallMarioState::SmallMarioState() {
@@ -33,8 +34,8 @@ namespace PlatformerGame {
         }
     }
 
-    void PlatformerGame::SmallMarioState::RegisterInput(std::shared_ptr<spic::GameObject> player) {
-        if (player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId())
+    void PlatformerGame::SmallMarioState::RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState>& currentState) {
+        if (player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId())
             return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
         if (playerRigidBody != nullptr) {
@@ -57,6 +58,10 @@ namespace PlatformerGame {
             }
 
             playerRigidBody->AddForce(point);
+
+            if (spic::Input::GetKeyDown(KeyCode::C)) { // C stands for Cheat
+                currentState = std::make_unique<StarMarioState>();
+            }
         }
     }
 
