@@ -6,7 +6,7 @@
 #include "StarMarioState.hpp"
 
 const double VELOCITY_MARGIN = 0.1;
-const int JUMP_FORCE = 155; // todo back to 55
+const int JUMP_FORCE = 55;
 
 namespace PlatformerGame {
     SmallMarioState::SmallMarioState() {

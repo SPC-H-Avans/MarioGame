@@ -26,11 +26,11 @@ namespace PlatformerGame {
             if (playerRigidBody != nullptr && playerAnimator != nullptr) {
                 if (velocity.y != 0) {
 //                    _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
-                    playerAnimator->SetActiveAnimation("mario_idle"); // todo flip
+                    playerAnimator->SetActiveAnimation("mario_jump_star");
                 } else if (velocity.x > VELOCITY_MARGIN || velocity.x < -VELOCITY_MARGIN) {
-                    playerAnimator->SetActiveAnimation("mario_walk");
+                    playerAnimator->SetActiveAnimation("mario_walk_star");
                 } else {
-                    playerAnimator->SetActiveAnimation("mario_jump"); // todo flip
+                    playerAnimator->SetActiveAnimation("mario_idle_star");
                 }
             }
         }
