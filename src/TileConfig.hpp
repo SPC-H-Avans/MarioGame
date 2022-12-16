@@ -201,14 +201,14 @@ public:
                 }});
 
         // coin
-        auto path = "./resources/fonts/DefaultFont.ttf";
+        auto path = "./resources/fonts/MarioFont.ttf";
         auto coinCounter = PlatformerGame::CoinCounter(
-                Transform{Point{300, 0}, 0, 1.0},
+                Transform{Point{275, 10}, 0, 1.0},
                 "coinCounter",
                 "COINS: ",
                 path,
                 48, Color::Yellow(),
-                100, 50);
+                160, 50);
         // create a shared ptr to the coin counter
         auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
         scene.AddUIObject(coinCounter.GetUIObject());

@@ -7,11 +7,12 @@
 
 const double VELOCITY_MARGIN = 0.1;
 const int JUMP_FORCE = 55;
+const int TIMER_TICKS = 6 * 60;
 
 namespace PlatformerGame {
 
     StarMarioState::StarMarioState() {
-
+        _timer = TIMER_TICKS;
     }
 
     void StarMarioState::Animate(std::shared_ptr<spic::GameObject> player) {
@@ -61,6 +62,11 @@ namespace PlatformerGame {
             }
 
             playerRigidBody->AddForce(point);
+
+            // check if timer should run out
+            if (--_timer <= 0) {
+                currentState = std::make_unique<SmallMarioState>();
+            }
 
             if (spic::Input::GetKeyDown(KeyCode::C)) { // turn Cheat off
                 currentState = std::make_unique<SmallMarioState>();

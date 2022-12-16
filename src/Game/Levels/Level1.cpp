@@ -59,23 +59,6 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
     scene.AddObject(mario);
 
-    // test Text
-    auto textId = "coins";
-    auto text = "text test";
-    auto fontPath = "./resources/fonts/DefaultFont.ttf";
-    auto fontSize = 40;
-    auto color = Color::Yellow();
-    auto uiText = GameObjectDirector::CreateText(
-            Transform{Point{150, 0}, 0, 1.0},
-            textId,
-            text,
-            fontPath,
-            100, 50,
-            fontSize, color);
-    // test update text
-    text = "TEST TEXT";
-    platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
-
     // test Button
     const auto textureName = "startButton";
     const auto spriteSize = 16;
@@ -92,13 +75,12 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
             []{ std::cout << "click" << std::endl; });
 
     scene.AddUIObject(std::make_shared<Button>(button));
-    scene.AddUIObject(std::make_shared<Text>(uiText));
     auto fpsCounter = platformer_engine::FPSCounter(
-            Transform {Point{460, 0}, 0, 1.0},
-            "./resources/UI/DefaultFont.ttf",
+            Transform {Point{450, 0}, 0, 1.0},
+            "./resources/fonts/DefaultFont.ttf",
             48,
             Color::Yellow(),
-            16, 16,
+            24, 24,
             KeyCode::F);
     scene.AddUIObject(fpsCounter.GetUIObject());
 

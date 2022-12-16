@@ -13,6 +13,9 @@ namespace PlatformerGame {
         void RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState>& currentState) override;
 
         void TakeDamage() override;
+
+    private:
+        int _timer;
     };
 }
 

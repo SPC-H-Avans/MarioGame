@@ -14,7 +14,7 @@ void PlatformerGame::StarBehaviour::OnTriggerEnter2D(Collision collision) {
     }
 
     // after being picked up, remove the star from the scene and destroy it
-//    auto starObj = GetGameObject().lock(); // todo SIGSEV @ GetTransform() if you pick it up immediately after spawning, why not for coins? because you cant pick em up right away?
-//    platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(starObj->GetName());
-//    starObj->Destroy(starObj);
+    auto starObj = GetGameObject().lock();
+    platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(starObj->GetName());
+    starObj->Destroy(starObj);
 }

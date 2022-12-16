@@ -13,9 +13,9 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
     Camera camera = Camera{"camera-0", "camera", spic::Color::Cyan(), static_cast<double>(viewWidth),
                            static_cast<double>(viewHeight)};
 
-    auto fontPath = "./resources/fonts/DefaultFont.ttf";
-    Transform textPos {{175, 50}, 0, 1.0};
-    scene.AddUIObject(std::make_shared<Text>(GameObjectDirector::CreateText(textPos, "gameOverText", "Game Over", fontPath,  100, 50, 48, Color::White())));
+    auto fontPath = "./resources/fonts/MarioFont.ttf";
+    Transform textPos {{145, 50}, 0, 1.0};
+    scene.AddUIObject(std::make_shared<Text>(GameObjectDirector::CreateText(textPos, "gameOverText", "Game Over", fontPath,  160, 50, 48, Color::White())));
 
     Transform buttonPos {{175, 75}, 0, 1.0};
     std::function<void()> backToMain;
