@@ -90,7 +90,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     scene.AddUIObject(std::make_shared<Text>(uiText));
     auto fpsCounter = platformer_engine::FPSCounter(
             Transform {Point{460, 0}, 0, 1.0},
-            "./resources/UI/DefaultFont.ttf",
+            "./resources/fonts/DefaultFont.ttf",
             48,
             Color::Yellow(),
             16, 16,

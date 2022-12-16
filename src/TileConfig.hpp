@@ -10,6 +10,7 @@
 #include "Director/GameObjectDirector.hpp"
 #include "Scripts/CoinBehaviour.hpp"
 #include "Scripts/FlagBehaviour.hpp"
+#include "UI/CoinCounter.hpp"
 
 const auto TILESIZE = 16;
 
