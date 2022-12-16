@@ -7,7 +7,7 @@
 
 const double VELOCITY_MARGIN = 0.1;
 const int JUMP_FORCE = 55;
-const int TIMER_TICKS = 6 * 60;
+const int TIMER_TICKS = 5 * 60;
 
 namespace PlatformerGame {
 
