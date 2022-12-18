@@ -8,7 +8,7 @@ namespace PlatformerGame {
     void MarioBehaviour::OnUpdate() {
         auto object = this->GetGameObject().lock();
         if(object != nullptr) {
-            if(object->GetTransform().position.y > 330) { //330 is void in this case
+            if(object->GetTransform().position.y > 340) { //330 is void in this case
                 auto &engine = platformer_engine::Engine::GetInstance();
                 engine.SetActiveScene("gameover");
             }
