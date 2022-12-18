@@ -16,7 +16,7 @@ namespace PlatformerGame {
     }
 
     void MarioBehaviour::OnTriggerEnter2D(Collision collision) {
-        auto collidingObject = collision.GetCollider()->GetGameObject().lock();
+        auto collidingObject = collision.GetSelfCollider()->GetGameObject().lock();
 
         if(collidingObject->GetTag() == "enemy") { //Might expand this in future
             auto &engine = platformer_engine::Engine::GetInstance();

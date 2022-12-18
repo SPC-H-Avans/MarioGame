@@ -6,7 +6,7 @@
 
 namespace PlatformerGame {
     void FlagBehaviour::OnTriggerEnter2D(Collision collision) {
-        auto collidingObject = collision.GetCollider()->GetGameObject().lock();
+        auto collidingObject = collision.GetSelfCollider()->GetGameObject().lock();
 
         if(collidingObject->GetTag() == "player") {
             auto &engine = platformer_engine::Engine::GetInstance();

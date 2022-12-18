@@ -88,6 +88,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
     platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
     scene.AddObject(mario);
+    scene.AddObject(goomba);
 
     // test Text
     auto textId = "coins";
