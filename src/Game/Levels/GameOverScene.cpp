@@ -27,7 +27,7 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
     auto timerObj = objectBuilder.GetGameObject();
     timerObj->AddComponent<BehaviourScript>(std::make_unique<PlatformerGame::TimerScript>(PlatformerGame::TimerScript(3000, []() {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
-        engine.SetActiveScene(engine.GetDefaultSceneName());
+        engine.QueueActiveScene(engine.GetDefaultSceneName());
     })));
 
     scene.AddObject(*timerObj);

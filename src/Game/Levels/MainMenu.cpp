@@ -49,7 +49,7 @@ void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight)
             "./resources/UI/start.png",
             spriteSize * spriteScale, spriteSize * spriteScale,
             []{ platformer_engine::Engine& engine = platformer_engine::Engine::GetInstance();
-                engine.SetActiveScene(engine.GetActiveScene().GetNextScene().value());
+                engine.QueueActiveScene(engine.GetActiveScene().GetNextScene().value());
             });
 
     scene.AddUIObject(std::make_shared<Button>(button));

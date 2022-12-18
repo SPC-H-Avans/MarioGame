@@ -54,6 +54,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
     scene.AddObject(mario);
 
+
     // test Text
     auto textId = "coins";
     auto text = "text test";

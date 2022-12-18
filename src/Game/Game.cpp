@@ -11,7 +11,7 @@
 #include "Levels/Level1.hpp"
 #include "Game/Levels/GameOverScene.hpp"
 
-constexpr bool FULLSCREEN = true;
+constexpr bool FULLSCREEN = false;
 constexpr bool LOGGING = true;
 
 namespace PlatformerGame {
