@@ -8,6 +8,8 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "Director/GameObjectDirector.hpp"
+#include "Scripts/CoinBehaviour.hpp"
+#include "Scripts/FlagBehaviour.hpp"
 
 const auto TILESIZE = 16;
 
@@ -63,7 +65,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 sprites.push_back({
-                                          spriteId, spriteNo, "overworldtile" + std::to_string(spriteId), OVERWORLDPATH,
+                                          spriteId, spriteNo, "overworldtile", OVERWORLDPATH,
                                           GetSheetPos(spriteNo, overworldSheet)
                                   });
             }
@@ -72,46 +74,52 @@ public:
         // add item tiles
         spriteNo = 0;
         for (int rows = 0; rows < itemsSheet.rows; ++rows) {
-            for (int columns = 0; columns < itemsSheet.columns; ++columns) {
-                ++spriteId;
-                ++spriteNo;
-                sprites.push_back({
-                                          spriteId, spriteNo, "itemtile" + std::to_string(spriteId), ITEMSPATH,
-                                          GetSheetPos(spriteNo, itemsSheet)
-                                  });
+            ++spriteId;
+            ++spriteNo;
+            sprites.push_back({
+                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
+                                      GetSheetPos(spriteNo, itemsSheet)
+                              });      for (int columns = 0; columns < itemsSheet.columns; ++columns) {
+
             }
         }
 
         // add all functions to the config
         for (auto& sprite : sprites) {
-            AddToConfig(config, sprite, overworldSheet);
+            AddToConfig(config, sprite, overworldSheet, SpriteType::Tile);
         }
         return config;
     }
 
-    static auto World1() -> std::map<int, std::function<GameObject(Transform)>> {
+    static auto World1(spic::Scene& scene) -> std::map<int, std::function<GameObject(Transform)>> {
         std::map<int, std::function<GameObject(Transform)>> config {};
 
         const auto BLOCKSPATH = "./resources/levels/mario/Tilesets/blocks1.png";
         const auto BLOCKSSHEETROWS = 2;
         const auto BLOCKSSHEETCOLS = 5;
 
-        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
-        const auto ITEMSSHEETROWS = 1;
-        const auto ITEMSSHEETCOLS = 5;
-
         const auto BACKGROUNDPATH = "./resources/levels/mario/Tilesets/background1.png";
         const auto BACKGROUNDROWS = 4;
         const auto BACKGROUNDCOLS = 8;
 
+        const auto ITEMSPATH = "./resources/levels/mario/Tilesets/interactable1.png";
+        const auto ITEMSSHEETROWS = 1;
+        const auto ITEMSSHEETCOLS = 5;
+
+        const auto FLAGPATH = "./resources/levels/mario/Tilesets/flag.png";
+        const auto FLAGROWS = 3;
+        const auto FLAGCOLS = 1;
+
         auto blocksSheet = SpriteSheetInfo{BLOCKSSHEETROWS, BLOCKSSHEETCOLS, TILESIZE, TILESIZE};
         auto backgroundSheet = SpriteSheetInfo{BACKGROUNDROWS, BACKGROUNDCOLS, TILESIZE, TILESIZE};
         auto itemsSheet = SpriteSheetInfo{ITEMSSHEETROWS, ITEMSSHEETCOLS, TILESIZE, TILESIZE};
+        auto flagSheet = SpriteSheetInfo{FLAGROWS, FLAGCOLS, TILESIZE, TILESIZE};
 
         // create all info for the sprites
         auto tileSprites = std::vector<SpriteInfo> {};
         auto backgroundSprites = std::vector<SpriteInfo> {};
         auto interactableSprites = std::vector<SpriteInfo> {};
+        auto flagSprites = std::vector<SpriteInfo> {};
 
         // add block tiles
         int spriteId = 0;
@@ -121,7 +129,7 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 tileSprites.push_back({
-                                              spriteId, spriteNo, "overworldtile" + std::to_string(spriteId), BLOCKSPATH,
+                                              spriteId, spriteNo, "overworldtile", BLOCKSPATH,
                                               GetSheetPos(spriteNo, blocksSheet)
                                       });
             }
@@ -133,8 +141,8 @@ public:
             for (int columns = 0; columns < backgroundSheet.columns; ++columns) {
                 ++spriteId;
                 ++spriteNo;
-                interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteId), BACKGROUNDPATH,
+                backgroundSprites.push_back({
+                                                      spriteId, spriteNo, "backgroundtile", BACKGROUNDPATH,
                                                       GetSheetPos(spriteNo, backgroundSheet)
                                               });
             }
@@ -147,27 +155,72 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 interactableSprites.push_back({
-                                                      spriteId, spriteNo, "itemtile" + std::to_string(spriteId), ITEMSPATH,
+                                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
                                                       GetSheetPos(spriteNo, itemsSheet)
                                               });
             }
         }
 
+        // add flag tiles
+        spriteNo = 0;
+        for(int rows = 0; rows < flagSheet.rows; ++rows) {
+            for(int columns = 0; columns < flagSheet.columns; columns++) {
+                ++spriteId;
+                ++spriteNo;
+                flagSprites.push_back({
+                    spriteId, spriteNo, "flagtile" + std::to_string(spriteId), FLAGPATH, GetSheetPos(spriteNo, flagSheet)
+                });
+            }
+        }
+
         // add all functions to the config
         for (auto& sprite : tileSprites) {
-            AddToConfig(config, sprite, blocksSheet);
+            AddToConfig(config, sprite, blocksSheet, SpriteType::Tile);
         }
         for (auto& sprite : backgroundSprites) {
-            AddToConfig(config, sprite, backgroundSheet, true);
+            AddToConfig(config, sprite, backgroundSheet, SpriteType::Background);
         }
-        for (auto& sprite : interactableSprites) { // TODO: change when interactable tiles are added
-            AddToConfig(config, sprite, itemsSheet, true);
+//        for (auto& sprite : interactableSprites) {
+//           AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
+//        }
+
+        // TODO: mushroom
+        // TODO: extra life
+        // TODO: flower
+        // TODO: star
+        // coin
+        auto path = "./resources/fonts/DefaultFont.ttf";
+        auto coinCounter = PlatformerGame::CoinCounter(
+                Transform{Point{300, 0}, 0, 1.0},
+                "coinCounter",
+                "COINS: ",
+                path,
+                48, Color::Yellow(),
+                100, 50);
+        // create a shared ptr to the coin counter
+        auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
+        scene.AddUIObject(coinCounter.GetUIObject());
+
+        auto coinSprite = interactableSprites[4];
+        platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);
+        auto coinSpriteObj = spic::Sprite(coinSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
+        coinSpriteObj.SetSpriteSheetPosition(coinSprite.sheetPos.x, coinSprite.sheetPos.y);
+        config.insert(
+                {coinSprite.id, [coinSpriteObj, coinCounterPtr](Transform transform){
+                    std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::CoinBehaviour>(coinCounterPtr)};
+                    return GameObjectDirector::CreateScriptedTile("coin", coinSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
+                }});
+
+        for(auto& sprite : flagSprites) {
+            AddToConfig(config, sprite, flagSheet, SpriteType::Flag);
         }
 
         return config;
     }
 
 private:
+    enum SpriteType { Tile, Background, Flag };
+
     static auto GetSheetPos(int sheetNo, SpriteSheetInfo spriteSheet) -> SheetPos {
         int x = (sheetNo - 1) % spriteSheet.columns;
         int y = (sheetNo - 1) / spriteSheet.columns;
@@ -177,17 +230,23 @@ private:
     static void AddToConfig(
             std::map<int, std::function<GameObject(Transform)>>& config,
             const SpriteInfo& sprite, const SpriteSheetInfo& spriteSheet,
-            const bool isBackground = false
+            const SpriteType type
             ) {
         platformer_engine::TextureManager::GetInstance().LoadTexture(sprite.objectId, sprite.path);
         auto spriteObj = spic::Sprite(sprite.objectId, spriteSheet.tileWidth, spriteSheet.tileHeight);
         spriteObj.SetSpriteSheetPosition(sprite.sheetPos.x, sprite.sheetPos.y);
-        if (!isBackground)
+        if (type == SpriteType::Tile) {
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile(spriteObj, transform, TILESIZE, TILESIZE);}});
-        else
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile("tile", spriteObj, transform, TILESIZE, TILESIZE);}});
+        }
+        else if(type == SpriteType::Flag) {
+            const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<PlatformerGame::FlagBehaviour>() };
+
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject(spriteObj, transform);}});
+                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, true, scripts);}});
+        } else //SpriteType::Background
+            config.insert(
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject("tile", spriteObj, transform);}});
     }
 };
 #endif //PLATFORMER_GAME_TILECONFIG_HPP
