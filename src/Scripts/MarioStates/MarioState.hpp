@@ -25,7 +25,8 @@ namespace PlatformerGame {
         virtual ~MarioState() = default;
 
     protected:
-        spic::Point _lastVelocity;
+        spic::Point _lastVelocity; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        bool _lastMoveRight = true; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
     };
 }
 
