@@ -3,6 +3,7 @@
 #include "Builder/SceneBuilder.hpp"
 #include "Engine/Engine.hpp"
 #include "TileConfig.hpp"
+#include "Scripts/MarioBehaviour.hpp"
 
 void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &serverAddress, int port, int viewWidth, int viewHeight) {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
@@ -42,13 +43,19 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
         auto animations = std::vector<platformer_engine::AnimatedSprite>{idleSprite, walkSprite, jumpSprite};
         auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
-                    // TODO: put mariobehaviour here
+            std::make_shared<PlatformerGame::MarioBehaviour>()
         };
         auto mario = GameObjectDirector::CreatePlayer(clientManager.GetLocalPlayerId(), transform, w, h, animations, behaviourScripts);
         clientManager.InitializeMyClient(*GameObject::Find(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId())));
 
-        camera.SetTarget(mario);
+        while(platformer_engine::Engine::GetInstance().GetQueuedScene().has_value()){
+        }
+
         auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+        mario.Active(true);
+        scene.AddObject(mario);
+        camera.SetTarget(mario);
+
         scene.AddCamera(camera);
         scene.SetActiveCameraByName(camera.GetName());
     };
