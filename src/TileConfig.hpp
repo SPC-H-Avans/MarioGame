@@ -11,6 +11,7 @@
 #include "Scripts/CoinBehaviour.hpp"
 #include "Scripts/FlagBehaviour.hpp"
 #include "Scripts/StarBehaviour.hpp"
+#include "UI/CoinCounter.hpp"
 
 const auto TILESIZE = 16;
 

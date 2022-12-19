@@ -11,7 +11,7 @@ namespace PlatformerGame {
             _state->RegisterInput(object, _state);
             _state->Animate(object);
 
-            if(object->GetTransform().position.y > 320) { //320 is void in this case
+            if(object->GetTransform().position.y > 340) { //320 is void in this case
                 auto &engine = platformer_engine::Engine::GetInstance();
                 engine.QueueActiveScene("gameover");
             }

@@ -41,7 +41,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     auto walkStarSprite = platformer_engine::AnimatedSprite("mario_walk_star", w, h, 6);
     auto jumpStarSprite = platformer_engine::AnimatedSprite("mario_jump_star", w + 1, h - 1, 6);
 
-    auto transform = Transform{Point{100, 250}, 0, 1.0};
+    auto transform = Transform{Point{100, 175}, 0, 1.0};
     auto animations = std::vector<platformer_engine::AnimatedSprite>{walkSprite, jumpSprite, idleStarSprite, walkStarSprite, jumpStarSprite, idleSprite}; // TODO: last loaded sprite is visible upon spawn
     auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
