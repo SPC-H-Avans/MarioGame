@@ -7,14 +7,8 @@
 
 const double VELOCITY_MARGIN = 0.1;
 const int JUMP_FORCE = 55;
-const int TIMER_TICKS = 5 * 60;
 
 namespace PlatformerGame {
-
-    StarMarioState::StarMarioState() {
-        _timer = TIMER_TICKS;
-    }
-
     void StarMarioState::Animate(std::shared_ptr<spic::GameObject> player) {
         if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
