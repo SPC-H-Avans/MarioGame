@@ -7,6 +7,7 @@
 #include "UI/FPSCounter.hpp"
 #include "AudioSource.hpp"
 #include "Scripts/MarioBehaviour.hpp"
+#include "constants/Sprites.hpp"
 
 const int DEFAULT_LAYER = 1;
 const int DEFAULT_SPEED = 100;
@@ -16,7 +17,7 @@ const int DEFAULT_PLAYER_HEIGHT = 17;
 
 void LoadAnimatedSprite(std::vector<platformer_engine::AnimatedSprite> &spriteList, std::string spriteId,
                         std::string path, int spriteWidth, int spriteHeight, int frameCount) {
-    std::string spriteIdFlipped = spriteId + "_x_flip";
+    std::string spriteIdFlipped = spriteId + constants::HORIZONTAL_FLIP_SUFFIX;
     platformer_engine::TextureManager::GetInstance().LoadTexture(spriteId, path);
     platformer_engine::TextureManager::GetInstance().LoadTexture(spriteIdFlipped, path);
     auto idleSprite = platformer_engine::AnimatedSprite(spriteId, spriteWidth, spriteHeight, frameCount);
@@ -39,12 +40,12 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
                            static_cast<double>(viewHeight)};
 
     auto animations = std::vector<platformer_engine::AnimatedSprite>();
-    LoadAnimatedSprite(animations, "mario_walk", "./resources/Sprites/Mario/Walk.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 3);
-    LoadAnimatedSprite(animations, "mario_jump", "./resources/Sprites/Mario/Jump.png", DEFAULT_PLAYER_WIDTH + 1, DEFAULT_PLAYER_HEIGHT - 1, 1);
-    LoadAnimatedSprite(animations, "mario_idle_star", "./resources/Sprites/Mario/Star/Idle.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 6);
-    LoadAnimatedSprite(animations, "mario_walk_star", "./resources/Sprites/Mario/Star/Walk.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 6);
-    LoadAnimatedSprite(animations, "mario_jump_star", "./resources/Sprites/Mario/Star/Jump.png", DEFAULT_PLAYER_WIDTH + 1, DEFAULT_PLAYER_HEIGHT - 1, 6);
-    LoadAnimatedSprite(animations, "mario_idle", "./resources/Sprites/Mario/Idle.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 1);
+    LoadAnimatedSprite(animations, constants::WALK_SPRITE_ID, "./resources/Sprites/Mario/Walk.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 3);
+    LoadAnimatedSprite(animations, constants::JUMP_SPRITE_ID, "./resources/Sprites/Mario/Jump.png", DEFAULT_PLAYER_WIDTH + 1, DEFAULT_PLAYER_HEIGHT - 1, 1);
+    LoadAnimatedSprite(animations, constants::IDLE_STAR_SPRITE_ID, "./resources/Sprites/Mario/Star/Idle.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 6);
+    LoadAnimatedSprite(animations, constants::WALK_STAR_SPRITE_ID, "./resources/Sprites/Mario/Star/Walk.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 6);
+    LoadAnimatedSprite(animations, constants::JUMP_STAR_SPRITE_ID, "./resources/Sprites/Mario/Star/Jump.png", DEFAULT_PLAYER_WIDTH + 1, DEFAULT_PLAYER_HEIGHT - 1, 6);
+    LoadAnimatedSprite(animations, constants::IDLE_SPRITE_ID, "./resources/Sprites/Mario/Idle.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 1); // TODO: last loaded sprite is visible upon spawn
 
     auto transform = Transform{Point{100, 250}, 0, 1.0};
     auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
