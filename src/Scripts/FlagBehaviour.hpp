@@ -9,6 +9,8 @@ namespace PlatformerGame {
     public:
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<BehaviourScript, FlagBehaviour>(*this);
+            boost::serialization::void_cast_register<FlagBehaviour, BehaviourScript>();
         }
 
         void OnTriggerEnter2D(Collision collision) override;

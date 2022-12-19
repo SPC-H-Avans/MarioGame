@@ -1,6 +1,10 @@
 #ifndef PLATFORMER_GAME_MARIOSTATE_HPP
 #define PLATFORMER_GAME_MARIOSTATE_HPP
 
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+
 #include "Texture/AnimatedSprite.hpp"
 #include "Point.hpp"
 
@@ -24,5 +28,7 @@ namespace PlatformerGame {
         spic::Point _lastVelocity;
     };
 }
+
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(PlatformerGame::MarioState);
 
 #endif //PLATFORMER_GAME_MARIOSTATE_HPP

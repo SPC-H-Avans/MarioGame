@@ -6,6 +6,16 @@
 namespace PlatformerGame {
     class SmallMarioState : public MarioState {
     public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<MarioState, SmallMarioState>(*this);
+            boost::serialization::void_cast_register<SmallMarioState, MarioState>();
+            ar & _idleSprite;
+            ar & _walkSprite;
+            ar & _jumpSprite;
+            ar & _lastVelocity;
+        }
+
         SmallMarioState();
 
         void Animate(std::shared_ptr<spic::GameObject> player) override;

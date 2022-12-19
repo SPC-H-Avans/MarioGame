@@ -12,6 +12,9 @@ namespace PlatformerGame {
     public:
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<BehaviourScript, MarioBehaviour>(*this);
+            boost::serialization::void_cast_register<MarioBehaviour, BehaviourScript>();
+            ar & _state;
         }
 
         void OnUpdate() override;
