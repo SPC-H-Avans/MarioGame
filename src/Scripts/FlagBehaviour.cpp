@@ -15,9 +15,9 @@ namespace PlatformerGame {
 
             if(nextScene.has_value()) {
                 next = nextScene.value();
-                engine.SetActiveScene(next);
+                engine.QueueActiveScene(next);
             } else {
-                engine.SetActiveScene(engine.GetDefaultSceneName());
+                engine.QueueActiveScene(engine.GetDefaultSceneName());
             }
         }
     }

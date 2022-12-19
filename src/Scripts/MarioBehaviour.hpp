@@ -10,6 +10,8 @@ namespace PlatformerGame {
     public:
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<Component, MarioBehaviour>(*this);
+            boost::serialization::void_cast_register<MarioBehaviour, Component>();
         }
 
         void OnUpdate() override;
