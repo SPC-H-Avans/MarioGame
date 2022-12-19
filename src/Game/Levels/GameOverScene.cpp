@@ -4,7 +4,7 @@
 #include "Engine/Engine.hpp"
 #include "Director/GameObjectDirector.hpp"
 #include "Color.hpp"
-#include "Scripts/TimerScript.hpp"
+#include "Scripts/TimerBehaviour.hpp"
 
 void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
@@ -25,7 +25,7 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
 
     GameObjectBuilder objectBuilder("timerObject");
     auto timerObj = objectBuilder.GetGameObject();
-    timerObj->AddComponent<BehaviourScript>(std::make_unique<PlatformerGame::TimerScript>(PlatformerGame::TimerScript(3000, []() {
+    timerObj->AddComponent<BehaviourScript>(std::make_unique<PlatformerGame::TimerBehaviour>(PlatformerGame::TimerBehaviour(3000, []() {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.SetActiveScene(engine.GetDefaultSceneName());
     })));
