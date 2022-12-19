@@ -1,8 +1,38 @@
-//
-// Created by Karsten Belt on 19/12/2022.
-//
+#ifndef PLATFORMER_ENGINE_DYNAMICANIMATIONBEHAVIOUR_HPP
+#define PLATFORMER_ENGINE_DYNAMICANIMATIONBEHAVIOUR_HPP
 
-#ifndef PLATFORMER_GAME_DYNAMICANIMATIONBEHAVIOUR_H
-#define PLATFORMER_GAME_DYNAMICANIMATIONBEHAVIOUR_H
+#include "BehaviourScript.hpp"
+#include "Texture/AnimatedSprite.hpp"
 
-#endif //PLATFORMER_GAME_DYNAMICANIMATIONBEHAVIOUR_H
+namespace PlatformerGame {
+
+    class DynamicAnimationBehaviour : public spic::BehaviourScript {
+    public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<BehaviourScript, DynamicAnimationBehaviour>(*this);
+            boost::serialization::void_cast_register<DynamicAnimationBehaviour, BehaviourScript>();
+            ar & _idleSprite;
+            ar & _walkSprite;
+            ar & _jumpSprite;
+        }
+        DynamicAnimationBehaviour(platformer_engine::AnimatedSprite idleSprite,
+                                  platformer_engine::AnimatedSprite walkSprite,
+                                  platformer_engine::AnimatedSprite jumpSprite);
+
+        DynamicAnimationBehaviour();
+
+        void OnUpdate() override;
+    private:
+        platformer_engine::AnimatedSprite _idleSprite;
+        platformer_engine::AnimatedSprite _walkSprite;
+        platformer_engine::AnimatedSprite _jumpSprite;
+
+        platformer_engine::AnimatedSprite _nullSprite;
+
+        Point _lastVelocity;
+    };
+
+}  // namespace PlatformerGame
+
+#endif //PLATFORMER_ENGINE_DYNAMICANIMATIONBEHAVIOUR_HPP

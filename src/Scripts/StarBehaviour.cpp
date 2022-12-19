@@ -5,7 +5,7 @@
 
 void PlatformerGame::StarBehaviour::OnTriggerEnter2D(Collision collision) {
     // put mario in the star state
-    auto marioScripts = collision.GetCollider()->GetGameObject().lock()->GetComponents<BehaviourScript>();
+    auto marioScripts = collision.GetOtherCollider()->GetGameObject().lock()->GetComponents<BehaviourScript>();
     for(auto& scriptComponent : marioScripts) {
         auto script = std::dynamic_pointer_cast<PlatformerGame::MarioBehaviour>(scriptComponent);
         if (script != nullptr) {
