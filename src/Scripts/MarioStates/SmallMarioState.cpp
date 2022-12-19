@@ -52,8 +52,8 @@ namespace PlatformerGame {
                     if (audioSource != nullptr) {
                         audioSource->PlaySound("jump");
                     }
+                    point.y += JUMP_FORCE;
                 }
-                point.y += JUMP_FORCE;
             }
 
             playerRigidBody->AddForce(point);
