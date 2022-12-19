@@ -10,6 +10,7 @@
 #include "Director/GameObjectDirector.hpp"
 #include "Scripts/CoinBehaviour.hpp"
 #include "Scripts/FlagBehaviour.hpp"
+#include "Scripts/StarBehaviour.hpp"
 #include "UI/CoinCounter.hpp"
 
 const auto TILESIZE = 16;
@@ -185,19 +186,30 @@ public:
 //           AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
 //        }
 
+        // TODO: make a generic method to avoid repetition
         // TODO: mushroom
         // TODO: extra life
         // TODO: flower
-        // TODO: star
+        // star
+        auto starSprite = interactableSprites[3];
+        platformer_engine::TextureManager::GetInstance().LoadTexture(starSprite.objectId, starSprite.path);
+        auto starSpriteObj = spic::Sprite(starSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
+        starSpriteObj.SetSpriteSheetPosition(starSprite.sheetPos.x, starSprite.sheetPos.y);
+        config.insert(
+                {starSprite.id, [starSpriteObj](Transform transform){
+                    std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::StarBehaviour>()};
+                    return GameObjectDirector::CreateScriptedTile("coin", starSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
+                }});
+
         // coin
-        auto path = "./resources/fonts/DefaultFont.ttf";
+        auto path = "./resources/fonts/MarioFont.ttf";
         auto coinCounter = PlatformerGame::CoinCounter(
-                Transform{Point{300, 0}, 0, 1.0},
+                Transform{Point{275, 10}, 0, 1.0},
                 "coinCounter",
                 "COINS: ",
                 path,
                 48, Color::Yellow(),
-                100, 50);
+                160, 50);
         // create a shared ptr to the coin counter
         auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
         scene.AddUIObject(coinCounter.GetUIObject());
