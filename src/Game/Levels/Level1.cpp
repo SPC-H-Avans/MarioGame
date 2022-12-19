@@ -47,7 +47,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     LoadAnimatedSprite(animations, constants::JUMP_STAR_SPRITE_ID, "./resources/Sprites/Mario/Star/Jump.png", DEFAULT_PLAYER_WIDTH + 1, DEFAULT_PLAYER_HEIGHT - 1, 6);
     LoadAnimatedSprite(animations, constants::IDLE_SPRITE_ID, "./resources/Sprites/Mario/Idle.png", DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT, 1); // TODO: last loaded sprite is visible upon spawn
 
-    auto transform = Transform{Point{100, 250}, 0, 1.0};
+    auto transform = Transform{Point{100, 175}, 0, 1.0};
     auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
             std::make_shared<PlatformerGame::MarioBehaviour>()

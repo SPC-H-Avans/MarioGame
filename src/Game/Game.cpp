@@ -5,6 +5,7 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Networking/NetworkingServer.hpp"
 #include "Networking/NetworkingClient.hpp"
+#include "Levels/MainMenu.hpp"
 #include "Levels/Level1.hpp"
 #include "Game/Levels/GameOverScene.hpp"
 
@@ -16,11 +17,12 @@ namespace PlatformerGame {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan(), FULLSCREEN, LOGGING);
 
+        MainMenu::AddToEngine("mainmenu", viewWidth, viewHeight);
         Level1::AddToEngine("level1", viewWidth, viewHeight);
         GameOverScene::AddToEngine("gameover", viewWidth, viewHeight);
 
        NetworkingServer networkingServer;
-       networkingServer.CreateServer("level1", 10, 7778);
+       networkingServer.CreateServer("mainmenu", 10, 7778);
 
      // NetworkingClient networkingClient;
      // networkingClient.ConnectToServer("192.168.68.107", 7778, viewWidth, viewHeight);
