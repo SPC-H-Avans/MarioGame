@@ -13,7 +13,7 @@ namespace PlatformerGame {
 
             if(object->GetTransform().position.y > 320) { //320 is void in this case
                 auto &engine = platformer_engine::Engine::GetInstance();
-                engine.SetActiveScene("gameover");
+                engine.QueueActiveScene("gameover");
             }
         }
     }

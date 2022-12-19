@@ -67,7 +67,7 @@ namespace PlatformerGame {
 
     void PlatformerGame::SmallMarioState::TakeDamage() {
         auto &engine = platformer_engine::Engine::GetInstance();
-        engine.SetActiveScene("gameover");
+        engine.QueueActiveScene("gameover");
     }
 }
 
