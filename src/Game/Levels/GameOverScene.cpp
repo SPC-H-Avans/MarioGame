@@ -4,7 +4,7 @@
 #include "Engine/Engine.hpp"
 #include "Director/GameObjectDirector.hpp"
 #include "Color.hpp"
-#include "Scripts/TimerScript.hpp"
+#include "Scripts/TimerBehaviour.hpp"
 
 void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
@@ -13,9 +13,9 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
     Camera camera = Camera{"camera-0", "camera", spic::Color::Cyan(), static_cast<double>(viewWidth),
                            static_cast<double>(viewHeight)};
 
-    auto fontPath = "./resources/fonts/DefaultFont.ttf";
-    Transform textPos {{175, 50}, 0, 1.0};
-    scene.AddUIObject(std::make_shared<Text>(GameObjectDirector::CreateText(textPos, "gameOverText", "Game Over", fontPath,  100, 50, 48, Color::White())));
+    auto fontPath = "./resources/fonts/MarioFont.ttf";
+    Transform textPos {{145, 50}, 0, 1.0};
+    scene.AddUIObject(std::make_shared<Text>(GameObjectDirector::CreateText(textPos, "gameOverText", "Game Over", fontPath,  160, 50, 48, Color::White())));
 
     Transform buttonPos {{175, 75}, 0, 1.0};
     std::function<void()> backToMain;
@@ -25,7 +25,7 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
 
     GameObjectBuilder objectBuilder("timerObject");
     auto timerObj = objectBuilder.GetGameObject();
-    timerObj->AddComponent<BehaviourScript>(std::make_unique<PlatformerGame::TimerScript>(PlatformerGame::TimerScript(3000, []() {
+    timerObj->AddComponent<BehaviourScript>(std::make_unique<PlatformerGame::TimerBehaviour>(PlatformerGame::TimerBehaviour(3000, []() {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.QueueActiveScene(engine.GetDefaultSceneName());
     })));

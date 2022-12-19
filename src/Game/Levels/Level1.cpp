@@ -3,14 +3,13 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Director/GameObjectDirector.hpp"
 #include "Engine/Engine.hpp"
-#include "Scripts/DynamicAnimationBehaviour.hpp"
-#include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
 #include "UI/FPSCounter.hpp"
 #include "AudioSource.hpp"
 #include "Scripts/MarioBehaviour.hpp"
 #include "Scripts/EnemyAttackBehaviour.hpp"
 #include "Physics/ForceDrivenEntity.hpp"
+#include "Scripts/DynamicAnimationBehaviour.hpp"
 
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
@@ -39,6 +38,16 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     auto walkSprite = platformer_engine::AnimatedSprite("mario_walk", marioWidth, marioHeight, 3);
     auto jumpSprite = platformer_engine::AnimatedSprite("mario_jump", marioWidth + 1, marioHeight - 1, 1, 1, 1, 100,
                                                         platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
+    platformer_engine::TextureManager::GetInstance().LoadTexture("mario_idle_star",
+                                                                 "./resources/Sprites/Mario/Star/Idle.png");
+    platformer_engine::TextureManager::GetInstance().LoadTexture("mario_walk_star",
+                                                                 "./resources/Sprites/Mario/Star/Walk.png");
+    platformer_engine::TextureManager::GetInstance().LoadTexture("mario_jump_star",
+                                                                 "./resources/Sprites/Mario/Star/Jump.png");
+    auto idleStarSprite = platformer_engine::AnimatedSprite("mario_idle_star", marioWidth, marioHeight, 6);
+    auto walkStarSprite = platformer_engine::AnimatedSprite("mario_walk_star", marioWidth, marioHeight, 6);
+    auto jumpStarSprite = platformer_engine::AnimatedSprite("mario_jump_star", marioWidth + 1, marioHeight - 1, 6);
+
 
     platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_idle",
                                                                  "./resources/Sprites/Goomba/Idle.png");
@@ -51,13 +60,13 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     auto goombaWalkSprite = platformer_engine::AnimatedSprite("goomba_walk", goombaWidth, goombaHeight, 3);
     auto goombaJumpSprite = platformer_engine::AnimatedSprite("goomba_jump", goombaWidth + 1, goombaHeight - 1, 1, 1, 1, 100,
                                                               platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
-    auto transform = Transform{Point{100, 250}, 0, 1.0};
-    auto marioAnimations = std::vector<platformer_engine::AnimatedSprite>{idleSprite, walkSprite, jumpSprite};
     auto goombaAnimations = std::vector<platformer_engine::AnimatedSprite>{goombaIdleSprite, goombaWalkSprite, goombaJumpSprite};
+
+    auto transform = Transform{Point{100, 175}, 0, 1.0};
+    auto marioAnimations = std::vector<platformer_engine::AnimatedSprite>{walkSprite, jumpSprite, idleStarSprite, walkStarSprite, jumpStarSprite, idleSprite}; // TODO: last loaded sprite is visible upon spawn
+
     auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
-            std::make_shared<PlatformerGame::PlayerInputBehaviour>(),
-            std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite),
             std::make_shared<PlatformerGame::MarioBehaviour>()
     };
     GameObject &mario = GameObjectDirector::CreatePlayer(0, transform, marioWidth, marioHeight - 1, marioAnimations, behaviourScripts);
@@ -90,23 +99,6 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     scene.AddObject(mario);
     scene.AddObject(goomba);
 
-    // test Text
-    auto textId = "coins";
-    auto text = "text test";
-    auto fontPath = "./resources/fonts/DefaultFont.ttf";
-    auto fontSize = 40;
-    auto color = Color::Yellow();
-    auto uiText = GameObjectDirector::CreateText(
-            Transform{Point{150, 0}, 0, 1.0},
-            textId,
-            text,
-            fontPath,
-            100, 50,
-            fontSize, color);
-    // test update text
-    text = "TEST TEXT";
-    platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
-
     // test Button
     const auto textureName = "startButton";
     const auto spriteSize = 16;
@@ -123,13 +115,12 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
             []{ std::cout << "click" << std::endl; });
 
     scene.AddUIObject(std::make_shared<Button>(button));
-    scene.AddUIObject(std::make_shared<Text>(uiText));
     auto fpsCounter = platformer_engine::FPSCounter(
-            Transform {Point{460, 0}, 0, 1.0},
-            "./resources/UI/DefaultFont.ttf",
+            Transform {Point{450, 0}, 0, 1.0},
+            "./resources/fonts/DefaultFont.ttf",
             48,
             Color::Yellow(),
-            16, 16,
+            24, 24,
             KeyCode::F);
     scene.AddUIObject(fpsCounter.GetUIObject());
 
