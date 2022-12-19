@@ -38,7 +38,7 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
         auto jumpSprite = platformer_engine::AnimatedSprite("mario_jump", w + 1, h - 1, 1, 1, 1, 100,
                                                             platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
 
-        auto transform = Transform{Point{100, 250}, 0, 1.0};
+        auto transform = Transform{Point{100, 220}, 0, 1.0};
         auto animations = std::vector<platformer_engine::AnimatedSprite>{idleSprite, walkSprite, jumpSprite};
         auto behaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
             std::make_shared<platformer_engine::CollisionBehaviour>(),
