@@ -19,15 +19,15 @@ void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight)
     // test Text
     auto textId = "MainMenu_Title";
     auto text = "Mario Bros Lite";
-    auto fontPath = "./resources/fonts/DefaultFont.ttf";
-    auto fontSize = 52;
+    auto fontPath = "./resources/fonts/MarioFont.ttf";
+    auto fontSize = 80;
     auto color = Color::Black();
     auto uiText = GameObjectDirector::CreateText(
-            Transform{Point{190, 10}, 0, 1.0},
+            Transform{Point{40, 20}, 0, 1.0},
             textId,
             text,
             fontPath,
-            100, 60,
+            400, 70,
             fontSize, color);
 
     platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(textId, fontPath, text, fontSize, color);
@@ -40,7 +40,7 @@ void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight)
     auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
     buttonSprite.SetSpriteScale(spriteScale);
     auto button = GameObjectDirector::CreateButton(
-            Transform{Point{220, 125}, 0, spriteScale},
+            Transform{Point{200, 125}, 0, spriteScale},
             "button1",
             buttonSprite,
             "./resources/UI/start.png",
