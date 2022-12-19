@@ -3,12 +3,9 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Director/GameObjectDirector.hpp"
 #include "Engine/Engine.hpp"
-#include "Scripts/DynamicAnimationBehaviour.hpp"
-#include "Scripts/PlayerInputBehaviour.hpp"
 #include "TileConfig.hpp"
 #include "UI/FPSCounter.hpp"
 #include "AudioSource.hpp"
-#include "Scripts/MarioBehaviour.hpp"
 
 void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
