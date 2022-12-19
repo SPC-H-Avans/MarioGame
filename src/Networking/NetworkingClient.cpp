@@ -59,8 +59,8 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
         auto mario = GameObjectDirector::CreatePlayer(clientManager.GetLocalPlayerId(), transform, w, h, animations, behaviourScripts);
         clientManager.InitializeMyClient(*GameObject::Find(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId())));
 
-        while(platformer_engine::Engine::GetInstance().GetQueuedScene().has_value()){
-        }
+//        while(platformer_engine::Engine::GetInstance().GetQueuedScene().has_value()){
+//        }
 
         auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
         mario.Active(true);
