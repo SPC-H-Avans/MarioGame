@@ -18,3 +18,5 @@ void PlatformerGame::StarBehaviour::OnTriggerEnter2D(Collision collision) {
     platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(starObj->GetName());
     starObj->Destroy(starObj);
 }
+
+BOOST_CLASS_EXPORT(PlatformerGame::StarBehaviour);

@@ -11,6 +11,13 @@
 namespace PlatformerGame {
     class MarioState {
     public:
+      template<typename archive>
+      void serialize(archive &ar, const unsigned /*version*/) {
+        ar & _idleSprite;
+        ar & _walkSprite;
+        ar & _jumpSprite;
+        ar & _lastVelocity;
+      }
         virtual void Animate(std::shared_ptr<spic::GameObject> player) = 0;
 
         virtual void

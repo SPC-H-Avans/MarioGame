@@ -78,3 +78,5 @@ namespace PlatformerGame {
         // TODO: instead of taking damage, kill the enemy
     }
 }
+
+BOOST_CLASS_EXPORT(PlatformerGame::StarMarioState);

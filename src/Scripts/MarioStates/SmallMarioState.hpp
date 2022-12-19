@@ -10,10 +10,6 @@ namespace PlatformerGame {
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & boost::serialization::base_object<MarioState, SmallMarioState>(*this);
             boost::serialization::void_cast_register<SmallMarioState, MarioState>();
-            ar & _idleSprite;
-            ar & _walkSprite;
-            ar & _jumpSprite;
-            ar & _lastVelocity;
         }
 
         SmallMarioState();

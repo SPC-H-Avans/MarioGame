@@ -70,3 +70,5 @@ namespace PlatformerGame {
         engine.SetActiveScene("gameover");
     }
 }
+
+BOOST_CLASS_EXPORT(PlatformerGame::SmallMarioState);

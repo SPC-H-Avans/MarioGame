@@ -26,3 +26,5 @@ namespace PlatformerGame {
         }
     }
 }
+
+BOOST_CLASS_EXPORT(PlatformerGame::MarioBehaviour);
