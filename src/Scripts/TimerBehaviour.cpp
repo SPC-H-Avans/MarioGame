@@ -10,7 +10,9 @@ namespace PlatformerGame {
     void TimerBehaviour::OnStart() {
         std::thread thread ([this]() {
             std::this_thread::sleep_for(std::chrono::milliseconds(_sleepMilliSeconds));
-            _action();
+            if(_action != nullptr) {
+              _action();
+            }
         });
         thread.detach();
     }
