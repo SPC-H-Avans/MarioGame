@@ -198,7 +198,7 @@ public:
         config.insert(
                 {starSprite.id, [starSpriteObj](Transform transform){
                     std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::StarBehaviour>()};
-                    return GameObjectDirector::CreateScriptedTile("coin", starSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
+                    return GameObjectFactory::CreateScriptedTile("coin", starSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
                 }});
 
         // coin
@@ -221,7 +221,7 @@ public:
         config.insert(
                 {coinSprite.id, [coinSpriteObj, coinCounterPtr](Transform transform){
                     std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::CoinBehaviour>(coinCounterPtr)};
-                    return GameObjectDirector::CreateScriptedTile("coin", coinSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
+                    return GameObjectFactory::CreateScriptedTile("coin", coinSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
                 }});
 
         for(auto& sprite : flagSprites) {
@@ -250,16 +250,16 @@ private:
         spriteObj.SetSpriteSheetPosition(sprite.sheetPos.x, sprite.sheetPos.y);
         if (type == SpriteType::Tile) {
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateTile("tile", spriteObj, transform, TILESIZE, TILESIZE);}});
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectFactory::CreateTile("tile", spriteObj, transform, TILESIZE, TILESIZE);}});
         }
         else if(type == SpriteType::Flag) {
             const std::vector<std::shared_ptr<BehaviourScript>> scripts { std::make_shared<PlatformerGame::FlagBehaviour>() };
 
             config.insert(
-                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectDirector::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, true, scripts);}});
+                    {sprite.id, [spriteObj, scripts](Transform transform){ return GameObjectFactory::CreateScriptedTile("flag", spriteObj, transform, TILESIZE, TILESIZE, true, scripts);}});
         } else //SpriteType::Background
             config.insert(
-                    {sprite.id, [spriteObj](Transform transform){ return GameObjectDirector::CreateBackgroundObject("tile", spriteObj, transform);}});
+                    {sprite.id, [spriteObj](Transform transform){ return GameObjectFactory::CreateBackgroundObject("tile", spriteObj, transform);}});
     }
 };
 #endif //PLATFORMER_GAME_TILECONFIG_HPP
