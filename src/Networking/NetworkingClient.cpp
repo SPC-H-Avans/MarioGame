@@ -56,7 +56,7 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
             std::make_shared<platformer_engine::CollisionBehaviour>(),
             std::make_shared<PlatformerGame::MarioBehaviour>()
         };
-        auto mario = GameObjectDirector::CreatePlayer(clientManager.GetLocalPlayerId(), transform, w, h, animations, behaviourScripts);
+        auto mario = GameObjectFactory::CreatePlayer(clientManager.GetLocalPlayerId(), transform, w, h, animations, behaviourScripts);
         clientManager.InitializeMyClient(*GameObject::Find(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId())));
 
         while(platformer_engine::Engine::GetInstance().GetQueuedScene().has_value()){
