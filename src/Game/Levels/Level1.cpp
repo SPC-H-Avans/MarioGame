@@ -80,9 +80,12 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
             []{ std::cout << "click" << std::endl; });
 
     scene.AddUIObject(std::make_shared<Button>(button));
+
+    std::string defaultFont = "./resources/fonts/DefaultFont.ttf";
+
     auto fpsCounter = platformer_engine::FPSCounter(
             Transform {Point{450, 0}, 0, 1.0},
-            "./resources/fonts/DefaultFont.ttf",
+            defaultFont,
             48,
             Color::Yellow(),
             24, 24,

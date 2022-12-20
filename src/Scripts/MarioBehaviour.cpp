@@ -5,7 +5,7 @@
 
 namespace PlatformerGame {
 
-    void MarioBehaviour::OnUpdate() {
+    void MarioBehaviour::OnUpdate(double speedMultiplier) {
         auto object = this->GetGameObject().lock();
         if(object != nullptr) {
             _state->RegisterInput(object, _state);
