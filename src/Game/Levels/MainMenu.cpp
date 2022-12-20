@@ -7,7 +7,8 @@
 #include "UI/FPSCounter.hpp"
 #include "AudioSource.hpp"
 
-void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
+void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
+                           const std::shared_ptr<platformer_engine::FPSCounter>& fpsCounter) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
     Scene scene = builder.GetScene();
@@ -51,6 +52,7 @@ void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight)
 
     scene.AddUIObject(std::make_shared<Button>(button));
     scene.AddUIObject(std::make_shared<Text>(uiText));
+    scene.AddUIObject(fpsCounter->GetUIObject());
 
     scene.AddCamera(camera);
 

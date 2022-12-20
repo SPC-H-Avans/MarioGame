@@ -41,10 +41,10 @@ namespace PlatformerGame {
                 KeyCode::F);
         auto fpsCounterPtr = std::make_shared<platformer_engine::FPSCounter>(fpsCounter);
 
-        MainMenu::AddToEngine("mainmenu", viewWidth, viewHeight);
+        MainMenu::AddToEngine("mainmenu", viewWidth, viewHeight, fpsCounterPtr);
         Level1::AddToEngine("level1", viewWidth, viewHeight, coinCounterPtr, fpsCounterPtr);
         Level2::AddToEngine("level2", viewWidth, viewHeight, coinCounterPtr, fpsCounterPtr);
-        GameOverScene::AddToEngine("gameover", viewWidth, viewHeight);
+        GameOverScene::AddToEngine("gameover", viewWidth, viewHeight, fpsCounterPtr);
 
        NetworkingServer networkingServer;
        networkingServer.CreateServer("mainmenu", 10, 7778);
