@@ -2,7 +2,7 @@
 #include "Physics/ForceDrivenEntity.hpp"
 #include "GameObject.hpp"
 
-void EnemyAttackBehaviour::OnUpdate() {
+void EnemyAttackBehaviour::OnUpdate(double speedMultiplier) {
 
     auto gameObject = GetGameObject().lock();
     if(gameObject) {

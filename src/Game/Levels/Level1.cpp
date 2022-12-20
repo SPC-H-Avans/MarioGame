@@ -55,7 +55,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
 
     platformer_engine::AudioManager::GetInstance().LoadMusic("overworld", "./resources/audio/music/smb_overworld_theme.mp3");
     platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
-    platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
+    //platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
     scene.AddObject(mario);
 
     // test Button

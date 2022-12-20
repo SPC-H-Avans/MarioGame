@@ -12,7 +12,7 @@ public:
         boost::serialization::void_cast_register<EnemyAttackBehaviour, Component>();
     }
 
-    void OnUpdate() override;
+    void OnUpdate(double speedMultiplier) override;
 };
 
 

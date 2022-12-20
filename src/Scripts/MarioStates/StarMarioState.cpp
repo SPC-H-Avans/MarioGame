@@ -60,7 +60,7 @@ namespace PlatformerGame {
                 }
             }
 
-            playerRigidBody->AddForce(point);
+            playerRigidBody->AddForce(point, 1.0);
 
             // check if timer should run out
             if (--_timer <= 0) {

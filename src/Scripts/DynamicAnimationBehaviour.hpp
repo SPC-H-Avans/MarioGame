@@ -22,7 +22,7 @@ namespace PlatformerGame {
 
         DynamicAnimationBehaviour();
 
-        void OnUpdate() override;
+        void OnUpdate(double speedMultiplier) override;
     private:
         platformer_engine::AnimatedSprite _idleSprite;
         platformer_engine::AnimatedSprite _walkSprite;

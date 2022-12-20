@@ -56,7 +56,7 @@ namespace PlatformerGame {
                 }
             }
 
-            playerRigidBody->AddForce(point);
+            playerRigidBody->AddForce(point, 1.0);
 
             if (spic::Input::GetKeyDown(KeyCode::C)) { // C stands for Cheat
                 currentState = std::make_unique<StarMarioState>();
