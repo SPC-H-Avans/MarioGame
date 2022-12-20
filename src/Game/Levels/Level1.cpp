@@ -1,7 +1,7 @@
 
 #include "Level1.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
-#include "Director/GameObjectDirector.hpp"
+#include "Director/GameObjectFactory.hpp"
 #include "Engine/Engine.hpp"
 #include "TileConfig.hpp"
 #include "UI/FPSCounter.hpp"
@@ -52,7 +52,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
             std::make_shared<platformer_engine::CollisionBehaviour>(),
             std::make_shared<PlatformerGame::MarioBehaviour>()
     };
-    GameObject &mario = GameObjectDirector::CreatePlayer(0, transform, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT - 1, animations, behaviourScripts);
+    GameObject &mario = GameObjectFactory::CreatePlayer(0, transform, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT - 1, animations, behaviourScripts);
 
     std::map<std::string, int> const audioClips = {{"jump", 50}};
     mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
@@ -71,7 +71,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
 
     auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
     buttonSprite.SetSpriteScale(spriteScale);
-    auto button = GameObjectDirector::CreateButton(
+    auto button = GameObjectFactory::CreateButton(
             Transform{Point{20, 20}, 0, spriteScale},
             "button1",
             buttonSprite,
