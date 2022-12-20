@@ -1,4 +1,6 @@
 #include "Level1.hpp"
+#include "Behaviour/CollisionBehaviour.hpp"
+#include "Director/GameObjectFactory.hpp"
 #include "Engine/Engine.hpp"
 #include "TileConfig.hpp"
 
