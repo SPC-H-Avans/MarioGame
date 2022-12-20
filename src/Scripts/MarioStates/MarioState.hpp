@@ -13,9 +13,6 @@ namespace PlatformerGame {
     public:
       template<typename archive>
       void serialize(archive &ar, const unsigned /*version*/) {
-        ar & _idleSprite;
-        ar & _walkSprite;
-        ar & _jumpSprite;
         ar & _lastVelocity;
       }
         virtual void Animate(std::shared_ptr<spic::GameObject> player) = 0;
@@ -28,11 +25,8 @@ namespace PlatformerGame {
         virtual ~MarioState() = default;
 
     protected:
-        platformer_engine::AnimatedSprite _idleSprite;
-        platformer_engine::AnimatedSprite _walkSprite;
-        platformer_engine::AnimatedSprite _jumpSprite;
-
-        spic::Point _lastVelocity;
+        spic::Point _lastVelocity; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        bool _lastMoveRight = true; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
     };
 }
 

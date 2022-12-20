@@ -3,6 +3,8 @@
 
 #include "MarioState.hpp"
 
+const int TIMER_TICKS = 5 * 60;
+
 namespace PlatformerGame {
     class StarMarioState : public MarioState {
     public:
@@ -12,8 +14,6 @@ namespace PlatformerGame {
             boost::serialization::void_cast_register<StarMarioState, MarioState>();
         }
 
-        StarMarioState();
-
         void Animate(std::shared_ptr<spic::GameObject> player) override;
 
         void RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState>& currentState) override;
@@ -21,7 +21,7 @@ namespace PlatformerGame {
         void TakeDamage() override;
 
     private:
-        int _timer;
+        int _timer = TIMER_TICKS;
     };
 }
 
