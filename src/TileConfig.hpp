@@ -7,7 +7,7 @@
 
 #include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
-#include "Director/GameObjectDirector.hpp"
+#include "Director/GameObjectFactory.hpp"
 #include "Scripts/CoinBehaviour.hpp"
 #include "Scripts/FlagBehaviour.hpp"
 #include "Scripts/StarBehaviour.hpp"
