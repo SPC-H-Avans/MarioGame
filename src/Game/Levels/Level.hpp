@@ -44,7 +44,7 @@ protected:
         return animations;
     }
 
-    static void AddPlayer(Scene &scene, double xPos, double yPos, double viewWidth, double viewHeight) {
+    static auto AddPlayer(Scene &scene, double xPos, double yPos, double viewWidth, double viewHeight) -> GameObject& {
         //Create Player for server
         GameObjectBuilder gameObjectBuilder{"speler"};
         Camera camera = Camera{"camera-0", "camera", spic::Color::Cyan(), viewWidth, viewHeight};
@@ -64,6 +64,8 @@ protected:
 
         camera.SetTarget(mario);
         scene.AddCamera(camera);
+
+        return mario;
     }
 };
 
