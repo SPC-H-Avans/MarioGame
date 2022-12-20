@@ -4,7 +4,6 @@
 #include "Scene.hpp"
 #include "constants/Sprites.hpp"
 #include "Engine/Engine.hpp"
-#include "UI/FPSCounter.hpp"
 #include "Utility/InputEnum.hpp"
 #include "AudioSource.hpp"
 #include "Scripts/MarioBehaviour.hpp"
@@ -20,9 +19,6 @@ protected:
     static const int DEFAULT_ROW = 1;
     static const int DEFAULT_PLAYER_WIDTH = 15;
     static const int DEFAULT_PLAYER_HEIGHT = 17;
-    static const int DEFAULT_FONT_SIZE = 50;
-    inline static const std::string DEFAULT_FONT_PATH = "./resources/fonts/DefaultFont.ttf";
-    inline static const Color DEFAULT_FONT_COLOUR = Color::Yellow();
 
     static void LoadAnimatedSprite(std::vector<platformer_engine::AnimatedSprite> &spriteList, std::string spriteId,
                             std::string path, int spriteWidth, int spriteHeight, int frameCount) {
@@ -68,17 +64,6 @@ protected:
 
         camera.SetTarget(mario);
         scene.AddCamera(camera);
-    }
-
-    static void AddFPSCounter(Scene &scene, double xPos, double yPos) {
-        auto fpsCounter = platformer_engine::FPSCounter(
-                Transform {Point{xPos, yPos}, 0, 1.0},
-                DEFAULT_FONT_PATH,
-                DEFAULT_FONT_SIZE,
-                DEFAULT_FONT_COLOUR,
-                DEFAULT_FONT_SIZE / 2, DEFAULT_FONT_SIZE / 2,
-                KeyCode::F);
-        scene.AddUIObject(fpsCounter.GetUIObject());
     }
 };
 

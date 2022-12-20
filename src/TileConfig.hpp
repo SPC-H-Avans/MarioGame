@@ -93,7 +93,7 @@ public:
         return config;
     }
 
-    static auto World1(spic::Scene& scene) -> std::map<int, std::function<GameObject(Transform)>> {
+    static auto World1(const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter) -> std::map<int, std::function<GameObject(Transform)>> {
         std::map<int, std::function<GameObject(Transform)>> config {};
 
         const auto BLOCKSPATH = "./resources/levels/mario/Tilesets/blocks1.png";
@@ -202,25 +202,25 @@ public:
                 }});
 
         // coin
-        auto path = "./resources/fonts/MarioFont.ttf";
-        auto coinCounter = PlatformerGame::CoinCounter(
-                Transform{Point{275, 10}, 0, 1.0},
-                "coinCounter",
-                "COINS: ",
-                path,
-                48, Color::Yellow(),
-                160, 50);
-        // create a shared ptr to the coin counter
-        auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
-        scene.AddUIObject(coinCounter.GetUIObject());
+//        auto path = "./resources/fonts/MarioFont.ttf";
+//        auto coinCounter = PlatformerGame::CoinCounter(
+//                Transform{Point{275, 10}, 0, 1.0},
+//                "coinCounter",
+//                "COINS: ",
+//                path,
+//                48, Color::Yellow(),
+//                160, 50);
+//        // create a shared ptr to the coin counter
+//        auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
+//        scene.AddUIObject(coinCounter.GetUIObject());
 
         auto coinSprite = interactableSprites[4];
         platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);
         auto coinSpriteObj = spic::Sprite(coinSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
         coinSpriteObj.SetSpriteSheetPosition(coinSprite.sheetPos.x, coinSprite.sheetPos.y);
         config.insert(
-                {coinSprite.id, [coinSpriteObj, coinCounterPtr](Transform transform){
-                    std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::CoinBehaviour>(coinCounterPtr)};
+                {coinSprite.id, [coinSpriteObj, coinCounter](Transform transform){
+                    std::vector<std::shared_ptr<BehaviourScript>> coinScripts = {std::make_shared<PlatformerGame::CoinBehaviour>(coinCounter)};
                     return GameObjectDirector::CreateScriptedTile("coin", coinSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
                 }});
 

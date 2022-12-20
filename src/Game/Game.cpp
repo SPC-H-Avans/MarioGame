@@ -9,18 +9,41 @@
 #include "Levels/Level1.hpp"
 #include "Game/Levels/Level2.hpp"
 #include "Game/Levels/GameOverScene.hpp"
+#include "UI/FPSCounter.hpp"
 
 constexpr bool FULLSCREEN = false;
 constexpr bool LOGGING = true;
+constexpr int DEFAULT_FONT_SIZE = 50;
+inline const std::string DEFAULT_FONT_PATH = "./resources/fonts/DefaultFont.ttf";
+inline const Color DEFAULT_FONT_COLOUR = Color::Yellow();
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan(), FULLSCREEN, LOGGING);
 
+        // coin counter
+        auto coinCounter = PlatformerGame::CoinCounter(
+                Transform{Point{275, 10}, 0, 1.0},
+                "coinCounter",
+                "COINS: ",
+                "./resources/fonts/MarioFont.ttf",
+                48, Color::Yellow(),
+                160, 50);
+        auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
+        // fps counter
+        auto fpsCounter = platformer_engine::FPSCounter(
+                Transform {Point{450, 0}, 0, 1.0},
+                DEFAULT_FONT_PATH,
+                DEFAULT_FONT_SIZE,
+                DEFAULT_FONT_COLOUR,
+                DEFAULT_FONT_SIZE / 2, DEFAULT_FONT_SIZE / 2,
+                KeyCode::F);
+        auto fpsCounterPtr = std::make_shared<platformer_engine::FPSCounter>(fpsCounter);
+
         MainMenu::AddToEngine("mainmenu", viewWidth, viewHeight);
-        Level1::AddToEngine("level1", viewWidth, viewHeight);
-        Level2::AddToEngine("level2", viewWidth, viewHeight);
+        Level1::AddToEngine("level1", viewWidth, viewHeight, coinCounterPtr, fpsCounterPtr);
+        Level2::AddToEngine("level2", viewWidth, viewHeight, coinCounterPtr, fpsCounterPtr);
         GameOverScene::AddToEngine("gameover", viewWidth, viewHeight);
 
        NetworkingServer networkingServer;
