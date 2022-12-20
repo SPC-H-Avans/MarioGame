@@ -4,14 +4,12 @@
 #include "Input.hpp"
 #include "AudioSource.hpp"
 #include "StarMarioState.hpp"
+#include "constants/Sprites.hpp"
 
 const double VELOCITY_MARGIN = 0.1;
 const int JUMP_FORCE = 55;
 
 namespace PlatformerGame {
-    SmallMarioState::SmallMarioState() {
-    }
-
     void PlatformerGame::SmallMarioState::Animate(std::shared_ptr<spic::GameObject> player) {
         if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
         auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
@@ -23,12 +21,20 @@ namespace PlatformerGame {
             auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
             if (playerRigidBody != nullptr && playerAnimator != nullptr) {
                 if (velocity.y != 0) {
-//                    _jumpSprite.SetFlip(platformer_engine::FLIP_VERTICAL);
-                    playerAnimator->SetActiveAnimation("mario_jump");
+                    if (_lastMoveRight) playerAnimator->SetActiveAnimation(constants::JUMP_SPRITE_ID);
+                    else playerAnimator->SetActiveAnimation(constants::JUMP_SPRITE_ID + constants::HORIZONTAL_FLIP_SUFFIX);
                 } else if (velocity.x > VELOCITY_MARGIN || velocity.x < -VELOCITY_MARGIN) {
-                    playerAnimator->SetActiveAnimation("mario_walk");
+                    if (velocity.x >= 0) {
+                        playerAnimator->SetActiveAnimation(constants::WALK_SPRITE_ID);
+                        _lastMoveRight = true;
+                    }
+                    else {
+                        playerAnimator->SetActiveAnimation(constants::WALK_SPRITE_ID + constants::HORIZONTAL_FLIP_SUFFIX);
+                        _lastMoveRight = false;
+                    }
                 } else {
-                    playerAnimator->SetActiveAnimation("mario_idle");
+                    if (_lastMoveRight) playerAnimator->SetActiveAnimation(constants::IDLE_SPRITE_ID);
+                    else playerAnimator->SetActiveAnimation(constants::IDLE_SPRITE_ID + constants::HORIZONTAL_FLIP_SUFFIX);
                 }
             }
         }

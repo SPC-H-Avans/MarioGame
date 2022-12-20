@@ -12,8 +12,6 @@ namespace PlatformerGame {
             boost::serialization::void_cast_register<SmallMarioState, MarioState>();
         }
 
-        SmallMarioState();
-
         void Animate(std::shared_ptr<spic::GameObject> player) override;
 
         void RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState>& currentState) override;
