@@ -26,3 +26,6 @@ void EnemyAttackBehaviour::OnUpdate(double speedMultiplier) {
 
 
 }
+
+
+BOOST_CLASS_EXPORT(EnemyAttackBehaviour);

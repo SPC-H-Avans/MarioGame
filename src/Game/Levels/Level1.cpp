@@ -7,12 +7,17 @@
 #include "AudioSource.hpp"
 #include "Scripts/MarioBehaviour.hpp"
 #include "constants/Sprites.hpp"
+#include "Scripts/EnemyAttackBehaviour.hpp"
+#include "Physics/ForceDrivenEntity.hpp"
+#include "Scripts/DynamicAnimationBehaviour.hpp"
 
 const int DEFAULT_LAYER = 1;
 const int DEFAULT_SPEED = 100;
 const int DEFAULT_ROW = 1;
 const int DEFAULT_PLAYER_WIDTH = 15;
 const int DEFAULT_PLAYER_HEIGHT = 17;
+const int DEFAULT_GOOMBA_WIDTH = 24;
+const int DEFAULT_GOOMBA_HEIGHT = 24;
 
 void LoadAnimatedSprite(std::vector<platformer_engine::AnimatedSprite> &spriteList, std::string spriteId,
                         std::string path, int spriteWidth, int spriteHeight, int frameCount) {
@@ -53,6 +58,36 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     };
     GameObject &mario = GameObjectFactory::CreatePlayer(0, transform, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT - 1, animations, behaviourScripts);
 
+
+    // Create goomba
+    platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_idle",
+                                                                 "./resources/Sprites/Goomba/Idle.png");
+    platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_walk",
+                                                                 "./resources/Sprites/Goomba/Walk.png");
+    platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_jump",
+                                                                 "./resources/Sprites/Goomba/Jump.png");
+
+    auto goombaIdleSprite = platformer_engine::AnimatedSprite("goomba_idle", DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT, 1);
+    auto goombaWalkSprite = platformer_engine::AnimatedSprite("goomba_walk", DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT, 3);
+    auto goombaJumpSprite = platformer_engine::AnimatedSprite("goomba_jump", DEFAULT_GOOMBA_WIDTH + 1, DEFAULT_GOOMBA_HEIGHT - 1, 1, 1, 1, 100,
+                                                              platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
+    auto goombaAnimations = std::vector<platformer_engine::AnimatedSprite>{goombaIdleSprite, goombaWalkSprite, goombaJumpSprite};
+    auto goombaBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
+            std::make_shared<platformer_engine::CollisionBehaviour>(),
+            std::make_shared<EnemyAttackBehaviour>(),
+            std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(goombaIdleSprite, goombaWalkSprite, goombaJumpSprite)
+    };
+
+    auto goombaTransform = Transform { Point {20, 200}, 0, 1.0 };
+    auto goomba = GameObjectFactory::CreateEnemy(goombaTransform, DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT - 1, goombaAnimations, goombaBehaviourScripts);
+    auto forceDrivenEntity = std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(goomba.GetComponent<platformer_engine::ForceDrivenEntity>());
+
+    if(forceDrivenEntity != nullptr) {
+        auto marioShared = GameObject::Find(mario.GetName());
+        const double followRange = 100;
+        forceDrivenEntity->SetFollowing(marioShared, followRange);
+    }
+
     std::map<std::string, int> const audioClips = {{"jump", 50}};
     //mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
 
@@ -62,6 +97,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
     //platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
     scene.AddObject(mario);
+    scene.AddObject(goomba);
 
     // test Button
     const auto textureName = "startButton";
