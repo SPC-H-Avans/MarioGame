@@ -1,13 +1,13 @@
 #include "CoinCounter.hpp"
 #include "Engine/Engine.hpp"
-#include "Director/GameObjectFactory.hpp"
+#include "Director/GameObjectDirector.hpp"
 
 PlatformerGame::CoinCounter::CoinCounter(const spic::Transform transform, const std::string textId, const std::string text, const std::string fontPath, const int fontSize,
                                          const spic::Color fontColor, const int width, const int height)
                                          : _textId(textId), _text(text), _fontPath(fontPath), _fontSize(fontSize), _fontColor(fontColor), _coins(0),
                                            _transform(transform), _width(width), _height(height) {
     std::string coinText = _text + std::to_string(_coins);
-    auto textObject = GameObjectFactory::CreateText(
+    auto textObject = GameObjectDirector::CreateText(
             transform,
             _textId,
             coinText,
@@ -23,7 +23,7 @@ void PlatformerGame::CoinCounter::AddCoin() {
     _coins++;
     std::string text = _text + std::to_string(_coins);
     if(!_hasCreatedText){
-        GameObjectFactory::CreateText(
+        GameObjectDirector::CreateText(
                 _transform,
                 _textId,
                 text,

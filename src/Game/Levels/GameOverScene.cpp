@@ -2,7 +2,7 @@
 #include "GameOverScene.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include "Engine/Engine.hpp"
-#include "Director/GameObjectFactory.hpp"
+#include "Director/GameObjectDirector.hpp"
 #include "Color.hpp"
 #include "Scripts/TimerBehaviour.hpp"
 
@@ -15,7 +15,7 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
 
     auto fontPath = "./resources/fonts/MarioFont.ttf";
     Transform textPos {{145, 50}, 0, 1.0};
-    scene.AddUIObject(std::make_shared<Text>(GameObjectFactory::CreateText(textPos, "gameOverText", "Game Over", fontPath,  160, 50, 48, Color::White())));
+    scene.AddUIObject(std::make_shared<Text>(GameObjectDirector::CreateText(textPos, "gameOverText", "Game Over", fontPath,  160, 50, 48, Color::White())));
 
     Transform buttonPos {{175, 75}, 0, 1.0};
     std::function<void()> backToMain;
