@@ -7,6 +7,7 @@
 #include "Networking/NetworkingClient.hpp"
 #include "Levels/MainMenu.hpp"
 #include "Levels/Level1.hpp"
+#include "Game/Levels/Level2.hpp"
 #include "Game/Levels/GameOverScene.hpp"
 
 constexpr bool FULLSCREEN = false;
@@ -19,6 +20,7 @@ namespace PlatformerGame {
 
         MainMenu::AddToEngine("mainmenu", viewWidth, viewHeight);
         Level1::AddToEngine("level1", viewWidth, viewHeight);
+        Level2::AddToEngine("level2", viewWidth, viewHeight);
         GameOverScene::AddToEngine("gameover", viewWidth, viewHeight);
 
        NetworkingServer networkingServer;

@@ -1,15 +1,14 @@
 #include "Level1.hpp"
 #include "Engine/Engine.hpp"
 #include "TileConfig.hpp"
-#include "Scripts/MarioBehaviour.hpp"
-#include "constants/Sprites.hpp"
 
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
+
     Scene scene = builder.GetScene();
     scene.ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1(scene));
-
+    scene.SetNextScene("level2");
 
     platformer_engine::AudioManager::GetInstance().SetVolume(50);
 
