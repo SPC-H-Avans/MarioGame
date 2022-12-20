@@ -1,7 +1,7 @@
 
 #include "MainMenu.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
-#include "Director/GameObjectDirector.hpp"
+#include "Director/GameObjectFactory.hpp"
 #include "Engine/Engine.hpp"
 #include "TileConfig.hpp"
 #include "UI/FPSCounter.hpp"
@@ -22,7 +22,7 @@ void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight)
     auto fontPath = "./resources/fonts/MarioFont.ttf";
     auto fontSize = 80;
     auto color = Color::Black();
-    auto uiText = GameObjectDirector::CreateText(
+    auto uiText = GameObjectFactory::CreateText(
             Transform{Point{40, 20}, 0, 1.0},
             textId,
             text,
@@ -39,7 +39,7 @@ void MainMenu::AddToEngine(std::string sceneName, int viewWidth, int viewHeight)
 
     auto buttonSprite = spic::Sprite(textureName, spriteSize, spriteSize);
     buttonSprite.SetSpriteScale(spriteScale);
-    auto button = GameObjectDirector::CreateButton(
+    auto button = GameObjectFactory::CreateButton(
             Transform{Point{200, 125}, 0, spriteScale},
             "button1",
             buttonSprite,
