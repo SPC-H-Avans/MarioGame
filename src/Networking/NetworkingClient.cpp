@@ -18,12 +18,16 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
         std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager, viewWidth, viewHeight](int clientId,
                                                                                                            const uint8_t *data,
                                                                                                            size_t dataLength) {
+            platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         clientManager.CreateScene(data, dataLength);
         clientManager.SetConnectionStatus(platformer_engine::Connected);
+
+        if(engine.GetQueuedScene() == "gameover") { GameObject::Destroy(GameObject::Find("timerObject")); return; }
+        else if(engine.GetQueuedScene() == "mainmenu") { GameObject::Destroy(GameObject::Find("MainMenu_StartBtn")); return; };
+
         GameObjectBuilder gameObjectBuilder{"speler"};
             Camera camera = Camera{"camera-" + std::to_string(clientId), "camera", spic::Color::Cyan(), static_cast<double>(viewWidth),
                                    static_cast<double>(viewHeight)};
-
 
         int w = 15;
         int h = 17;
