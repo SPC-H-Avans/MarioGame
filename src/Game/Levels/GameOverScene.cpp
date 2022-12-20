@@ -6,7 +6,8 @@
 #include "Color.hpp"
 #include "Scripts/TimerBehaviour.hpp"
 
-void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
+void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
+                                const std::shared_ptr<platformer_engine::FPSCounter>& fpsCounter) {
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder(sceneName);
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
     Scene scene = builder.GetScene();
@@ -31,6 +32,7 @@ void GameOverScene::AddToEngine(std::string sceneName, int viewWidth, int viewHe
     })));
 
     scene.AddObject(*timerObj);
+    scene.AddUIObject(fpsCounter->GetUIObject());
 
     scene.AddCamera(camera);
     engine.AddScene(scene);
