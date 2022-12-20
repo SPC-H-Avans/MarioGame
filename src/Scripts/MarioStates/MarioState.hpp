@@ -14,6 +14,7 @@ namespace PlatformerGame {
       template<typename archive>
       void serialize(archive &ar, const unsigned /*version*/) {
         ar & _lastVelocity;
+        ar & _lastMoveRight;
       }
         virtual void Animate(std::shared_ptr<spic::GameObject> player) = 0;
 

@@ -54,7 +54,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight) {
     GameObject &mario = GameObjectFactory::CreatePlayer(0, transform, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT - 1, animations, behaviourScripts);
 
     std::map<std::string, int> const audioClips = {{"jump", 50}};
-    mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
+    //mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
 
     platformer_engine::AudioManager::GetInstance().SetVolume(50);
 
