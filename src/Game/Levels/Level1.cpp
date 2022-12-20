@@ -8,8 +8,8 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Physics/ForceDrivenEntity.hpp"
 
-const int DEFAULT_GOOMBA_WIDTH = 24;
-const int DEFAULT_GOOMBA_HEIGHT = 24;
+const int DEFAULT_GOOMBA_WIDTH = 16;
+const int DEFAULT_GOOMBA_HEIGHT = 16;
 
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
                          const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter,
@@ -41,7 +41,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
 
     auto goombaIdleSprite = platformer_engine::AnimatedSprite("goomba_idle", DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT, 1);
     auto goombaWalkSprite = platformer_engine::AnimatedSprite("goomba_walk", DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT, 3);
-    auto goombaJumpSprite = platformer_engine::AnimatedSprite("goomba_jump", DEFAULT_GOOMBA_WIDTH + 1, DEFAULT_GOOMBA_HEIGHT - 1, 1, 1, 1, 100,
+    auto goombaJumpSprite = platformer_engine::AnimatedSprite("goomba_jump", DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT, 1, 1, 1, 100,
                                                               platformer_engine::FLIP_HORIZONTAL); // 16x16 // TODO: fix flip
     auto goombaAnimations = std::vector<platformer_engine::AnimatedSprite>{goombaIdleSprite, goombaWalkSprite, goombaJumpSprite};
     auto goombaBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
@@ -51,7 +51,7 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
     };
 
     auto goombaTransform = Transform { Point {20, 200}, 0, 1.0 };
-    auto goomba = GameObjectFactory::CreateEnemy(goombaTransform, DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT - 1, goombaAnimations, goombaBehaviourScripts);
+    auto goomba = GameObjectFactory::CreateEnemy(goombaTransform, DEFAULT_GOOMBA_WIDTH, DEFAULT_GOOMBA_HEIGHT, goombaAnimations, goombaBehaviourScripts);
     auto forceDrivenEntity = std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(goomba.GetComponent<platformer_engine::ForceDrivenEntity>());
 
     auto mario = AddPlayer(scene, 100, 175, viewWidth, viewHeight);
