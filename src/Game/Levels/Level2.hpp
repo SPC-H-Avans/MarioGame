@@ -1,0 +1,10 @@
+#ifndef PLATFORMER_GAME_LEVEL2_HPP
+#define PLATFORMER_GAME_LEVEL2_HPP
+
+
+class Level2 {
+
+};
+
+
+#endif //PLATFORMER_GAME_LEVEL2_HPP
