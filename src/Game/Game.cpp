@@ -14,8 +14,7 @@
 constexpr bool FULLSCREEN = false;
 constexpr bool LOGGING = true;
 constexpr int DEFAULT_FONT_SIZE = 50;
-inline const std::string DEFAULT_FONT_PATH = "./resources/fonts/DefaultFont.ttf";
-inline const Color DEFAULT_FONT_COLOUR = Color::Yellow();
+const Color DEFAULT_FONT_COLOUR = Color::Yellow();
 
 namespace PlatformerGame {
     Game::Game(int viewWidth, int viewHeight) {
@@ -32,9 +31,10 @@ namespace PlatformerGame {
                 160, 50);
         auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
         // fps counter
+        std::string defaultFont = "./resources/fonts/DefaultFont.ttf";
         auto fpsCounter = platformer_engine::FPSCounter(
                 Transform {Point{450, 0}, 0, 1.0},
-                DEFAULT_FONT_PATH,
+                defaultFont,
                 DEFAULT_FONT_SIZE,
                 DEFAULT_FONT_COLOUR,
                 DEFAULT_FONT_SIZE / 2, DEFAULT_FONT_SIZE / 2,

@@ -7,7 +7,7 @@
 #include "Utility/InputEnum.hpp"
 #include "AudioSource.hpp"
 #include "Scripts/MarioBehaviour.hpp"
-#include "Director/GameObjectDirector.hpp"
+#include "Director/GameObjectFactory.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 
 class Level {
@@ -55,7 +55,7 @@ protected:
                 std::make_shared<platformer_engine::CollisionBehaviour>(),
                 std::make_shared<PlatformerGame::MarioBehaviour>()
         };
-        GameObject &mario = GameObjectDirector::CreatePlayer(0, transform, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT - 1, animations, behaviourScripts);
+        GameObject &mario = GameObjectFactory::CreatePlayer(0, transform, DEFAULT_PLAYER_WIDTH, DEFAULT_PLAYER_HEIGHT - 1, animations, behaviourScripts);
 
         std::map<std::string, int> const audioClips = {{"jump", 50}};
         mario.AddComponent<spic::AudioSource>(std::make_shared<AudioSource>(audioClips));
