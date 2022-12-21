@@ -76,8 +76,34 @@ namespace PlatformerGame {
         }
     }
 
-    void StarMarioState::TakeDamage() {
-        // TODO: instead of taking damage, kill the enemy
+    void StarMarioState::TouchEnemy(std::shared_ptr<spic::GameObject> player, Collision collision) {
+        auto enemy = collision.GetOtherCollider()->GetGameObject().lock();
+        if(enemy) {
+            if(enemy->GetTag() != "enemy") return;
+        } else {
+            enemy.reset();
+        }
+
+        // kill enemy
+        platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(enemy->GetName());
+        enemy->Destroy(enemy);
+
+        // play kill sound
+        auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
+        if (audioSource != nullptr) {
+            audioSource->PlaySound("kill");
+        }
+
+        // jump if on top
+        if (collision.Contact() == Bottom) {
+            auto point = Point();
+            point.y += JUMP_FORCE;
+
+            auto playerRigidBody = std::dynamic_pointer_cast<RigidBody>(player->GetComponent<RigidBody>());
+            if (playerRigidBody != nullptr) {
+                playerRigidBody->AddForce(point, 1.0);
+            }
+        }
     }
 }
 

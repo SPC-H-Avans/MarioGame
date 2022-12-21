@@ -70,9 +70,43 @@ namespace PlatformerGame {
         }
     }
 
-    void PlatformerGame::SmallMarioState::TakeDamage() {
-        auto &engine = platformer_engine::Engine::GetInstance();
-        engine.QueueActiveScene("gameover");
+    void PlatformerGame::SmallMarioState::TouchEnemy(std::shared_ptr<spic::GameObject> player, Collision collision) {
+        auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
+        if (collision.Contact() != Bottom) { // if mario did not jump "on" an enemy, die
+            // play death sound
+            if (audioSource != nullptr) {
+                audioSource->PlaySound("die");
+            }
+            auto &engine = platformer_engine::Engine::GetInstance();
+            engine.QueueActiveScene("gameover");
+            return;
+        }
+
+        // else, kill the enemy and do a little jump
+        // play kill sound
+        if (audioSource != nullptr) {
+            audioSource->PlaySound("kill");
+        }
+
+        // jump
+        auto point = Point();
+        point.y += JUMP_FORCE;
+
+        auto playerRigidBody = std::dynamic_pointer_cast<RigidBody>(player->GetComponent<RigidBody>());
+        if (playerRigidBody != nullptr) {
+            playerRigidBody->AddForce(point, 1.0);
+        }
+
+        // kill the enemy
+        auto enemy = collision.GetOtherCollider()->GetGameObject().lock();
+        if(enemy) {
+            if(enemy->GetTag() != "enemy") return;
+        } else {
+            enemy.reset();
+        }
+
+        platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(enemy->GetName());
+        enemy->Destroy(enemy);
     }
 }
 
