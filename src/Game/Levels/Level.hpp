@@ -13,13 +13,6 @@
 class Level {
 public:
 
-protected:
-    static const int DEFAULT_LAYER = 1;
-    static const int DEFAULT_SPEED = 100;
-    static const int DEFAULT_ROW = 1;
-    static const int DEFAULT_PLAYER_WIDTH = 15;
-    static const int DEFAULT_PLAYER_HEIGHT = 17;
-
     static void LoadAnimatedSprite(std::vector<platformer_engine::AnimatedSprite> &spriteList, std::string spriteId,
                             std::string path, int spriteWidth, int spriteHeight, int frameCount) {
         std::string spriteIdFlipped = spriteId + constants::HORIZONTAL_FLIP_SUFFIX;
@@ -32,6 +25,12 @@ protected:
         spriteList.push_back(idleSpriteFlipped);
         spriteList.push_back(idleSprite); // TODO: last loaded sprite is visible upon spawn
     }
+
+    static const int DEFAULT_LAYER = 1;
+    static const int DEFAULT_SPEED = 100;
+    static const int DEFAULT_ROW = 1;
+    static const int DEFAULT_PLAYER_WIDTH = 15;
+    static const int DEFAULT_PLAYER_HEIGHT = 17;
 
     static auto LoadAnimations() -> std::vector<platformer_engine::AnimatedSprite> {
         auto animations = std::vector<platformer_engine::AnimatedSprite>();
