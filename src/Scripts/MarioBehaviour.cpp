@@ -2,6 +2,7 @@
 #include "MarioBehaviour.hpp"
 #include "GameObject.hpp"
 #include "Engine/Engine.hpp"
+#include "AudioSource.hpp"
 
 namespace PlatformerGame {
 
@@ -12,6 +13,10 @@ namespace PlatformerGame {
             _state->Animate(object);
 
             if(object->GetTransform().position.y > 255) { //255 is void in this case
+                auto audioSource = std::dynamic_pointer_cast<AudioSource>(object->GetComponent<AudioSource>());
+                if (audioSource != nullptr) {
+                    audioSource->PlaySound("kill");
+                }
                 _state = std::make_unique<SmallMarioState>(); // dying makes mario small
                 auto &engine = platformer_engine::Engine::GetInstance();
                 engine.QueueActiveScene("gameover");

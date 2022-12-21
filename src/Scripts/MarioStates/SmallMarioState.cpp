@@ -71,7 +71,12 @@ namespace PlatformerGame {
     }
 
     void PlatformerGame::SmallMarioState::TouchEnemy(std::shared_ptr<spic::GameObject> player, Collision collision) {
+        auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
         if (collision.Contact() != Bottom) { // if mario did not jump "on" an enemy, die
+            // play death sound
+            if (audioSource != nullptr) {
+                audioSource->PlaySound("die");
+            }
             auto &engine = platformer_engine::Engine::GetInstance();
             engine.QueueActiveScene("gameover");
             return;
@@ -79,7 +84,6 @@ namespace PlatformerGame {
 
         // else, kill the enemy and do a little jump
         // play kill sound
-        auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
         if (audioSource != nullptr) {
             audioSource->PlaySound("kill");
         }
