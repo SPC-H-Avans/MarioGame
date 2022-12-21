@@ -18,12 +18,15 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
     std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager, viewWidth, viewHeight](int clientId,
                                                                                                                                   const uint8_t *data,
                                                                                                                                   size_t dataLength) {
+        auto& engine = platformer_engine::Engine::GetInstance();
         clientManager.CreateScene(data, dataLength);
         clientManager.SetConnectionStatus(platformer_engine::Connected);
+
+        if(engine.GetQueuedScene() == "gameover" || engine.GetQueuedScene() == "mainmenu") {  return; };
+
         GameObjectBuilder gameObjectBuilder{"speler"};
         Camera camera = Camera{"camera-" + std::to_string(clientId), "camera", spic::Color::Cyan(), static_cast<double>(viewWidth),
                                static_cast<double>(viewHeight)};
-
 
         int w = 15;
         int h = 17;
@@ -57,12 +60,12 @@ void PlatformerGame::NetworkingClient::ConnectToServer(const std::string &server
                 std::make_shared<PlatformerGame::MarioBehaviour>()
         };
         auto mario = GameObjectFactory::CreatePlayer(clientManager.GetLocalPlayerId(), transform, w, h, animations, behaviourScripts);
-        clientManager.InitializeMyClient(*GameObject::Find(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId())));
+        clientManager.InitializeMyClient(mario);
 
-        while(platformer_engine::Engine::GetInstance().GetQueuedScene().has_value()){
+        while(engine.GetQueuedScene().has_value()){
         }
 
-        auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+        auto &scene = engine.GetActiveScene();
         mario.Active(true);
         scene.AddObject(mario);
         camera.SetTarget(mario);

@@ -10,11 +10,13 @@ namespace PlatformerGame {
     void TimerBehaviour::OnStart() {
         std::thread thread ([this]() {
             std::this_thread::sleep_for(std::chrono::milliseconds(_sleepMilliSeconds));
-            _action();
-
+            if(_action != nullptr) {
+              _action();
+            }
         });
         thread.detach();
     }
+    TimerBehaviour::TimerBehaviour(): _sleepMilliSeconds(10) {}
+    }  // namespace PlatformerGame
 
-}
-
+BOOST_CLASS_EXPORT(PlatformerGame::TimerBehaviour);

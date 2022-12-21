@@ -18,6 +18,7 @@ void PlatformerGame::CoinBehaviour::OnTriggerEnter2D(Collision collision) {
 
     // after being picked up, remove the coin from the scene and destroy it
     auto coinObj = GetGameObject().lock();
+    if(coinObj == nullptr) return;
     platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(coinObj->GetName());
     coinObj->Destroy(coinObj);
 }

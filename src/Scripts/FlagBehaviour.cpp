@@ -8,6 +8,7 @@
 namespace PlatformerGame {
     void FlagBehaviour::OnTriggerEnter2D(Collision collision) {
         auto collidingObject = collision.GetOtherCollider()->GetGameObject().lock();
+        if(collidingObject == nullptr) return;
 
         if(collidingObject->GetTag() == "player") {
             auto marioBehaviour = collidingObject->GetComponent<MarioBehaviour>();
