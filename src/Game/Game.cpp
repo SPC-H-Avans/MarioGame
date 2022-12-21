@@ -1,10 +1,6 @@
 #include "Game.hpp"
-#include "Builder/GameObjectBuilder.hpp"
 #include "Builder/SceneBuilder.hpp"
-#include "TileConfig.hpp"
-#include "Behaviour/CollisionBehaviour.hpp"
 #include "Networking/NetworkingServer.hpp"
-#include "Networking/NetworkingClient.hpp"
 #include "Levels/MainMenu.hpp"
 #include "Levels/Level1.hpp"
 #include "Game/Levels/Level2.hpp"
@@ -51,6 +47,7 @@ namespace PlatformerGame {
 
      // NetworkingClient networkingClient;
      // networkingClient.ConnectToServer("192.168.68.107", 7778, viewWidth, viewHeight);
+
 
         engine.Start();
         std::cout << 1;

@@ -5,13 +5,14 @@
 
 namespace PlatformerGame {
 
-    void MarioBehaviour::OnUpdate(double speedMultiplier) {
+    void MarioBehaviour::OnUpdate(double  /*speedMultiplier*/) {
         auto object = this->GetGameObject().lock();
         if(object != nullptr) {
             _state->RegisterInput(object, _state);
             _state->Animate(object);
 
-            if(object->GetTransform().position.y > 340) { //320 is void in this case
+            if(object->GetTransform().position.y > 340) { //340 is void in this case
+                _state = std::make_unique<SmallMarioState>(); // dying makes mario small
                 auto &engine = platformer_engine::Engine::GetInstance();
                 engine.QueueActiveScene("gameover");
             }
@@ -19,7 +20,7 @@ namespace PlatformerGame {
     }
 
     void MarioBehaviour::OnTriggerEnter2D(Collision collision) {
-        auto collidingObject = collision.GetCollider()->GetGameObject().lock();
+        auto collidingObject = collision.GetOtherCollider()->GetGameObject().lock();
         if(collidingObject == nullptr) return;
         if(collidingObject->GetTag() == "enemy") { //Might expand this in future
             _state->TakeDamage();

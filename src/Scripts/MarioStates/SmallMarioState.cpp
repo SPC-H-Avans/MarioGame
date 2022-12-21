@@ -1,18 +1,17 @@
 #include "SmallMarioState.hpp"
 #include "Engine/Engine.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 #include "Input.hpp"
 #include "AudioSource.hpp"
 #include "StarMarioState.hpp"
 #include "constants/Sprites.hpp"
 
 const double VELOCITY_MARGIN = 0.1;
-const int JUMP_FORCE = 55;
+const int JUMP_FORCE = -65;
 
 namespace PlatformerGame {
     void PlatformerGame::SmallMarioState::Animate(std::shared_ptr<spic::GameObject> player) {
         if(player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId()) return;
-        auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
+        auto playerRigidBody = std::dynamic_pointer_cast<RigidBody>(player->GetComponent<RigidBody>());
 
         auto velocity = playerRigidBody->GetVelocity();
         if(velocity.x != _lastVelocity.x || velocity.y != _lastVelocity.y) {
@@ -43,7 +42,7 @@ namespace PlatformerGame {
     void PlatformerGame::SmallMarioState::RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState>& currentState) {
         if (player == nullptr || player->GetOwnerId() != platformer_engine::Engine::GetInstance().GetLocalClientId())
             return;
-        auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
+        auto playerRigidBody = std::dynamic_pointer_cast<RigidBody>(player->GetComponent<RigidBody>());
         if (playerRigidBody != nullptr) {
             auto point = Point();
 
@@ -54,16 +53,16 @@ namespace PlatformerGame {
                 point.x++;
             }
             if (spic::Input::GetKeyDown(KeyCode::UP_ARROW) || spic::Input::GetKeyDown(KeyCode::SPACE)) {
-                if (playerRigidBody->CanMoveTo(CollisionPoint::Bottom) != true) {
+                if (!playerRigidBody->CanMoveTo(CollisionPoint::Bottom)) {
                     auto audioSource = std::dynamic_pointer_cast<AudioSource>(player->GetComponent<AudioSource>());
                     if (audioSource != nullptr) {
                         audioSource->PlaySound("jump");
                     }
+                    point.y += JUMP_FORCE;
                 }
-                point.y += JUMP_FORCE;
             }
 
-            playerRigidBody->AddForce(point);
+            playerRigidBody->AddForce(point, 1.0);
 
             if (spic::Input::GetKeyDown(KeyCode::C)) { // C stands for Cheat
                 currentState = std::make_unique<StarMarioState>();
