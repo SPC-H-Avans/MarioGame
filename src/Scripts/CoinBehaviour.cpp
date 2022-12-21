@@ -7,6 +7,12 @@ PlatformerGame::CoinBehaviour::CoinBehaviour(std::shared_ptr<PlatformerGame::Coi
     : _counter(std::move(counter)) {}
 
 void PlatformerGame::CoinBehaviour::OnTriggerEnter2D(Collision collision) {
+    auto gameObject = collision.GetOtherCollider()->GetGameObject().lock();
+    if(gameObject) {
+        if(gameObject->GetTag() != "player") return;
+    } else {
+        gameObject.reset();
+    }
     std::cout << "+Coin" << std::endl;
     _counter->AddCoin();
 

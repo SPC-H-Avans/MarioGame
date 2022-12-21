@@ -12,6 +12,7 @@ Further development of the multiplayer component of the engine.
 ### Changes
 - 
 
+- SPCH-48: Added Goomba's to the game with a behaviourscript to follow a player
 - SPCH-57: Replicate scene on join and animations
 
 ### Bug Fixes
