@@ -43,56 +43,6 @@ struct SpriteInfo {
 
 class TileConfig {
 public:
-    static auto Map1() -> std::map<int, std::function<GameObject(Transform)>> {
-        const auto OVERWORLDPATH = "./resources/levels/mario/Tilesets/Overworld.png";
-        const auto OVERWORLDSHEETSIZE = 8;
-
-        const auto ITEMSPATH = "./resources/levels/mario/Misc/Items.png";
-        const auto ITEMSSHEETROWS = 3;
-        const auto ITEMSSHEETCOLUMNS = 5;
-
-        std::map<int, std::function<GameObject(Transform)>> config {};
-        // TODO: we could even add the sheets to a vector to iterate over them
-        auto overworldSheet = SpriteSheetInfo{OVERWORLDSHEETSIZE, OVERWORLDSHEETSIZE, TILESIZE, TILESIZE};
-        auto itemsSheet = SpriteSheetInfo{ITEMSSHEETROWS, ITEMSSHEETCOLUMNS, TILESIZE, TILESIZE};
-
-        // create all info for the sprites
-        auto sprites = std::vector<SpriteInfo> {};
-
-        // add overworld tiles
-        int spriteId = 0;
-        int spriteNo = 0;
-        for (int rows = 0; rows < overworldSheet.rows; ++rows) {
-            for (int columns = 0; columns < overworldSheet.columns; ++columns) {
-                ++spriteId;
-                ++spriteNo;
-                sprites.push_back({
-                                          spriteId, spriteNo, "overworldtile", OVERWORLDPATH,
-                                          GetSheetPos(spriteNo, overworldSheet)
-                                  });
-            }
-        }
-
-        // add item tiles
-        spriteNo = 0;
-        for (int rows = 0; rows < itemsSheet.rows; ++rows) {
-            ++spriteId;
-            ++spriteNo;
-            sprites.push_back({
-                                      spriteId, spriteNo, "itemtile", ITEMSPATH,
-                                      GetSheetPos(spriteNo, itemsSheet)
-                              });      for (int columns = 0; columns < itemsSheet.columns; ++columns) {
-
-            }
-        }
-
-        // add all functions to the config
-        for (auto& sprite : sprites) {
-            AddToConfig(config, sprite, overworldSheet, SpriteType::Tile);
-        }
-        return config;
-    }
-
     static auto World1(const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter) -> std::map<int, std::function<GameObject(Transform)>> {
         std::map<int, std::function<GameObject(Transform)>> config {};
 
@@ -182,9 +132,6 @@ public:
         for (auto& sprite : backgroundSprites) {
             AddToConfig(config, sprite, backgroundSheet, SpriteType::Background);
         }
-//        for (auto& sprite : interactableSprites) {
-//           AddToConfig(config, sprite, itemsSheet, SpriteType::Background);
-//        }
 
         // TODO: make a generic method to avoid repetition
         // TODO: mushroom
@@ -202,18 +149,6 @@ public:
                 }});
 
         // coin
-//        auto path = "./resources/fonts/MarioFont.ttf";
-//        auto coinCounter = PlatformerGame::CoinCounter(
-//                Transform{Point{275, 10}, 0, 1.0},
-//                "coinCounter",
-//                "COINS: ",
-//                path,
-//                48, Color::Yellow(),
-//                160, 50);
-//        // create a shared ptr to the coin counter
-//        auto coinCounterPtr = std::make_shared<PlatformerGame::CoinCounter>(coinCounter);
-//        scene.AddUIObject(coinCounter.GetUIObject());
-
         auto coinSprite = interactableSprites[4];
         platformer_engine::TextureManager::GetInstance().LoadTexture(coinSprite.objectId, coinSprite.path);
         auto coinSpriteObj = spic::Sprite(coinSprite.objectId, itemsSheet.tileWidth, itemsSheet.tileHeight);
