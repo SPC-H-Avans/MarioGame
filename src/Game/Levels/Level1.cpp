@@ -45,5 +45,9 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
     platformer_engine::AudioManager::GetInstance().LoadSound("die", "./resources/audio/sounds/die.wav");
     platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
 
+    //For Demo purposes
+    auto& manager = engine.GetDataManager();
+    manager.SaveData<spic::Scene>("level1", scene);
+
     engine.AddScene(scene);
 };

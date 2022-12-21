@@ -17,6 +17,11 @@ namespace PlatformerGame {
         platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
         engine.Init(viewWidth, viewHeight, "Mario Game", spic::Color::Cyan(), FULLSCREEN, LOGGING);
 
+        auto level1 = engine.GetDataManager().LoadData<Scene>("level1");
+        if(level1.has_value()) {
+            Debug::Log("A level has been found in the saveFile with the name: " + level1->GetSceneName());
+        }
+
         // coin counter
         auto coinCounter = PlatformerGame::CoinCounter(
                 Transform{Point{275, 10}, 0, 1.0},
