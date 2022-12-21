@@ -8,6 +8,8 @@
 #include "Scripts/DynamicAnimationBehaviour.hpp"
 #include "Physics/ForceDrivenEntity.hpp"
 
+const auto ENEMY_RANGE = 100;
+
 void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
                          const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter,
                          const std::shared_ptr<platformer_engine::FPSCounter>& fpsCounter) {
@@ -17,8 +19,19 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
 
     Scene scene = builder.GetScene();
 
+    scene.ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1(coinCounter));
+
     auto player = AddPlayer(scene, 100, 175, viewWidth, viewHeight);
-    scene.ImportLevel("map1","./resources/levels/mario/", "w1-1.tmx", TileConfig::World1(coinCounter, player));
+
+    for (auto &enemy : scene.GetObjectsByTag("enemy")) {
+        auto forceDrivenEntity = std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(enemy->GetComponent<platformer_engine::ForceDrivenEntity>());
+
+        if(forceDrivenEntity != nullptr) {
+            auto marioShared = GameObject::Find(player.GetName());
+            const double followRange = ENEMY_RANGE;
+            forceDrivenEntity->SetFollowing(marioShared, followRange);
+        }
+    }
 
     scene.AddUIObject(coinCounter->GetUIObject());
     scene.AddUIObject(fpsCounter->GetUIObject());

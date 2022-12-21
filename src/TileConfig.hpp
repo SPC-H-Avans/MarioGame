@@ -46,8 +46,7 @@ struct SpriteInfo {
 
 class TileConfig {
 public:
-    static auto World1(const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter,
-                       const GameObject &player) -> std::map<int, std::function<GameObject(Transform)>> {
+    static auto World1(const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter) -> std::map<int, std::function<GameObject(Transform)>> {
         std::map<int, std::function<GameObject(Transform)>> config {};
 
         const auto BLOCKSPATH = "./resources/levels/mario/Tilesets/blocks1.png";
@@ -69,7 +68,6 @@ public:
         const auto ENEMIESPATH = "./resources/levels/mario/Tilesets/enemies.png";
         const auto ENEMIESROWS = 2;
         const auto ENEMIESCOLS = 1;
-        const auto ENEMY_RANGE = 100;
 
         auto blocksSheet = SpriteSheetInfo{BLOCKSSHEETROWS, BLOCKSSHEETCOLS, TILESIZE, TILESIZE};
         auto backgroundSheet = SpriteSheetInfo{BACKGROUNDROWS, BACKGROUNDCOLS, TILESIZE, TILESIZE};
@@ -196,7 +194,7 @@ public:
         auto goombaWalkSprite = platformer_engine::AnimatedSprite("goomba_walk", TILESIZE, TILESIZE, 3);
         auto goombaJumpSprite = platformer_engine::AnimatedSprite("goomba_jump", TILESIZE, TILESIZE, 4);
         config.insert(
-                {goombaSprite.id, [goombaIdleSprite, goombaWalkSprite, goombaJumpSprite, player](Transform transform){
+                {goombaSprite.id, [goombaIdleSprite, goombaWalkSprite, goombaJumpSprite](Transform transform){
                     auto goombaAnimations = std::vector<platformer_engine::AnimatedSprite>{goombaIdleSprite, goombaWalkSprite, goombaJumpSprite};
                     auto goombaBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
                             std::make_shared<platformer_engine::CollisionBehaviour>(),
@@ -205,13 +203,7 @@ public:
                     };
                     auto goomba = GameObjectFactory::CreateEnemy(transform, TILESIZE, TILESIZE, goombaAnimations, goombaBehaviourScripts);
 
-                    auto forceDrivenEntity = std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(goomba.GetComponent<platformer_engine::ForceDrivenEntity>());
-
-                    if(forceDrivenEntity != nullptr) {
-                        auto marioShared = GameObject::Find(player.GetName());
-                        const double followRange = ENEMY_RANGE;
-                        forceDrivenEntity->SetFollowing(marioShared, followRange);
-                    }
+                    std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(goomba.GetComponent<platformer_engine::ForceDrivenEntity>());
 
                     return goomba;
                 }});
