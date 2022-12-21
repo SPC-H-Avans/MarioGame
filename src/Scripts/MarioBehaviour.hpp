@@ -20,6 +20,7 @@ namespace PlatformerGame {
         void OnUpdate(double speedMultiplier) override;
 
         void OnTriggerEnter2D(Collision collision) override;
+        void OnTriggerStay2D(Collision collision) override;
 
         void SetState(std::unique_ptr<MarioState> state) { _state = std::move(state); }
 

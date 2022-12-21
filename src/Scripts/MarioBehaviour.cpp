@@ -20,11 +20,23 @@ namespace PlatformerGame {
     }
 
     void MarioBehaviour::OnTriggerEnter2D(Collision collision) {
+        OnTriggerStay2D(collision);
+    }
+
+    void MarioBehaviour::OnTriggerStay2D(Collision collision) {
         auto collidingObject = collision.GetOtherCollider()->GetGameObject().lock();
+        auto mario = collision.GetSelfCollider()->GetGameObject().lock();
 
         if(collidingObject->GetTag() == "enemy") { //Might expand this in future
             _state->TakeDamage();
+            if(collision.Contact() == CollisionPoint::Bottom && mario != nullptr) {
+                auto body = std::dynamic_pointer_cast<RigidBody>(mario->GetComponent<RigidBody>());
+                if(body != nullptr) {
+                    body->AddForce({0, -55}, 1.0);
+                }
+            }
         }
+
     }
 }
 
