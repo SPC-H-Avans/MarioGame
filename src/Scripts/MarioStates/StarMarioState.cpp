@@ -76,8 +76,16 @@ namespace PlatformerGame {
         }
     }
 
-    void StarMarioState::TakeDamage() {
-        // TODO: instead of taking damage, kill the enemy
+    void StarMarioState::TouchEnemy(Collision collision) {
+        auto enemy = collision.GetOtherCollider()->GetGameObject().lock();
+        if(enemy) {
+            if(enemy->GetTag() != "enemy") return;
+        } else {
+            enemy.reset();
+        }
+
+        platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(enemy->GetName());
+        enemy->Destroy(enemy);
     }
 }
 

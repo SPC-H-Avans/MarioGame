@@ -70,7 +70,7 @@ namespace PlatformerGame {
         }
     }
 
-    void PlatformerGame::SmallMarioState::TakeDamage() {
+    void PlatformerGame::SmallMarioState::TouchEnemy(Collision collision) {
         auto &engine = platformer_engine::Engine::GetInstance();
         engine.QueueActiveScene("gameover");
     }

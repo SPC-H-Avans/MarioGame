@@ -7,6 +7,7 @@
 
 #include "Texture/AnimatedSprite.hpp"
 #include "Point.hpp"
+#include "Physics/Collision.hpp"
 
 namespace PlatformerGame {
     class MarioState {
@@ -21,7 +22,7 @@ namespace PlatformerGame {
         virtual void
         RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState> &currentState) = 0;
 
-        virtual void TakeDamage() = 0;
+        virtual void TouchEnemy(Collision collision) = 0;
 
         virtual ~MarioState() = default;
 

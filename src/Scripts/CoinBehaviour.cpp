@@ -13,7 +13,6 @@ void PlatformerGame::CoinBehaviour::OnTriggerEnter2D(Collision collision) {
     } else {
         gameObject.reset();
     }
-    std::cout << "+Coin" << std::endl;
     _counter->AddCoin();
 
     // after being picked up, remove the coin from the scene and destroy it
