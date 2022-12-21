@@ -12,6 +12,9 @@
 #include "Scripts/FlagBehaviour.hpp"
 #include "Scripts/StarBehaviour.hpp"
 #include "UI/CoinCounter.hpp"
+#include "Scripts/EnemyAttackBehaviour.hpp"
+#include "Scripts/DynamicAnimationBehaviour.hpp"
+#include "Physics/ForceDrivenEntity.hpp"
 
 const auto TILESIZE = 16;
 
@@ -43,7 +46,8 @@ struct SpriteInfo {
 
 class TileConfig {
 public:
-    static auto World1(const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter) -> std::map<int, std::function<GameObject(Transform)>> {
+    static auto World1(const std::shared_ptr<PlatformerGame::CoinCounter>& coinCounter,
+                       const GameObject &player) -> std::map<int, std::function<GameObject(Transform)>> {
         std::map<int, std::function<GameObject(Transform)>> config {};
 
         const auto BLOCKSPATH = "./resources/levels/mario/Tilesets/blocks1.png";
@@ -62,16 +66,23 @@ public:
         const auto FLAGROWS = 3;
         const auto FLAGCOLS = 1;
 
+        const auto ENEMIESPATH = "./resources/levels/mario/Tilesets/enemies.png";
+        const auto ENEMIESROWS = 2;
+        const auto ENEMIESCOLS = 1;
+        const auto ENEMY_RANGE = 100;
+
         auto blocksSheet = SpriteSheetInfo{BLOCKSSHEETROWS, BLOCKSSHEETCOLS, TILESIZE, TILESIZE};
         auto backgroundSheet = SpriteSheetInfo{BACKGROUNDROWS, BACKGROUNDCOLS, TILESIZE, TILESIZE};
         auto itemsSheet = SpriteSheetInfo{ITEMSSHEETROWS, ITEMSSHEETCOLS, TILESIZE, TILESIZE};
         auto flagSheet = SpriteSheetInfo{FLAGROWS, FLAGCOLS, TILESIZE, TILESIZE};
+        auto enemiesSheet = SpriteSheetInfo{ENEMIESROWS, ENEMIESCOLS, TILESIZE, TILESIZE};
 
         // create all info for the sprites
         auto tileSprites = std::vector<SpriteInfo> {};
         auto backgroundSprites = std::vector<SpriteInfo> {};
         auto interactableSprites = std::vector<SpriteInfo> {};
         auto flagSprites = std::vector<SpriteInfo> {};
+        auto enemySprites = std::vector<SpriteInfo> {};
 
         // add block tiles
         int spriteId = 0;
@@ -120,8 +131,20 @@ public:
                 ++spriteId;
                 ++spriteNo;
                 flagSprites.push_back({
-                    spriteId, spriteNo, "flagtile" + std::to_string(spriteId), FLAGPATH, GetSheetPos(spriteNo, flagSheet)
-                });
+                                              spriteId, spriteNo, "flagtile" + std::to_string(spriteId), FLAGPATH, GetSheetPos(spriteNo, flagSheet)
+                                      });
+            }
+        }
+
+        // add enemy tiles
+        spriteNo = 0;
+        for(int rows = 0; rows < enemiesSheet.rows; ++rows) {
+            for(int columns = 0; columns < enemiesSheet.columns; columns++) {
+                ++spriteId;
+                ++spriteNo;
+                enemySprites.push_back({
+                                              spriteId, spriteNo, "enemytile" + std::to_string(spriteId), ENEMIESPATH, GetSheetPos(spriteNo, enemiesSheet)
+                                      });
             }
         }
 
@@ -131,6 +154,9 @@ public:
         }
         for (auto& sprite : backgroundSprites) {
             AddToConfig(config, sprite, backgroundSheet, SpriteType::Background);
+        }
+        for(auto& sprite : flagSprites) {
+            AddToConfig(config, sprite, flagSheet, SpriteType::Flag);
         }
 
         // TODO: make a generic method to avoid repetition
@@ -159,9 +185,38 @@ public:
                     return GameObjectFactory::CreateScriptedTile("coin", coinSpriteObj, transform, TILESIZE, TILESIZE, false, coinScripts);
                 }});
 
-        for(auto& sprite : flagSprites) {
-            AddToConfig(config, sprite, flagSheet, SpriteType::Flag);
-        }
+        // enemies
+        // goomba, uses custom animated sprites instead of spritesheet sprite
+        auto goombaSprite = enemySprites[0];
+        platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_idle", "./resources/Sprites/Goomba/Idle.png");
+        platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_walk", "./resources/Sprites/Goomba/Walk.png");
+        platformer_engine::TextureManager::GetInstance().LoadTexture("goomba_jump", "./resources/Sprites/Goomba/Fly.png");
+
+        auto goombaIdleSprite = platformer_engine::AnimatedSprite("goomba_idle", TILESIZE, TILESIZE, 1);
+        auto goombaWalkSprite = platformer_engine::AnimatedSprite("goomba_walk", TILESIZE, TILESIZE, 3);
+        auto goombaJumpSprite = platformer_engine::AnimatedSprite("goomba_jump", TILESIZE, TILESIZE, 4);
+        config.insert(
+                {goombaSprite.id, [goombaIdleSprite, goombaWalkSprite, goombaJumpSprite, player](Transform transform){
+                    auto goombaAnimations = std::vector<platformer_engine::AnimatedSprite>{goombaIdleSprite, goombaWalkSprite, goombaJumpSprite};
+                    auto goombaBehaviourScripts = std::vector<std::shared_ptr<spic::BehaviourScript>>{
+                            std::make_shared<platformer_engine::CollisionBehaviour>(),
+                            std::make_shared<EnemyAttackBehaviour>(),
+                            std::make_shared<PlatformerGame::DynamicAnimationBehaviour>(goombaIdleSprite, goombaWalkSprite, goombaJumpSprite)
+                    };
+                    auto goomba = GameObjectFactory::CreateEnemy(transform, TILESIZE, TILESIZE, goombaAnimations, goombaBehaviourScripts);
+
+                    auto forceDrivenEntity = std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(goomba.GetComponent<platformer_engine::ForceDrivenEntity>());
+
+                    if(forceDrivenEntity != nullptr) {
+                        auto marioShared = GameObject::Find(player.GetName());
+                        const double followRange = ENEMY_RANGE;
+                        forceDrivenEntity->SetFollowing(marioShared, followRange);
+                    }
+
+                    return goomba;
+                }});
+
+        // TODO: koopa
 
         return config;
     }

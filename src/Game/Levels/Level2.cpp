@@ -9,11 +9,11 @@ void Level2::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
 
     Scene scene = builder.GetScene();
-    scene.ImportLevel("map2", "./resources/levels/mario/", "w1-2.tmx", TileConfig::World1(coinCounter));
+
+    auto player = AddPlayer(scene, 100, 175, viewWidth, viewHeight);
+    scene.ImportLevel("map2", "./resources/levels/mario/", "w1-2.tmx", TileConfig::World1(coinCounter, player));
     scene.AddUIObject(coinCounter->GetUIObject());
     scene.AddUIObject(fpsCounter->GetUIObject());
-
-    AddPlayer(scene, 100, 175, viewWidth, viewHeight);
 
     engine.AddScene(scene);
 }
