@@ -16,7 +16,7 @@ namespace PlatformerGame {
 
         void RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState>& currentState) override;
 
-        void TouchEnemy(Collision collision) override;
+        void TouchEnemy(std::shared_ptr<spic::GameObject> player, Collision collision) override;
     };
 }
 

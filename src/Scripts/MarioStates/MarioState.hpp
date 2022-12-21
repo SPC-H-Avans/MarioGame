@@ -22,7 +22,7 @@ namespace PlatformerGame {
         virtual void
         RegisterInput(std::shared_ptr<spic::GameObject> player, std::unique_ptr<MarioState> &currentState) = 0;
 
-        virtual void TouchEnemy(Collision collision) = 0;
+        virtual void TouchEnemy(std::shared_ptr<spic::GameObject> player, Collision collision) = 0;
 
         virtual ~MarioState() = default;
 

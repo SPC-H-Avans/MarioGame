@@ -41,6 +41,8 @@ void Level1::AddToEngine(std::string sceneName, int viewWidth, int viewHeight,
 
     platformer_engine::AudioManager::GetInstance().LoadMusic("overworld", "./resources/audio/music/smb_overworld_theme.mp3");
     platformer_engine::AudioManager::GetInstance().LoadSound("jump", "./resources/audio/sounds/smb_jump-small.wav");
+    platformer_engine::AudioManager::GetInstance().LoadSound("coin", "./resources/audio/sounds/coin.wav");
+    platformer_engine::AudioManager::GetInstance().LoadSound("kill", "./resources/audio/sounds/kill.wav");
     platformer_engine::AudioManager::GetInstance().PlayMusic("overworld", true);
 
     engine.AddScene(scene);
