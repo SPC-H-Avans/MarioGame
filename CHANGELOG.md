@@ -5,14 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.3] - To be released
+## [0.0.3] - 22-12-2022
 
 Further development of the multiplayer component of the engine.
 
 ### Changes
-- 
 
-- SPCH-48: Added Goomba's to the game with a behaviourscript to follow a player
+- SPCH-48: Added Force Driven Entities and updated the Physics system in regard to separation of concern.
+- SPCH-48: Added support for multiple colliders for a single gameObject (for future use of lookahead colliders for FDE)
+- SPCH-48: Added a moveSystem for moving all entities
+- SPCH-48: Added physics templates to easily set rigidbody values on new objects
+- SPCH-48: Fixed bug where player would move constantly
+- SPCH-48: Partially fixed the bug where players would push other players into the ground
+- SPCH-20: Component Rotation
+- SPCH-19: Component scaling
+- SPCH-5: FPS counter
+- SPCH-22: Toggle play music and sound effects
+- SPCH-9: Added support for UI elements like Text and clickable Buttons.
 - SPCH-57: Replicate scene on join and animations
 
 ### Bug Fixes
